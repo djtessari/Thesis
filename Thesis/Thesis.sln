@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thesis", "Thesis\Thesis\Thesis.csproj", "{A22A94E3-A265-4D5E-9A80-D6F2E13AA9F4}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "ThesisContent", "Thesis\ThesisContent\ThesisContent.contentproj", "{DB4AB922-DB92-4A63-A4E5-40FF7DFA2231}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A22A94E3-A265-4D5E-9A80-D6F2E13AA9F4}.Debug|x86.ActiveCfg = Debug|x86
+		{A22A94E3-A265-4D5E-9A80-D6F2E13AA9F4}.Debug|x86.Build.0 = Debug|x86
+		{A22A94E3-A265-4D5E-9A80-D6F2E13AA9F4}.Release|x86.ActiveCfg = Release|x86
+		{A22A94E3-A265-4D5E-9A80-D6F2E13AA9F4}.Release|x86.Build.0 = Release|x86
+		{DB4AB922-DB92-4A63-A4E5-40FF7DFA2231}.Debug|x86.ActiveCfg = Debug|x86
+		{DB4AB922-DB92-4A63-A4E5-40FF7DFA2231}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

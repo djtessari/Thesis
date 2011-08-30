@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>EntityTex\agentTex.jpg</Source>
+      <Name>EntityTex\agentTex</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\agentTex.xnb</Output>
+      <Time>2011-05-16T15:48:29.8951338-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\background.jpg</Source>
+      <Name>Background\background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\Background\background.xnb</Output>
+      <Time>2011-05-16T15:48:29.8961339-04:00</Time>
+    </Item>
+    <Item>
+      <Source>EntityTex\playerTex.jpg</Source>
+      <Name>EntityTex\playerTex</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\playerTex.xnb</Output>
+      <Time>2011-05-16T15:48:29.897134-04:00</Time>
+    </Item>
+    <Item>
+      <Source>EntityTex\farmTex.jpg</Source>
+      <Name>EntityTex\farmTex</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\farmTex.xnb</Output>
+      <Time>2011-08-17T12:20:50.1104334-04:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>HiDef</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\ThesisContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\ThesisContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2011-02-01T15:02:03.995722-05:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>
