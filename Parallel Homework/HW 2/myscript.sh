@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # This is a sample script that will create 8 other jobs (that really
 # don't do much), and send them through qsub
