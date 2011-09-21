@@ -1,17 +1,17 @@
-﻿Build started 9/19/2011 6:03:08 PM.
-     1>Project "C:\Users\domenic\Downloads\Assignment1_VS2010\JPEG.vcxproj" on node 2 (build target(s)).
+﻿Build started 9/21/2011 1:45:34 PM.
+     1>Project "C:\Users\domenic\Thesis\Assignment1_VS2010\JPEG.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\JPEG.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        Lib:
          All outputs are up-to-date.
-         JPEG.vcxproj -> C:\Users\domenic\Downloads\Assignment1_VS2010\Debug\JPEG.lib
+         JPEG.vcxproj -> C:\Users\domenic\Thesis\Assignment1_VS2010\Debug\JPEG.lib
        FinalizeBuildStatus:
          Deleting file "Debug\JPEG.unsuccessfulbuild".
          Touching "Debug\JPEG.lastbuildstate".
-     1>Done Building Project "C:\Users\domenic\Downloads\Assignment1_VS2010\JPEG.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\domenic\Thesis\Assignment1_VS2010\JPEG.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.06
+Time Elapsed 00:00:00.07

@@ -31,9 +31,17 @@ public class ProjectActivity extends BaseGameActivity {
  
         private static final int CAMERA_WIDTH = 720;
         private static final int CAMERA_HEIGHT = 480;
+        
+        public static TextureRegion mJumperTex;
+        public static TextureRegion mWalkerTex;
+        public static TextureRegion mBomberTex;
+        public static TextureRegion mSnakeTex;
+        public static TextureRegion mExplodeTex;
+        
  
         private Camera mCamera;
         private BitmapTextureAtlas mBitmapTextureAtlas;
+        private BitmapTextureAtlas mEnemyTextureAtlas;
         private TextureRegion mEnemyTextureRegion;
         private TextureRegion mFireTextureRegion;
         private TextureRegion mEndRegion;
@@ -72,6 +80,14 @@ public class ProjectActivity extends BaseGameActivity {
     		this.mParallaxLayerBack = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mAutoParallaxBackgroundTexture, this, "parallax_background_layer_back.png", 0, 188);
     		this.mParallaxLayerMid = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mAutoParallaxBackgroundTexture, this, "parallax_background_layer_mid.png", 0, 669);
     		this.mEngine.getTextureManager().loadTextures(this.mBitmapTextureAtlas, this.mAutoParallaxBackgroundTexture);
+    		
+    		//Load enemies and effects
+    		this.mEnemyTextureAtlas = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+    		mWalkerTex = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
+    		mJumperTex = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 32);
+    		mBomberTex = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 64);
+    		mSnakeTex = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 96);
+    		mExplodeTex = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 128);
     		
             fireExists = false;
             enemyExists = true;
