@@ -5,6 +5,8 @@
 
 // allows the use of min() and max() functions
 #include <algorithm>
+
+#define e 2.7182818284590452353
 using namespace std;
 
 
@@ -16,7 +18,7 @@ Pixel32::Pixel32(const Pixel& p)
 {
 }
 
-//Current points - 16
+//Current points - 20
 
 //COMPLETE - 1
 int Image32::AddRandomNoise(const float& noise,Image32& outputImage) const
@@ -501,6 +503,9 @@ int Image32::ScaleBilinear(const float& scaleFactor,Image32& outputImage) const
 //Fix when Gaussian done - 1
 int Image32::ScaleGaussian(const float& scaleFactor,Image32& outputImage) const
 {
+	float var = 4;
+	float rad = 10;
+
 	int xMax = width() * scaleFactor;
 	int yMax = height() * scaleFactor; 
 	outputImage.setSize(xMax, yMax);
@@ -512,43 +517,55 @@ int Image32::ScaleGaussian(const float& scaleFactor,Image32& outputImage) const
 			Pixel32 &newPix = outputImage.pixel(i, j);
 			
 			//Pixel Adjustments
-			//newPix = GaussianSample(i / scaleFactor, j / scaleFactor);
+			newPix = GaussianSample(i / scaleFactor, j / scaleFactor, var, rad);
 		}
 	}
 	return 1;
 }
 
-//Not Started - 2
+//COMPLETE - 2
 int Image32::RotateNearest(const float& angle,Image32& outputImage) const
 {
-	int xMax = width();
-	int yMax = height(); 
+	float xMax = width() / 2;
+	float yMax = height() / 2; 
 
 	//x = ucost - vsint
 	//y = usint + vcost
+	float a = (angle * PI/180);
 
 	//determine new size of image
+	float xCenter = width() / 2;
+	float yCenter = height() / 2;
 
 	//(0,0)
-	xMax = max(xMax, ((-1)xCenter*cos(angle) - (-1)yCenter*sin(angle));
-	yMax = max(yMax, ((-1)xCenter*sin(angle) + (-1)yCenter*cos(angle)); 
+	xMax = max(xMax, ((-1)*xCenter*cos(a) - (-1)*yCenter*sin(a)));
+	yMax = max(yMax, ((-1)*xCenter*sin(a) + (-1)*yCenter*cos(a))); 
 
 	//(0,h)
-	xMax = max(xMax, ((-1)xCenter*cos(angle) - yCenter*sin(angle));
-	yMax = max(yMax, ((-1)xCenter*sin(angle) + yCenter*cos(angle)); 
+	xMax = max(xMax, ((-1)*xCenter*cos(a) - yCenter*sin(a)));
+	yMax = max(yMax, ((-1)*xCenter*sin(a) + yCenter*cos(a))); 
 
 	//(w,0)
-	xMax = max(xMax, (xCenter*cos(angle) - (-1)yCenter*sin(angle));
-	yMax = max(yMax, (xCenter*sin(angle) + (-1)yCenter*cos(angle)); 
+	xMax = max(xMax, (xCenter*cos(a) - (-1)*yCenter*sin(a)));
+	yMax = max(yMax, (xCenter*sin(a) + (-1)*yCenter*cos(a))); 
 
 	//(w,h)
-	xMax = max(xMax, (xCenter*cos(angle) - yCenter*sin(angle));
-	yMax = max(yMax, (xCenter*sin(angle) + yCenter*cos(angle));
+	xMax = max(xMax, (xCenter*cos(a) - yCenter*sin(a)));
+	yMax = max(yMax, (xCenter*sin(a) + yCenter*cos(a)));
 
+	xMax=ceil(xMax * 2);
+	yMax=ceil(yMax * 2);
 	outputImage.setSize(xMax, yMax);
 
-	int xTrans = xMax - width();
-	int yTrans = yMax - height();
+	printf("xMax = %f, yMax = %f\n",xMax, yMax);
+	int xTrans = (xMax - width()) / 2;
+	int yTrans = (yMax - height()) / 2;
+
+	xCenter = xMax / 2;
+	yCenter = yMax / 2;
+
+	printf("xCenter = %f, yCenter = %f\n",xCenter, yCenter);
+	printf("xTrans = %i, yTrans = %i\n", xTrans, yTrans);
 
 	for (int i = 0; i < xMax; i++)
 	{
@@ -559,25 +576,152 @@ int Image32::RotateNearest(const float& angle,Image32& outputImage) const
 			//x = ucost - vsint
 			//y = usint + vcost
 
-
+			float sampleX = ((i - xCenter)*cos(a) - (j - yCenter)*sin(a))+xCenter-xTrans;
+			float sampleY = ((i - xCenter)*sin(a) + (j - yCenter)*cos(a))+yCenter-yTrans;
 			
+			if (sampleX < 0 || sampleX > width()-1 || sampleY < 0 || sampleY > height()-1){
+				newPix.a = 0;
+			}			
 			//Pixel Adjustments
-			newPix = NearestSample((, j);
+			else	newPix = NearestSample(sampleX, sampleY);
 		}
 	}
 	return 1;
 }
 
-//Not Started - 2
+//COMPELTE - 2
 int Image32::RotateBilinear(const float& angle,Image32& outputImage) const
 {
-	return 0;
+	float xMax = width() / 2;
+	float yMax = height() / 2; 
+
+	//x = ucost - vsint
+	//y = usint + vcost
+	float a = (angle * PI/180);
+
+	//determine new size of image
+	float xCenter = width() / 2;
+	float yCenter = height() / 2;
+
+	//(0,0)
+	xMax = max(xMax, ((-1)*xCenter*cos(a) - (-1)*yCenter*sin(a)));
+	yMax = max(yMax, ((-1)*xCenter*sin(a) + (-1)*yCenter*cos(a))); 
+
+	//(0,h)
+	xMax = max(xMax, ((-1)*xCenter*cos(a) - yCenter*sin(a)));
+	yMax = max(yMax, ((-1)*xCenter*sin(a) + yCenter*cos(a))); 
+
+	//(w,0)
+	xMax = max(xMax, (xCenter*cos(a) - (-1)*yCenter*sin(a)));
+	yMax = max(yMax, (xCenter*sin(a) + (-1)*yCenter*cos(a))); 
+
+	//(w,h)
+	xMax = max(xMax, (xCenter*cos(a) - yCenter*sin(a)));
+	yMax = max(yMax, (xCenter*sin(a) + yCenter*cos(a)));
+
+	xMax=ceil(xMax * 2);
+	yMax=ceil(yMax * 2);
+	outputImage.setSize(xMax, yMax);
+
+	printf("xMax = %f, yMax = %f\n",xMax, yMax);
+	int xTrans = (xMax - width()) / 2;
+	int yTrans = (yMax - height()) / 2;
+
+	xCenter = xMax / 2;
+	yCenter = yMax / 2;
+
+	printf("xCenter = %f, yCenter = %f\n",xCenter, yCenter);
+	printf("xTrans = %i, yTrans = %i\n", xTrans, yTrans);
+
+	for (int i = 0; i < xMax; i++)
+	{
+		for (int j = 0; j < yMax; j++)
+		{
+			Pixel32 &newPix = outputImage.pixel(i, j);
+
+			//x = ucost - vsint
+			//y = usint + vcost
+
+			float sampleX = ((i - xCenter)*cos(a) - (j - yCenter)*sin(a))+xCenter-xTrans;
+			float sampleY = ((i - xCenter)*sin(a) + (j - yCenter)*cos(a))+yCenter-yTrans;
+			
+			if (sampleX < 0 || sampleX > width()-1 || sampleY < 0 || sampleY > height()-1){
+				newPix.a = 0;
+			}			
+			//Pixel Adjustments
+			else	newPix = BilinearSample(sampleX, sampleY);
+		}
+	}
+	return 1;
 }
 	
 //Not Started - 2
 int Image32::RotateGaussian(const float& angle,Image32& outputImage) const
 {
-	return 0;
+	float xMax = width() / 2;
+	float yMax = height() / 2; 
+
+	float var = 16;
+	float rad = 4;
+
+	//x = ucost - vsint
+	//y = usint + vcost
+	float a = (angle * PI/180);
+
+	//determine new size of image
+	float xCenter = width() / 2;
+	float yCenter = height() / 2;
+
+	//(0,0)
+	xMax = max(xMax, ((-1)*xCenter*cos(a) - (-1)*yCenter*sin(a)));
+	yMax = max(yMax, ((-1)*xCenter*sin(a) + (-1)*yCenter*cos(a))); 
+
+	//(0,h)
+	xMax = max(xMax, ((-1)*xCenter*cos(a) - yCenter*sin(a)));
+	yMax = max(yMax, ((-1)*xCenter*sin(a) + yCenter*cos(a))); 
+
+	//(w,0)
+	xMax = max(xMax, (xCenter*cos(a) - (-1)*yCenter*sin(a)));
+	yMax = max(yMax, (xCenter*sin(a) + (-1)*yCenter*cos(a))); 
+
+	//(w,h)
+	xMax = max(xMax, (xCenter*cos(a) - yCenter*sin(a)));
+	yMax = max(yMax, (xCenter*sin(a) + yCenter*cos(a)));
+
+	xMax=ceil(xMax * 2);
+	yMax=ceil(yMax * 2);
+	outputImage.setSize(xMax, yMax);
+
+	printf("xMax = %f, yMax = %f\n",xMax, yMax);
+	int xTrans = (xMax - width()) / 2;
+	int yTrans = (yMax - height()) / 2;
+
+	xCenter = xMax / 2;
+	yCenter = yMax / 2;
+
+	printf("xCenter = %f, yCenter = %f\n",xCenter, yCenter);
+	printf("xTrans = %i, yTrans = %i\n", xTrans, yTrans);
+
+	for (int i = 0; i < xMax; i++)
+	{
+		for (int j = 0; j < yMax; j++)
+		{
+			Pixel32 &newPix = outputImage.pixel(i, j);
+
+			//x = ucost - vsint
+			//y = usint + vcost
+
+			float sampleX = ((i - xCenter)*cos(a) - (j - yCenter)*sin(a))+xCenter-xTrans;
+			float sampleY = ((i - xCenter)*sin(a) + (j - yCenter)*cos(a))+yCenter-yTrans;
+			
+			if (sampleX < 0 || sampleX > width()-1 || sampleY < 0 || sampleY > height()-1){
+				newPix.a = 0;
+			}			
+			//Pixel Adjustments
+			else	newPix = GaussianSample(sampleX, sampleY, var, rad);
+		}
+	}
+	return 1;
 }
 
 //Not Started - 1
@@ -683,10 +827,61 @@ Pixel32 Image32::BilinearSample(const float& x,const float& y) const
 	return newPix;
 }
 
-//Fix - 1
+//Test - 1
 Pixel32 Image32::GaussianSample(const float& x,const float& y,const float& variance,const float& radius) const
 {
-	return Pixel32();
+	float filterSum = 0; //Used to normalize
+
+	Pixel32 newPix = Pixel32();
+
+	float r = 0;
+	float g = 0;
+	float b = 0;
+
+	for (int i = 0; i < (ceil(radius) * 2); i++){
+		for (int j = 0; j < (ceil(radius) * 2); j++){
+			
+			float numer = -1 * ( pow((i-radius),2) - pow((j-radius),2));
+			float denom = 2 * variance;
+			float gauss = (1/sqrt(2*PI*variance)) * pow((float) e, (float) ( numer / denom));
+			filterSum+=gauss;
+
+			int xI = x - ceil(radius) + i;
+			int yI = y - ceil(radius) + j;
+
+
+
+			if (xI < 0) xI = 0;
+			if (yI < 0) yI = 0;
+			if (xI >= width()) xI = width()-1;
+			if (yI >= height()) yI = height()-1;
+
+
+			r += (gauss * (float) pixel(xI, yI).r );
+			g += (gauss * (float) pixel(xI, yI).g);
+			b += (gauss * (float) pixel(xI, yI).b);
+
+		}
+	}
+	float normalizer = (1 / filterSum );
+
+	r = r * normalizer;
+	g = g * normalizer;
+	b = b * normalizer;
+
+
+	if (r > 255) r = 255;
+	if (r < 0) r = 0;
+	if (g > 255) g = 255;
+	if (g < 0) g = 0;
+	if (b > 255) b = 255;
+	if (b < 0) b = 0;
+
+	newPix.r = r;
+	newPix.g = g;
+	newPix.b = b;
+
+	return newPix;
 }
 /*
 	int xMax = width();

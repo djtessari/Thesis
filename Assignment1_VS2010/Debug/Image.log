@@ -1,59 +1,92 @@
-﻿Build started 9/21/2011 1:45:34 PM.
+﻿Build started 9/22/2011 3:36:46 AM.
      1>Project "C:\Users\domenic\Thesis\Assignment1_VS2010\Image.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Image.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I. /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Image\image.todo.cpp
          image.todo.cpp
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(27): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(55): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(56): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(29): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
      1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(57): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(89): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(90): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(58): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(59): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
      1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(91): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(113): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(125): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(126): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(92): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(93): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(115): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
      1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(127): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(158): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(159): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(128): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(129): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
      1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(160): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(178): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(193): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(194): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(161): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(162): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(180): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
      1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(195): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(204): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(205): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(196): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(197): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(206): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(244): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(245): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(207): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(208): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
      1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(246): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(268): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(269): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(247): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(248): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
      1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(270): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(301): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(302): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(271): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(272): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
      1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(303): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(377): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(378): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(304): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(305): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
      1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(379): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(453): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(454): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(380): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(381): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
      1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(455): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(464): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(465): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(484): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(485): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(504): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(505): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(599): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(600): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(608): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(611): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(635): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(636): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
-     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(637): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(456): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(457): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(466): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(467): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(486): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(487): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(509): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(510): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(529): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(530): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(534): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(537): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(538): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(558): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(558): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(561): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(562): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(595): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(596): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(600): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(603): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(604): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(624): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(624): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(627): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(628): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(661): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(662): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(669): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(672): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(673): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(693): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(693): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(696): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(697): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(787): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(788): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(796): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(799): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(823): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(824): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(825): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(846): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(849): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(850): warning C4244: 'initializing' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(880): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(881): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
+     1>c:\users\domenic\thesis\assignment1_vs2010\image\image.todo.cpp(882): warning C4244: '=' : conversion from 'float' to 'unsigned char', possible loss of data
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -80,4 +113,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.31
+Time Elapsed 00:00:00.69
