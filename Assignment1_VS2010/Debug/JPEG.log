@@ -1,4 +1,4 @@
-﻿Build started 9/22/2011 3:36:46 AM.
+﻿Build started 9/22/2011 1:42:31 PM.
      1>Project "C:\Users\domenic\Thesis\Assignment1_VS2010\JPEG.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\JPEG.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -14,4 +14,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.05
+Time Elapsed 00:00:00.06

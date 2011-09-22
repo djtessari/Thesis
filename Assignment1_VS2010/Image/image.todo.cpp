@@ -18,7 +18,7 @@ Pixel32::Pixel32(const Pixel& p)
 {
 }
 
-//Current points - 20
+//Current points - 28 (24?)
 
 //COMPLETE - 1
 int Image32::AddRandomNoise(const float& noise,Image32& outputImage) const
@@ -221,21 +221,22 @@ int Image32::RandomDither(const int& bits,Image32& outputImage) const
 	return 1;
 }
 
-//Fix - 2
+//COMPLETE - 2
 int Image32::OrderedDither2X2(const int& bits,Image32& outputImage) const
 {
 	int xMax = width();
 	int yMax = height(); 
-	double n = 0;
+	float power = pow(2.0,bits);
+	float multiply = floor(256 / (power-1));
+	double n = 2;
+	int d[2][2] = {{1, 3}, {4, 2}};
 
 	for (int i = 0; i < xMax; i++)
 	{
 		for (int j = 0; j < yMax; j++)
 		{
-			int d[] = {1, 3, 4, 2};
-
 			int x = (int) (i % (int) n);
-			int y =(int) (j % (int) n);
+			int y = (int) (j % (int) n);
 
 			Pixel32 &newPix = outputImage.pixel(i, j);
 			float r = (float) newPix.r;
@@ -251,12 +252,12 @@ int Image32::OrderedDither2X2(const int& bits,Image32& outputImage) const
 			float gE = gC - floor(gC);
 			float bE = bC - floor(bC);
 
-			if (rE > (d[x+y] / (pow(n, 2)+1))) r = ceil(rC);
-			else r = floor(rC);
-			if (gE > (d[x+y] / (pow(n, 2)+1))) g = ceil(gC);
-			else g = floor(gC);
-			if (bE > (d[x+y] / (pow(n, 2)+1))) b = ceil(bC);
-			else b = floor(bC);
+			if (rE > (d[x][y] / (pow(n, 2)+1))) r = ceil(rC) * multiply;
+			else r = floor(rC) * multiply;
+			if (gE > (d[x][y] / (pow(n, 2)+1))) g = ceil(gC) * multiply;
+			else g = floor(gC) * multiply;
+			if (bE > (d[x][y] / (pow(n, 2)+1))) b = ceil(bC) * multiply;
+			else b = floor(bC) * multiply;
 
 
 
@@ -272,26 +273,86 @@ int Image32::OrderedDither2X2(const int& bits,Image32& outputImage) const
 			newPix.b = b;
 		}
 	}
-	return 0;
+	return 1;
 }
 
-//Not Started - 2
+//COMPLETE - 2
 int Image32::FloydSteinbergDither(const int& bits,Image32& outputImage) const
 {
 	int xMax = width();
 	int yMax = height(); 
+	float power = pow(2.0,bits);
+	float multiply = floor(256 / (power-1));
+	printf("Multiply = %f\n", multiply);
+
+	float err1 = 0.4375;
+	float err2 = 0.1875;
+	float err3 = 0.3125;
+	float err4 = 0.0625;
+	printf("Err1 = %f\n", err1);
 
 	for (int i = 0; i < xMax; i++)
 	{
 		for (int j = 0; j < yMax; j++)
 		{
-			
+
 			Pixel32 &newPix = outputImage.pixel(i, j);
 			float r = (float) newPix.r;
 			float g = (float) newPix.g;
 			float b = (float) newPix.b;
 			
-			//Pixel Adjustments
+			//Quantize
+			r = floor(floor( (r * (pow(2.0, bits))) / 256 ) * multiply);
+			g = floor(floor( (g * (pow(2.0, bits))) / 256 ) * multiply);
+			b = floor(floor( (b * (pow(2.0, bits))) / 256 ) * multiply);
+
+			float errorR = (float) newPix.r - r;
+			float errorG = (float) newPix.g - g;
+			float errorB = (float) newPix.b - b;
+
+			int xLow = i - 1;
+			int xHigh = i + 1;
+			int yHigh = j + 1;
+
+			if (xLow < 0) xLow = 0;
+			if (xHigh >= xMax) xHigh = xMax-1;
+			if (yHigh >= yMax) yHigh = yMax-1;
+
+			Pixel32& pix1 = outputImage.pixel(xHigh, j);
+			Pixel32& pix2 = outputImage.pixel(xLow, yHigh);
+			Pixel32& pix3 = outputImage.pixel(i, yHigh);
+			Pixel32& pix4 = outputImage.pixel(xHigh, yHigh);
+
+			float r1 = (float) pix1.r;
+			float r2 = (float) pix2.r;
+			float r3 = (float) pix3.r;
+			float r4 = (float) pix4.r;
+
+			float g1 = (float) pix1.g;
+			float g2 = (float) pix2.g;
+			float g3 = (float) pix3.g;
+			float g4 = (float) pix4.g;
+
+			float b1 = (float) pix1.b;
+			float b2 = (float) pix2.b;
+			float b3 = (float) pix3.b;
+			float b4 = (float) pix4.b;
+
+			r1 += errorR*err1;
+			r2 += errorR*err2;
+			r3 += errorR*err3;
+			r4 += errorR*err4;
+
+			g1 += errorG*err1;
+			g2 += errorG*err2;
+			g3 += errorG*err3;
+			g4 += errorG*err4;
+
+			b1 += errorB*err1;
+			b2 += errorB*err2;
+			b3 += errorB*err3;
+			b4 += errorB*err4;
+			
 
 			if (r > 255) r = 255;
 			if (r < 0) r = 0;
@@ -300,12 +361,56 @@ int Image32::FloydSteinbergDither(const int& bits,Image32& outputImage) const
 			if (b > 255) b = 255;
 			if (b < 0) b = 0;
 
+			if (r1 > 255) r1 = 255;
+			if (r1 < 0) r1 = 0;
+			if (g1 > 255) g1 = 255;
+			if (g1 < 0) g1 = 0;
+			if (b1 > 255) b1 = 255;
+			if (b1 < 0) b1 = 0;
+
+			if (r2 > 255) r2 = 255;
+			if (r2 < 0) r2 = 0;
+			if (g2 > 255) g2 = 255;
+			if (g2 < 0) g2 = 0;
+			if (b2 > 255) b2 = 255;
+			if (b2 < 0) b2 = 0;
+
+			if (r3 > 255) r3 = 255;
+			if (r3 < 0) r3 = 0;
+			if (g3 > 255) g3 = 255;
+			if (g3 < 0) g3 = 0;
+			if (b3 > 255) b3 = 255;
+			if (b3 < 0) b3 = 0;
+
+			if (r4 > 255) r4 = 255;
+			if (r4 < 0) r4 = 0;
+			if (g4 > 255) g4 = 255;
+			if (g4 < 0) g4 = 0;
+			if (b4 > 255) b4 = 255;
+			if (b4 < 0) b4 = 0;
+
 			newPix.r = r;
 			newPix.g = g;
 			newPix.b = b;
+
+			pix1.r = r1;
+			pix1.g = g1;
+			pix1.b = b1;
+
+			pix2.r = r2;
+			pix2.g = g2;
+			pix2.b = b2;
+
+			pix3.r = r3;
+			pix3.g = g3;
+			pix3.b = b3;
+
+			pix4.r = r4;
+			pix4.g = g4;
+			pix4.b = b4;
 		}
 	}
-	return 0;
+	return 1;
 }
 
 //COMPLETE - 2
@@ -500,11 +605,11 @@ int Image32::ScaleBilinear(const float& scaleFactor,Image32& outputImage) const
 	return 1;
 }
 
-//Fix when Gaussian done - 1
+//COMPLETE (?) - 1
 int Image32::ScaleGaussian(const float& scaleFactor,Image32& outputImage) const
 {
 	float var = 4;
-	float rad = 10;
+	float rad = 2;
 
 	int xMax = width() * scaleFactor;
 	int yMax = height() * scaleFactor; 
@@ -655,14 +760,14 @@ int Image32::RotateBilinear(const float& angle,Image32& outputImage) const
 	return 1;
 }
 	
-//Not Started - 2
+//COMPLETE (?) - 2
 int Image32::RotateGaussian(const float& angle,Image32& outputImage) const
 {
 	float xMax = width() / 2;
 	float yMax = height() / 2; 
 
-	float var = 16;
-	float rad = 4;
+	float var = 4;
+	float rad = 2;
 
 	//x = ucost - vsint
 	//y = usint + vcost
@@ -841,7 +946,7 @@ Pixel32 Image32::GaussianSample(const float& x,const float& y,const float& varia
 	for (int i = 0; i < (ceil(radius) * 2); i++){
 		for (int j = 0; j < (ceil(radius) * 2); j++){
 			
-			float numer = -1 * ( pow((i-radius),2) - pow((j-radius),2));
+			float numer = -1 * ( pow((i-radius),2) + pow((j-radius),2));
 			float denom = 2 * variance;
 			float gauss = (1/sqrt(2*PI*variance)) * pow((float) e, (float) ( numer / denom));
 			filterSum+=gauss;
