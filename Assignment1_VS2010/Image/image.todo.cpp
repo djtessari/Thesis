@@ -18,7 +18,7 @@ Pixel32::Pixel32(const Pixel& p)
 {
 }
 
-//Current points - 28 (24?)
+//Current points - 28 (26?)
 
 //COMPLETE - 1
 int Image32::AddRandomNoise(const float& noise,Image32& outputImage) const
@@ -132,11 +132,13 @@ int Image32::Luminance(Image32& outputImage) const
 	return 1;
 }
 
-//To Finish - 1
+//COMPLETE - 1
 int Image32::Contrast(const float& contrast,Image32& outputImage) const
 {
 	int xMax = width();
 	int yMax = height(); 
+
+	float lum = 0;
 
 	for (int i = 0; i < xMax; i++)
 	{
@@ -147,8 +149,26 @@ int Image32::Contrast(const float& contrast,Image32& outputImage) const
 			float r = (float) newPix.r;
 			float g = (float) newPix.g;
 			float b = (float) newPix.b;
-			
+
+			lum+= (0.3*r) + (0.59*g) + (0.11*b);
+		}
+	}
+
+	lum = lum / (xMax * yMax);
+
+	for (int i = 0; i < xMax; i++)
+	{
+		for (int j = 0; j < yMax; j++)
+		{
+			Pixel32 &newPix = outputImage.pixel(i, j);
+			float r = (float) newPix.r;
+			float g = (float) newPix.g;
+			float b = (float) newPix.b;
+
 			//Pixel Adjustments
+			r = (1 - contrast)*lum + (contrast * (float) pixel(i,j).r);
+			g = (1 - contrast)*lum + (contrast * (float) pixel(i,j).g);
+			b = (1 - contrast)*lum + (contrast * (float) pixel(i,j).b);
 
 			if (r > 255) r = 255;
 			if (r < 0) r = 0;
@@ -162,13 +182,44 @@ int Image32::Contrast(const float& contrast,Image32& outputImage) const
 			newPix.b = b;
 		}
 	}
-	return 0;
+	return 1;
 }
 
-//To Finish - 1
+//COMPLETE - 1
 int Image32::Saturate(const float& saturation,Image32& outputImage) const
 {
-	return 0;
+	int xMax = width();
+	int yMax = height(); 
+
+	Luminance(outputImage);
+
+	for (int i = 0; i < xMax; i++)
+	{
+		for (int j = 0; j < yMax; j++)
+		{
+			Pixel32 &newPix = outputImage.pixel(i, j);
+			float r = (float) newPix.r;
+			float g = (float) newPix.g;
+			float b = (float) newPix.b;
+
+			//Pixel Adjustments
+			r = (1 - saturation)*r + (saturation * (float) pixel(i,j).r);
+			g = (1 - saturation)*g + (saturation * (float) pixel(i,j).g);
+			b = (1 - saturation)*b + (saturation * (float) pixel(i,j).b);
+
+			if (r > 255) r = 255;
+			if (r < 0) r = 0;
+			if (g > 255) g = 255;
+			if (g < 0) g = 0;
+			if (b > 255) b = 255;
+			if (b < 0) b = 0;
+
+			newPix.r = r;
+			newPix.g = g;
+			newPix.b = b;
+		}
+	}
+	return 1;
 }
 
 //COMPLETE - 2
@@ -214,8 +265,10 @@ int Image32::Quantize(const int& bits,Image32& outputImage) const
 //COMPLETE - 2
 int Image32::RandomDither(const int& bits,Image32& outputImage) const
 {
+	float noise = 1.0;
+	noise = noise / (pow(2.0,bits));
 
-	AddRandomNoise(0.5, outputImage);
+	AddRandomNoise(noise, outputImage);
 	Quantize(bits, outputImage);
 	
 	return 1;
@@ -608,8 +661,8 @@ int Image32::ScaleBilinear(const float& scaleFactor,Image32& outputImage) const
 //COMPLETE (?) - 1
 int Image32::ScaleGaussian(const float& scaleFactor,Image32& outputImage) const
 {
-	float var = 4;
-	float rad = 2;
+	float var = 1;
+	float rad = 1;
 
 	int xMax = width() * scaleFactor;
 	int yMax = height() * scaleFactor; 
@@ -766,8 +819,8 @@ int Image32::RotateGaussian(const float& angle,Image32& outputImage) const
 	float xMax = width() / 2;
 	float yMax = height() / 2; 
 
-	float var = 4;
-	float rad = 2;
+	float var = 1;
+	float rad = 1;
 
 	//x = ucost - vsint
 	//y = usint + vcost
@@ -831,13 +884,77 @@ int Image32::RotateGaussian(const float& angle,Image32& outputImage) const
 
 //Not Started - 1
 int Image32::SetAlpha(const Image32& matte)
-{
+{/*
+	int xMax = width();
+	int yMax = height(); 
+
+	for (int i = 0; i < xMax; i++)
+	{
+		for (int j = 0; j < yMax; j++)
+		{
+
+			Pixel32 &newPix = pixel(i, j);
+			newPix.a = matte.pixel(i,j).a;
+			
+			//Pixel Adjustments
+
+			/*if (r > 255) r = 255;
+			if (r < 0) r = 0;
+			if (g > 255) g = 255;
+			if (g < 0) g = 0;
+			if (b > 255) b = 255;
+			if (b < 0) b = 0;
+
+			newPix.r = r;
+			newPix.g = g;
+			newPix.b = b;
+		}
+	}*/
 	return 0;
 }
 
 //Not Started - ^^
 int Image32::Composite(const Image32& overlay,Image32& outputImage) const
 {
+	/*int xMax = width();
+	int yMax = height(); 
+	const Image32 matte = outputImage;
+
+	overlay.SetAlpha(matte);
+
+	for (int i = 0; i < xMax; i++)
+	{
+		for (int j = 0; j < yMax; j++)
+		{
+
+			Pixel32 &newPix = pixel(i, j);
+			Pixel32 &overPix = overlay.pixel(i,j);
+			
+			float r = (float) newPix.r;
+			float g = (float) newPix.g;
+			float b = (float) newPix.b;
+			
+			float rO = (float) overPix.r;
+			float gO = (float) overPix.g;
+			float bO = (float) overPix.b;
+			float a = (float) overPix.a;
+
+			r = rO + (255-a)*r;
+			r = bO + (255-a)*b;
+			r = gO + (255-a)*g;
+
+			if (r > 255) r = 255;
+			if (r < 0) r = 0;
+			if (g > 255) g = 255;
+			if (g < 0) g = 0;
+			if (b > 255) b = 255;
+			if (b < 0) b = 0;
+
+			newPix.r = r;
+			newPix.g = g;
+			newPix.b = b;
+		}
+	}*/
 	return 0;
 }
 
@@ -856,7 +973,30 @@ int Image32::Warp(const OrientedLineSegmentPairs& olsp,Image32& outputImage) con
 //Not Started - 2
 int Image32::FunFilter(Image32& outputImage) const
 {
-	return 0;
+	/*int xMax = width();
+	int yMax = height();
+
+	float a = 30;
+
+	int xCenter = xMax / 2;
+	int yCenter = yMax / 2;
+
+	for (int i = 0; i < xMax; i++) {
+		for (int j = 0; j < yMax; j++) {
+
+			Pixel32 &newPix = outputImage.pixel(i, j);
+			float r = (float) newPix.r;
+			float g = (float) newPix.g;
+			float b = (float) newPix.b;
+
+			float u = rot(dist(i,xCenter)*a);
+			float v = rot(dist(j,yCenter)*a);
+
+			newPix = BilinearSample(u,v);
+
+		}
+	}*/
+		return 0;
 }
 
 //COMPLETE - 1
@@ -876,7 +1016,7 @@ int Image32::Crop(const int& x1,const int& y1,const int& x2,const int& y2,Image3
 		yI = 0;
 		for (int j = y1; j < y2; j++)
 		{			
-			Pixel32 &newPix = newImage->pixel(i, j);
+			Pixel32 &newPix = newImage->pixel(xI, yI);
 			newPix = outputImage.pixel(i,j);	
 			yI++;
 		}
@@ -962,9 +1102,9 @@ Pixel32 Image32::GaussianSample(const float& x,const float& y,const float& varia
 			if (yI >= height()) yI = height()-1;
 
 
-			r += (gauss * (float) pixel(xI, yI).r );
-			g += (gauss * (float) pixel(xI, yI).g);
-			b += (gauss * (float) pixel(xI, yI).b);
+			r += (gauss * floor((float) pixel(xI, yI).r) );
+			g += (gauss * floor((float) pixel(xI, yI).g) );
+			b += (gauss * floor((float) pixel(xI, yI).b) );
 
 		}
 	}
@@ -988,32 +1128,3 @@ Pixel32 Image32::GaussianSample(const float& x,const float& y,const float& varia
 
 	return newPix;
 }
-/*
-	int xMax = width();
-	int yMax = height(); 
-
-	for (int i = 0; i < xMax; i++)
-	{
-		for (int j = 0; j < yMax; j++)
-		{
-
-			Pixel32 &newPix = outputImage.pixel(i, j);
-			float r = (float) newPix.r;
-			float g = (float) newPix.g;
-			float b = (float) newPix.b;
-			
-			//Pixel Adjustments
-
-			if (r > 255) r = 255;
-			if (r < 0) r = 0;
-			if (g > 255) g = 255;
-			if (g < 0) g = 0;
-			if (b > 255) b = 255;
-			if (b < 0) b = 0;
-
-			newPix.r = r;
-			newPix.g = g;
-			newPix.b = b;
-		}
-	}
-*/
