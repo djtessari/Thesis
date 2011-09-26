@@ -1,0 +1,115 @@
+﻿Build started 9/26/2011 12:58:52 PM.
+     1>Project "C:\Users\domenic\Thesis\Assignment2\JPEG.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\JPEG___Win32_Debug\JPEG.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\JPEG___Win32_Debug/" /Fd".\JPEG___Win32_Debug/vc100.pdb" /Gd /TP /analyze- /errorReport:prompt JPEG\ckconfig.cpp JPEG\jcapimin.cpp JPEG\jcapistd.cpp JPEG\jccoefct.cpp JPEG\jccolor.cpp JPEG\jcdctmgr.cpp JPEG\jchuff.cpp JPEG\jcinit.cpp JPEG\jcmainct.cpp JPEG\jcmarker.cpp JPEG\jcmaster.cpp JPEG\jcomapi.cpp JPEG\jcparam.cpp JPEG\jcphuff.cpp JPEG\jcprepct.cpp JPEG\jcsample.cpp JPEG\jctrans.cpp JPEG\jdapimin.cpp JPEG\jdapistd.cpp JPEG\jdatadst.cpp JPEG\jdatasrc.cpp JPEG\jdcoefct.cpp JPEG\jdcolor.cpp JPEG\jddctmgr.cpp JPEG\jdhuff.cpp JPEG\jdinput.cpp JPEG\jdmainct.cpp JPEG\jdmarker.cpp JPEG\jdmaster.cpp JPEG\jdmerge.cpp JPEG\jdphuff.cpp JPEG\jdpostct.cpp JPEG\jdsample.cpp JPEG\jdtrans.cpp JPEG\jerror.cpp JPEG\jfdctflt.cpp JPEG\jfdctfst.cpp JPEG\jfdctint.cpp JPEG\jidctflt.cpp JPEG\jidctfst.cpp JPEG\jidctint.cpp JPEG\jidctred.cpp JPEG\jmemmgr.cpp JPEG\jmemnobs.cpp JPEG\jquant1.cpp JPEG\jquant2.cpp JPEG\jutils.cpp
+         jutils.cpp
+         jquant2.cpp
+         jquant1.cpp
+         jmemnobs.cpp
+         jmemmgr.cpp
+         jidctred.cpp
+         jidctint.cpp
+         jidctfst.cpp
+         jidctflt.cpp
+         jfdctint.cpp
+         jfdctfst.cpp
+         jfdctflt.cpp
+         jerror.cpp
+         jdtrans.cpp
+         jdsample.cpp
+         jdpostct.cpp
+         jdphuff.cpp
+         jdmerge.cpp
+         jdmaster.cpp
+         jdmarker.cpp
+         Generating Code...
+         Compiling...
+         jdmainct.cpp
+         jdinput.cpp
+         jdhuff.cpp
+         jddctmgr.cpp
+         jdcolor.cpp
+         jdcoefct.cpp
+         jdatasrc.cpp
+         jdatadst.cpp
+         jdapistd.cpp
+         jdapimin.cpp
+         jctrans.cpp
+         jcsample.cpp
+         jcprepct.cpp
+         jcphuff.cpp
+         jcparam.cpp
+         jcomapi.cpp
+         jcmaster.cpp
+         jcmarker.cpp
+         jcmainct.cpp
+         jcinit.cpp
+         Generating Code...
+         Compiling...
+         jchuff.cpp
+         jcdctmgr.cpp
+         jccolor.cpp
+         jccoefct.cpp
+         jcapistd.cpp
+         jcapimin.cpp
+         ckconfig.cpp
+         Generating Code...
+       Lib:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:".\JPEG___Win32_Debug\JPEG.lib" /NOLOGO .\JPEG___Win32_Debug/ckconfig.obj
+         .\JPEG___Win32_Debug/jcapimin.obj
+         .\JPEG___Win32_Debug/jcapistd.obj
+         .\JPEG___Win32_Debug/jccoefct.obj
+         .\JPEG___Win32_Debug/jccolor.obj
+         .\JPEG___Win32_Debug/jcdctmgr.obj
+         .\JPEG___Win32_Debug/jchuff.obj
+         .\JPEG___Win32_Debug/jcinit.obj
+         .\JPEG___Win32_Debug/jcmainct.obj
+         .\JPEG___Win32_Debug/jcmarker.obj
+         .\JPEG___Win32_Debug/jcmaster.obj
+         .\JPEG___Win32_Debug/jcomapi.obj
+         .\JPEG___Win32_Debug/jcparam.obj
+         .\JPEG___Win32_Debug/jcphuff.obj
+         .\JPEG___Win32_Debug/jcprepct.obj
+         .\JPEG___Win32_Debug/jcsample.obj
+         .\JPEG___Win32_Debug/jctrans.obj
+         .\JPEG___Win32_Debug/jdapimin.obj
+         .\JPEG___Win32_Debug/jdapistd.obj
+         .\JPEG___Win32_Debug/jdatadst.obj
+         .\JPEG___Win32_Debug/jdatasrc.obj
+         .\JPEG___Win32_Debug/jdcoefct.obj
+         .\JPEG___Win32_Debug/jdcolor.obj
+         .\JPEG___Win32_Debug/jddctmgr.obj
+         .\JPEG___Win32_Debug/jdhuff.obj
+         .\JPEG___Win32_Debug/jdinput.obj
+         .\JPEG___Win32_Debug/jdmainct.obj
+         .\JPEG___Win32_Debug/jdmarker.obj
+         .\JPEG___Win32_Debug/jdmaster.obj
+         .\JPEG___Win32_Debug/jdmerge.obj
+         .\JPEG___Win32_Debug/jdphuff.obj
+         .\JPEG___Win32_Debug/jdpostct.obj
+         .\JPEG___Win32_Debug/jdsample.obj
+         .\JPEG___Win32_Debug/jdtrans.obj
+         .\JPEG___Win32_Debug/jerror.obj
+         .\JPEG___Win32_Debug/jfdctflt.obj
+         .\JPEG___Win32_Debug/jfdctfst.obj
+         .\JPEG___Win32_Debug/jfdctint.obj
+         .\JPEG___Win32_Debug/jidctflt.obj
+         .\JPEG___Win32_Debug/jidctfst.obj
+         .\JPEG___Win32_Debug/jidctint.obj
+         .\JPEG___Win32_Debug/jidctred.obj
+         .\JPEG___Win32_Debug/jmemmgr.obj
+         .\JPEG___Win32_Debug/jmemnobs.obj
+         .\JPEG___Win32_Debug/jquant1.obj
+         .\JPEG___Win32_Debug/jquant2.obj
+         .\JPEG___Win32_Debug/jutils.obj
+         JPEG.vcxproj -> C:\Users\domenic\Thesis\Assignment2\.\JPEG___Win32_Debug\JPEG.lib
+       FinalizeBuildStatus:
+         Deleting file ".\JPEG___Win32_Debug\JPEG.unsuccessfulbuild".
+         Touching ".\JPEG___Win32_Debug\JPEG.lastbuildstate".
+     1>Done Building Project "C:\Users\domenic\Thesis\Assignment2\JPEG.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.62

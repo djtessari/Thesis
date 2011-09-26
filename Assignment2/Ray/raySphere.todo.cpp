@@ -7,6 +7,10 @@
 //  Ray-tracing stuff //
 ////////////////////////
 double RaySphere::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
+	bool mxBound = false;
+	if (mxBound > 0) mxBound = true;
+
+
 	return -1;
 }
 BoundingBox3D RaySphere::setBoundingBox(void){

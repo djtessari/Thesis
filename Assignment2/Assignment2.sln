@@ -1,12 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Assignment2", "Assignment2.vcproj", "{2080F24C-8FD2-4C11-9BB0-5C1CAC870B8C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{86D9F642-C0C3-46EF-B5F0-843909DD8903} = {86D9F642-C0C3-46EF-B5F0-843909DD8903}
-	EndProjectSection
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Assignment2", "Assignment2.vcxproj", "{2080F24C-8FD2-4C11-9BB0-5C1CAC870B8C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JPEG", "JPEG.vcproj", "{86D9F642-C0C3-46EF-B5F0-843909DD8903}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JPEG", "JPEG.vcxproj", "{86D9F642-C0C3-46EF-B5F0-843909DD8903}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

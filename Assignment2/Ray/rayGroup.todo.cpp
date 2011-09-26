@@ -6,6 +6,10 @@
 //  Ray-tracing stuff //
 ////////////////////////
 double RayGroup::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
+	bool mxBound = false;
+	if (mx > 0) mxBound = true;
+
+
 	return -1;
 }
 
