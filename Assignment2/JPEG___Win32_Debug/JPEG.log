@@ -1,61 +1,9 @@
-﻿Build started 9/26/2011 12:58:52 PM.
+﻿Build started 9/27/2011 1:02:41 PM.
      1>Project "C:\Users\domenic\Thesis\Assignment2\JPEG.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\JPEG___Win32_Debug\JPEG.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\JPEG___Win32_Debug/" /Fd".\JPEG___Win32_Debug/vc100.pdb" /Gd /TP /analyze- /errorReport:prompt JPEG\ckconfig.cpp JPEG\jcapimin.cpp JPEG\jcapistd.cpp JPEG\jccoefct.cpp JPEG\jccolor.cpp JPEG\jcdctmgr.cpp JPEG\jchuff.cpp JPEG\jcinit.cpp JPEG\jcmainct.cpp JPEG\jcmarker.cpp JPEG\jcmaster.cpp JPEG\jcomapi.cpp JPEG\jcparam.cpp JPEG\jcphuff.cpp JPEG\jcprepct.cpp JPEG\jcsample.cpp JPEG\jctrans.cpp JPEG\jdapimin.cpp JPEG\jdapistd.cpp JPEG\jdatadst.cpp JPEG\jdatasrc.cpp JPEG\jdcoefct.cpp JPEG\jdcolor.cpp JPEG\jddctmgr.cpp JPEG\jdhuff.cpp JPEG\jdinput.cpp JPEG\jdmainct.cpp JPEG\jdmarker.cpp JPEG\jdmaster.cpp JPEG\jdmerge.cpp JPEG\jdphuff.cpp JPEG\jdpostct.cpp JPEG\jdsample.cpp JPEG\jdtrans.cpp JPEG\jerror.cpp JPEG\jfdctflt.cpp JPEG\jfdctfst.cpp JPEG\jfdctint.cpp JPEG\jidctflt.cpp JPEG\jidctfst.cpp JPEG\jidctint.cpp JPEG\jidctred.cpp JPEG\jmemmgr.cpp JPEG\jmemnobs.cpp JPEG\jquant1.cpp JPEG\jquant2.cpp JPEG\jutils.cpp
-         jutils.cpp
-         jquant2.cpp
-         jquant1.cpp
-         jmemnobs.cpp
-         jmemmgr.cpp
-         jidctred.cpp
-         jidctint.cpp
-         jidctfst.cpp
-         jidctflt.cpp
-         jfdctint.cpp
-         jfdctfst.cpp
-         jfdctflt.cpp
-         jerror.cpp
-         jdtrans.cpp
-         jdsample.cpp
-         jdpostct.cpp
-         jdphuff.cpp
-         jdmerge.cpp
-         jdmaster.cpp
-         jdmarker.cpp
-         Generating Code...
-         Compiling...
-         jdmainct.cpp
-         jdinput.cpp
-         jdhuff.cpp
-         jddctmgr.cpp
-         jdcolor.cpp
-         jdcoefct.cpp
-         jdatasrc.cpp
-         jdatadst.cpp
-         jdapistd.cpp
-         jdapimin.cpp
-         jctrans.cpp
-         jcsample.cpp
-         jcprepct.cpp
-         jcphuff.cpp
-         jcparam.cpp
-         jcomapi.cpp
-         jcmaster.cpp
-         jcmarker.cpp
-         jcmainct.cpp
-         jcinit.cpp
-         Generating Code...
-         Compiling...
-         jchuff.cpp
-         jcdctmgr.cpp
-         jccolor.cpp
-         jccoefct.cpp
-         jcapistd.cpp
-         jcapimin.cpp
-         ckconfig.cpp
-         Generating Code...
+         All outputs are up-to-date.
        Lib:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:".\JPEG___Win32_Debug\JPEG.lib" /NOLOGO .\JPEG___Win32_Debug/ckconfig.obj
          .\JPEG___Win32_Debug/jcapimin.obj
@@ -112,4 +60,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:08.62
+Time Elapsed 00:00:02.26

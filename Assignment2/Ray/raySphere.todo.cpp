@@ -7,11 +7,46 @@
 //  Ray-tracing stuff //
 ////////////////////////
 double RaySphere::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
+	//return -1;
 	bool mxBound = false;
 	if (mxBound > 0) mxBound = true;
+	//printf("Running Sphere Intersect\n");
 
+	double rsquare = pow(radius,2);
 
-	return -1;
+	Point3D l = center - ray.position;
+	double tca = l.dot(ray.direction);
+	double dsquare = l.dot(l) - (pow(tca,2));
+
+	if (dsquare > rsquare) return -1;
+
+	double thc = sqrt(rsquare - dsquare);
+	double t1 = tca - thc;
+	double t2 = tca + thc;
+
+	double t = -1;
+	if (t1 > t2)
+	{
+		t = t2;
+	}
+	else
+	{
+		t = t1;
+	}
+	Point3D p = ray.position + ray.direction*t;
+	double mag = sqrt(
+		pow(p.p[0] - center.p[0],2) + 
+		pow(p.p[1] - center.p[1],2) + 
+		pow(p.p[2] - center.p[2],2));
+
+	Point3D normal = (p - center) / mag;
+
+	iInfo.iCoordinate = p;
+	iInfo.normal = normal;
+	iInfo.material = material;
+	//printf("Intersect found\n");
+
+	return t;
 }
 BoundingBox3D RaySphere::setBoundingBox(void){
 	return bBox;
