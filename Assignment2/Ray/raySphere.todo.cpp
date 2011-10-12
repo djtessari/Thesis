@@ -40,6 +40,11 @@ double RaySphere::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
 		pow(p.p[2] - center.p[2],2));
 
 	Point3D normal = (p - center) / mag;
+	/*printf("mag = %f\n", mag);
+	printf("p(%f, %f, %f)\n", p.p[0], p.p[1], p.p[2]);
+	printf("center(%f, %f, %f)\n", center.p[0], center.p[1], center.p[2]);
+	printf("normal(%f, %f, %f)\n", normal.p[0], normal.p[1], normal.p[2]);*/
+
 
 	iInfo.iCoordinate = p;
 	iInfo.normal = normal;

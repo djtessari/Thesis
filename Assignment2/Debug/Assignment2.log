@@ -1,4 +1,4 @@
-﻿Build started 9/28/2011 5:05:08 PM.
+﻿Build started 10/3/2011 9:27:40 PM.
      1>Project "C:\Users\domenic\Thesis\Assignment2\Assignment2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Debug\Assignment2.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -61,4 +61,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.95
+Time Elapsed 00:00:00.90

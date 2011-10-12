@@ -16,7 +16,7 @@ int RayScene::Refract(Point3D v,Point3D n,double ir,Point3D& refract){
 }
 
 Ray3D RayScene::GetRay(RayCamera* camera,int i,int j,int width,int height){
-	double d = 0;
+	double d = 1;
 	double ha = camera->heightAngle;
 	double wa = ha * camera->aspectRatio;
 
@@ -45,8 +45,8 @@ Ray3D RayScene::GetRay(RayCamera* camera,int i,int j,int width,int height){
 	
 	l = p0 + (dir*d) - (right*d*tan(wa));
 	r = p0 + (dir*d) + (right*d*tan(wa));
-	t = p0 + (dir*d) - (up*d*tan(ha));
-	b = p0 + (dir*d) + (up*d*tan(ha));
+	t = p0 + (dir*d) + (up*d*tan(ha));
+	b = p0 + (dir*d) - (up*d*tan(ha));
 
 	//printf("l = [%f,%f,%f]\n", l.p[0], l.p[1], l.p[2]);
 
@@ -68,17 +68,27 @@ Ray3D RayScene::GetRay(RayCamera* camera,int i,int j,int width,int height){
 Point3D RayScene::GetColor(Ray3D ray,int rDepth,Point3D cLimit){
 
 	RayIntersectionInfo* iInfo = new RayIntersectionInfo();
-	Point3D c = ambient;
+	Point3D c = Point3D();
 
 	if(group->intersect(ray, *iInfo, 1.0) != -1){
-		c[0] = 0;
-		c[1] = 0;
-		c[2] = 0;
+		c = ambient * iInfo->material->ambient;
 		c += iInfo->material->emissive;
-		c += iInfo->material->ambient;
+		
+		for (int i = 0; i < lightNum; i++){
+			c = c + lights[i]->getDiffuse(camera->position, *iInfo);
+			c = c + lights[i]->getSpecular(camera->position, *iInfo);
+		}
 		//c += iInfo->material->diffuse;
 		//c += iInfo->material->specular;
 	}
+	else c = background;
+
+	if (c.p[0] < 0) c.p[0] = 0;
+	else if (c.p[0] > 1) c.p[0] = 1;
+	if (c.p[1] < 0) c.p[1] = 0;
+	else if (c.p[1] > 1) c.p[1] = 1;
+	if (c.p[2] < 0) c.p[2] = 0;
+	else if (c.p[2] > 1) c.p[2] = 1;
 	return c;
 }
 
