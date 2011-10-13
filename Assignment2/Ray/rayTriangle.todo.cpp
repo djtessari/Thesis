@@ -7,8 +7,12 @@
 //  Ray-tracing stuff //
 ////////////////////////
 void RayTriangle::initialize(void){
+	
 }
 double RayTriangle::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
+	
+	
+	
 	return -1;
 }
 BoundingBox3D RayTriangle::setBoundingBox(void){
