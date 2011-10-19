@@ -10,18 +10,22 @@ double RayGroup::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
 	bool mxBound = false;
 	if (mx > 0) mxBound = true;
 
-	int min_t = -1;
+	double min_t = -1;
 	RayShape* min_shape = NULL;
+	RayIntersectionInfo tempInfo = RayIntersectionInfo();
 
 	for (int i = 0; i < sNum; i++)
 	{
 		//printf("i = %i\n",i);
 		RayShape* temp = shapes[i];
-		int t = temp->intersect(ray, iInfo, mx);
+		double t = temp->intersect(ray, tempInfo, mx);
 		if (t > 0)
 		{
 			if (min_t == -1 || t < min_t) 
 			{
+				iInfo.iCoordinate = tempInfo.iCoordinate;
+				iInfo.normal = tempInfo.normal;
+				iInfo.material = tempInfo.material;
 				min_t = t;
 				min_shape = temp;
 			}			
