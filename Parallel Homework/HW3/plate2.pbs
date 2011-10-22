@@ -1,3 +1,5 @@
+# Sample of the PBS script to create the jobs
+
 #!/bin/csh
 #PBS -l ncpus=16
 #PBS -l walltime=60:00              
@@ -12,10 +14,10 @@ ja
 cd $SCRATCH
 
 #copy executable to $SCRATCH
-cp $HOME/a.out .
+cp $HOME/Numa/NumaO3/ano3.out .
 
 #run my executable
 setenv OMP_NUM_THREADS 2
-omplace -nt $OMP_NUM_THREADS ./a.out 10000 10000 10000 $OMP_NUM_THREADS
+omplace -nt $OMP_NUM_THREADS ./ano3.out 10000 10000 10000 $OMP_NUM_THREADS
 
 ja -chlst
