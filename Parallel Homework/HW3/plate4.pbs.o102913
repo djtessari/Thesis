@@ -1,0 +1,7 @@
+module: Command not found.
+COLS=10000: Command not found.
+ROWS=10000: Command not found.
+ITR=10000: Command not found.
+THREADS=4: Command not found.
+cp: cannot stat `/usr/users/0/djt2a/a': No such file or directory
+THREADS: Undefined variable.

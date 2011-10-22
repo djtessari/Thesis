@@ -1,0 +1,21 @@
+#!/bin/csh
+#PBS -l ncpus=64
+#PBS -l walltime=60:00              
+#PBS -j oe
+#PBS -q batch
+
+set echo
+
+ja 
+
+#move to my $SCRATCH directory
+cd $SCRATCH
+
+#copy executable to $SCRATCH
+#cp $HOME/a.out .
+
+#run my executable
+setenv OMP_NUM_THREADS 64
+omplace -nt $OMP_NUM_THREADS ./a.out 10000 10000 10000 $OMP_NUM_THREADS
+
+ja -chlst
