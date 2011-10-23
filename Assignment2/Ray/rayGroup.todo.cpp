@@ -1,8 +1,6 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 #include "rayGroup.h"
-#include "raySphere.h"
-#include "rayTriangle.h"
 
 ////////////////////////
 //  Ray-tracing stuff //
@@ -88,7 +86,7 @@ double RayGroup::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
 	}
 	iInfo.iCoordinate = matrix.multPosition(iInfo.iCoordinate);
 	iInfo.normal = getNormalMatrix().multDirection(iInfo.normal).unit();
-	iInfo.material = iInfo.material;
+	//iInfo.material = iInfo.material;
 
 	return min_t;
 }

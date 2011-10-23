@@ -20,7 +20,6 @@ Point3D RayDirectionalLight::getDiffuse(Point3D cameraPosition,RayIntersectionIn
 	return diff;
 }
 Point3D RayDirectionalLight::getSpecular(Point3D cameraPosition,RayIntersectionInfo& iInfo){
-
 	Point3D spec = Point3D();
 	Point3D normal = iInfo.normal;
 	Point3D matSpec = iInfo.material->specular;
@@ -42,10 +41,9 @@ Point3D RayDirectionalLight::getSpecular(Point3D cameraPosition,RayIntersectionI
 	return spec;
 }
 int RayDirectionalLight::isInShadow(RayIntersectionInfo& iInfo,RayShape* shape,int& isectCount){
-
 	Ray3D testRay = Ray3D();
 	testRay.position = iInfo.iCoordinate;
-	testRay.direction = direction.negate().unit();
+	testRay.direction = direction.unit().negate();
 
 	if(shape->intersect(testRay, iInfo, 1.0) != -1){
 		return 1;
@@ -54,7 +52,23 @@ int RayDirectionalLight::isInShadow(RayIntersectionInfo& iInfo,RayShape* shape,i
 	return 0;
 }
 Point3D RayDirectionalLight::transparency(RayIntersectionInfo& iInfo,RayShape* shape,Point3D cLimit){
-	return Point3D(1,1,1);
+
+	Ray3D testRay = Ray3D();
+	
+	testRay.direction = direction.negate();
+	testRay.position = iInfo.iCoordinate + testRay.direction;
+
+	Point3D out = Point3D(1,1,1);	
+
+	if(shape->intersect(testRay, iInfo, 1.0) != -1){		
+		Point3D trans = iInfo.material->transparent;
+		out = out * trans;
+		out = out * transparency(iInfo, shape, cLimit / trans);
+	}
+	
+	
+	//1 = inShadow, 0 = no shadow
+	return out;
 }
 
 //////////////////
