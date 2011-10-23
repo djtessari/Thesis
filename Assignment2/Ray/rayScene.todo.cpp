@@ -7,8 +7,32 @@
 // Ray-tracing stuff //
 ///////////////////////
 
+/*
+	Point Tracker - Total so far: 17 (including unimplemented lights)
+	~~~~~~~~~~~~~~~~~~~~~~~~~
+	(1) RayScene::GetRay
+	(2) RayGroup::intersect
+	(2) RaySphere::intersect
+	(2) RayTriangle::intersect
+	(1) RayScene::GetColor
+	(2) getDiffuse ( Only Directional )
+	(2) getSpecular ( Only Directional )
+	(2) isInShadow ( Only Directional )
+	(1) RayScene::GetColor (Diff/Spec/Shadow)
+	(2) RayGroup::intersect (Transformations)
+	~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*/
+
+
+
 Point3D RayScene::Reflect(Point3D v,Point3D n){
-	return Point3D();
+	// I - 2 * dot(N,I) * N
+
+	Point3D out = Point3D();
+	out = v - n*(2*n.dot(v));
+	
+	return out.unit();
 }
 
 int RayScene::Refract(Point3D v,Point3D n,double ir,Point3D& refract){
@@ -66,22 +90,55 @@ Ray3D RayScene::GetRay(RayCamera* camera,int i,int j,int width,int height){
 }
 
 Point3D RayScene::GetColor(Ray3D ray,int rDepth,Point3D cLimit){
-
 	RayIntersectionInfo* iInfo = new RayIntersectionInfo();
-	Point3D c = Point3D();
+	float e = 0.01;
+	Ray3D reflect = Ray3D();
+	Ray3D refract = Ray3D();
+
+
+	Point3D c = Point3D(0,0,0);
+	Point3D c2 = Point3D(0,0,0);
+	Point3D c3 = Point3D(0,0,0);
 
 	if(group->intersect(ray, *iInfo, 1.0) != -1){
-		c = ambient * iInfo->material->ambient;
+		c += ambient * iInfo->material->ambient;
 		c += iInfo->material->emissive;
-		
+		//Point3D lightAdd = Point3D();
 		for (int i = 0; i < lightNum; i++){
-			c = c + lights[i]->getDiffuse(camera->position, *iInfo);
-			c = c + lights[i]->getSpecular(camera->position, *iInfo);
+			//1 = inShadow, 0 = no shadow
+			int secCount = 0;
+
+			//if(lights[i]->isInShadow(*iInfo, group, secCount)==0){
+				c = c + lights[i]->getDiffuse(camera->position, *iInfo);
+				c = c + lights[i]->getSpecular(camera->position, *iInfo);
+			//}
 		}
+		//Recursive ray casting
+		
+		reflect.direction = Reflect(ray.direction, iInfo->normal);
+		reflect.position = iInfo->iCoordinate + reflect.direction;
+
+		ray.direction = Reflect(ray.direction, iInfo->normal);
+		if (rDepth > 0 && iInfo->material->specular.length() > cLimit.length()){
+			c2 = (RGetColor(reflect, rDepth - 1, cLimit / iInfo->material->specular));			
+			c3 = c2 * iInfo->material->specular;
+			//c3 = c3 - c;			
+		}
+		c += c3;
+
+		//Point3D lightAdd = Point3D();
+		/*for (int i = 0; i < lightNum; i++){
+			//1 = inShadow, 0 = no shadow
+			int secCount = 0;
+			if(lights[i]->isInShadow(*iInfo, group, secCount)==0){
+				c = c + lights[i]->getDiffuse(camera->position, *iInfo);
+				c = c + lights[i]->getSpecular(camera->position, *iInfo);
+			}
+		}*/
 		//c += iInfo->material->diffuse;
 		//c += iInfo->material->specular;
 	}
-	else c = background;
+	else return background;
 
 	if (c.p[0] < 0) c.p[0] = 0;
 	else if (c.p[0] > 1) c.p[0] = 1;
@@ -92,6 +149,64 @@ Point3D RayScene::GetColor(Ray3D ray,int rDepth,Point3D cLimit){
 	return c;
 }
 
+Point3D RayScene::RGetColor(Ray3D ray,int rDepth,Point3D cLimit){
+	RayIntersectionInfo* iInfo = new RayIntersectionInfo();
+	float e = 0.01;
+	Ray3D reflect = Ray3D();
+	Ray3D refract = Ray3D();
+
+
+	Point3D c = Point3D(0,0,0);
+	Point3D c2 = Point3D(0,0,0);
+	Point3D c3 = Point3D(0,0,0);
+
+	if(group->intersect(ray, *iInfo, 1.0) != -1){
+		c += ambient * iInfo->material->ambient;
+		c += iInfo->material->emissive;
+		//Point3D lightAdd = Point3D();
+		for (int i = 0; i < lightNum; i++){
+			//1 = inShadow, 0 = no shadow
+			int secCount = 0;
+
+			//if(lights[i]->isInShadow(*iInfo, group, secCount)==0){
+				c = c + lights[i]->getDiffuse(camera->position, *iInfo);
+				c = c + lights[i]->getSpecular(camera->position, *iInfo);
+			//}
+		}
+		//Recursive ray casting
+		
+		reflect.direction = Reflect(ray.direction, iInfo->normal);
+		reflect.position = iInfo->iCoordinate + reflect.direction;
+
+		ray.direction = Reflect(ray.direction, iInfo->normal);
+		if (rDepth > 0 && iInfo->material->specular.length() > cLimit.length()){
+			c2 = (RGetColor(reflect, rDepth - 1, cLimit / iInfo->material->specular));			
+			c3 = c2 * iInfo->material->specular;
+			//c3 = c3 - c;			
+		}
+		c += c3;
+
+		//Point3D lightAdd = Point3D();
+		/*for (int i = 0; i < lightNum; i++){
+			//1 = inShadow, 0 = no shadow
+			int secCount = 0;
+			if(lights[i]->isInShadow(*iInfo, group, secCount)==0){
+				c = c + lights[i]->getDiffuse(camera->position, *iInfo);
+				c = c + lights[i]->getSpecular(camera->position, *iInfo);
+			}
+		}*/
+		//c += iInfo->material->diffuse;
+		//c += iInfo->material->specular;
+	}
+
+	if (c.p[0] < 0) c.p[0] = 0;
+	else if (c.p[0] > 1) c.p[0] = 1;
+	if (c.p[1] < 0) c.p[1] = 0;
+	else if (c.p[1] > 1) c.p[1] = 1;
+	if (c.p[2] < 0) c.p[2] = 0;
+	else if (c.p[2] > 1) c.p[2] = 1;
+	return c;
+}
 //////////////////
 // OpenGL stuff //
 //////////////////

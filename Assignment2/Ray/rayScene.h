@@ -193,6 +193,7 @@ public:
 	  * or the contribution from subsequent bounces is guaranteed to be less than the cut-off.\n
 	  */
 	Point3D GetColor(Ray3D ray,int rDepth,Point3D cLimit);
+	Point3D RGetColor(Ray3D ray,int rDepth,Point3D cLimit);
 
 	//////////////////
 	// OpenGL stuff //

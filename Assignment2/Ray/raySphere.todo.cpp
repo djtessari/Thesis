@@ -10,6 +10,7 @@ double RaySphere::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
 	//return -1;
 	bool mxBound = false;
 	if (mxBound > 0) mxBound = true;
+
 	//printf("Running Sphere Intersect\n");
 
 	double rsquare = pow(radius,2);
@@ -18,8 +19,12 @@ double RaySphere::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
 	double tca = l.dot(ray.direction);
 	double dsquare = l.dot(l) - (pow(tca,2));
 
+
+	//determines if there is an intersection with the sphere first
 	if (dsquare > rsquare) return -1;
 
+
+	//We know it intersects, now we find the values to return
 	double thc = sqrt(rsquare - dsquare);
 	double t1 = tca - thc;
 	double t2 = tca + thc;
@@ -45,11 +50,10 @@ double RaySphere::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
 	printf("center(%f, %f, %f)\n", center.p[0], center.p[1], center.p[2]);
 	printf("normal(%f, %f, %f)\n", normal.p[0], normal.p[1], normal.p[2]);*/
 
-
+	
 	iInfo.iCoordinate = p;
 	iInfo.normal = normal;
 	iInfo.material = material;
-	//printf("Intersect found\n");
 
 	return t;
 }
