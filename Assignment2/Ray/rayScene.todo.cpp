@@ -1,34 +1,46 @@
 #include "rayScene.h"
 #include <GL/glut.h>
 #include <math.h>
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 ///////////////////////
 // Ray-tracing stuff //
 ///////////////////////
 
 /*
-	Point Tracker - Total so far: 21 (including unimplemented lights)
+	Point Tracker - Possible total so far: 29 (including unimplemented lights)
 	~~~~~~~~~~~~~~~~~~~~~~~~~
 	(1) RayScene::GetRay
 	(2) RayGroup::intersect
 	(2) RaySphere::intersect
 	(2) RayTriangle::intersect
 	(1) RayScene::GetColor
-	(2) getDiffuse ( Only Directional )
-	(2) getSpecular ( Only Directional )
-	(2) isInShadow ( Only Directional )
+	(2) getDiffuse 
+	(2) getSpecular 
+	(2) isInShadow 
 	(1) RayScene::GetColor (Diff/Spec/Shadow)
 	~15~
 	(2) RayGroup::intersect (Transformations)
 	(1) RayScene::GetColor (Reflections)
 	(1) RayScene::GetColor (Refractions)
-	(2) transparency ( Only Directional )
+	(2) transparency
 	~21~
 		(2) RayScene::Refract (Maybe?)
 
 	Acceleration
+		(3) Bounding Boxes
+			- RayShape::setBoundingBox : done
+			- RayGroup::setBoundingBox : done
+			- BoundingBox3D::intersect : done
+			- RayGroup::intersect : done
+			- Double Speedup!
+		(2) Ordering
+			-RayGroup::intersect
+	~28~
 
+	(1) Jittered supersampling/AA
 	~~~~~~~~~~~~~~~~~~~~~~~~~
 
 */
@@ -103,63 +115,85 @@ Ray3D RayScene::GetRay(RayCamera* camera,int i,int j,int width,int height){
 }
 
 Point3D RayScene::GetColor(Ray3D ray,int rDepth,Point3D cLimit){
-	RayIntersectionInfo* iInfo = new RayIntersectionInfo();
-	float e = 0.01;
-	Ray3D reflect = Ray3D();
-	Ray3D refract = Ray3D();
+	double AA = 4; //For aliasing
+	Point3D cOut = Point3D(0,0,0);
+	Ray3D backup = ray;
+	srand( time(NULL) );
+	for (int jitter = 0; jitter < AA; jitter++){
+		ray = backup;
+		RayIntersectionInfo* iInfo = new RayIntersectionInfo();
+		float e = 0.01;
+		Ray3D reflect = Ray3D();
+		Ray3D refract = Ray3D();
 
-
-	Point3D c = Point3D(0,0,0);
-	Point3D c2 = Point3D(0,0,0);
-	Point3D c3 = Point3D(0,0,0);
-
-	if(group->intersect(ray, *iInfo, 1.0) != -1){
-		c += ambient * iInfo->material->ambient;
-		c += iInfo->material->emissive;
-		//Point3D lightAdd = Point3D();
-
-		//Reflected Rays
-		reflect.direction = Reflect(ray.direction, iInfo->normal);
-		reflect.position = iInfo->iCoordinate + reflect.direction;
-		
-		if (rDepth > 0 && iInfo->material->specular.length() > cLimit.length()){
-			c2 = (RGetColor(reflect, rDepth - 1, cLimit / iInfo->material->specular));			
-			c3 = c2 * iInfo->material->specular;
-			//c3 = c3 - c;			
+		for(int r = 0; r < 3; r++)
+		{
+			ray.position[r] += (((rand() % 2) - 0.5) / 100.0);
 		}
-		c += c3;
 
-		//Refracted Rays
-		Refract(ray.direction, iInfo->normal, 1 / iInfo->material->refind, refract.direction);
-		//refract.direction = ray.direction;
-		refract.position = iInfo->iCoordinate + refract.direction;
-		
-		if (rDepth > 0 && iInfo->material->transparent.length() > cLimit.length()){
-			c2 = (RGetColor(refract, rDepth - 1, cLimit / iInfo->material->transparent));			
-			c3 = c2 * iInfo->material->transparent;
-			//c3 = c3 - c;			
-		}
-		c += c3;
+		Point3D c = Point3D(0,0,0);
+		Point3D c2 = Point3D(0,0,0);
+		Point3D c3 = Point3D(0,0,0);
 
-		for (int i = 0; i < lightNum; i++){
-			//1 = inShadow, 0 = no shadow
-			int secCount = 0;			
-			c2 = lights[i]->getDiffuse(camera->position, *iInfo);
-			c2 = c2 + lights[i]->getSpecular(camera->position, *iInfo);
-			c2 = c2 * lights[i]->transparency(*iInfo, group, cLimit);
-			c = c + c2;
-		}
+		if(group->intersect(ray, *iInfo, -1) != -1){
+			c += ambient * iInfo->material->ambient;
+			c += iInfo->material->emissive;
+			//Point3D lightAdd = Point3D();
+
+			//Reflected Rays
+			reflect.direction = Reflect(ray.direction, iInfo->normal);
+			reflect.position = iInfo->iCoordinate + reflect.direction;
 		
+			if (rDepth > 0 && iInfo->material->specular.length() > cLimit.length()){
+				c2 = (RGetColor(reflect, rDepth - 1, cLimit / iInfo->material->specular));			
+				c3 = c2 * iInfo->material->specular;
+				//c3 = c3 - c;			
+			}
+			c += c3;
+
+			//Refracted Rays
+			Refract(ray.direction, iInfo->normal, 1 / iInfo->material->refind, refract.direction);
+			//refract.direction = ray.direction;
+			refract.position = iInfo->iCoordinate + refract.direction;
+		
+			if (rDepth > 0 && iInfo->material->transparent.length() > cLimit.length()){
+				c2 = (RGetColor(refract, rDepth - 1, cLimit / iInfo->material->transparent));			
+				c3 = c2 * iInfo->material->transparent;
+				//c3 = c3 - c;			
+			}
+			c += c3;
+
+			for (int i = 0; i < lightNum; i++){
+				//1 = inShadow, 0 = no shadow
+				int secCount = 0;			
+				c2 = lights[i]->getDiffuse(camera->position, *iInfo);
+				c2 = c2 + lights[i]->getSpecular(camera->position, *iInfo);
+				c2 = c2 * lights[i]->transparency(*iInfo, group, cLimit);
+				c = c + c2;
+			}
+		
+		}
+		else c = background;
+		if (c.p[0] < 0) c.p[0] = 0;
+		else if (c.p[0] > 1) c.p[0] = 1;
+		if (c.p[1] < 0) c.p[1] = 0;
+		else if (c.p[1] > 1) c.p[1] = 1;
+		if (c.p[2] < 0) c.p[2] = 0;
+		else if (c.p[2] > 1) c.p[2] = 1;
+
+		cOut += c;
 	}
-	else return background;
+	//else return background;
 
-	if (c.p[0] < 0) c.p[0] = 0;
-	else if (c.p[0] > 1) c.p[0] = 1;
-	if (c.p[1] < 0) c.p[1] = 0;
-	else if (c.p[1] > 1) c.p[1] = 1;
-	if (c.p[2] < 0) c.p[2] = 0;
-	else if (c.p[2] > 1) c.p[2] = 1;
-	return c;
+	cOut = cOut / AA;
+
+	if (cOut.p[0] < 0) cOut.p[0] = 0;
+	else if (cOut.p[0] > 1) cOut.p[0] = 1;
+	if (cOut.p[1] < 0) cOut.p[1] = 0;
+	else if (cOut.p[1] > 1) cOut.p[1] = 1;
+	if (cOut.p[2] < 0) cOut.p[2] = 0;
+	else if (cOut.p[2] > 1) cOut.p[2] = 1;
+	return cOut;
 }
 
 Point3D RayScene::RGetColor(Ray3D ray,int rDepth,Point3D cLimit){
@@ -173,7 +207,7 @@ Point3D RayScene::RGetColor(Ray3D ray,int rDepth,Point3D cLimit){
 	Point3D c2 = Point3D(0,0,0);
 	Point3D c3 = Point3D(0,0,0);
 
-	if(group->intersect(ray, *iInfo, 1.0) != -1){
+	if(group->intersect(ray, *iInfo, -1) != -1){
 		c += ambient * iInfo->material->ambient;
 		c += iInfo->material->emissive;
 		//Point3D lightAdd = Point3D();
@@ -205,8 +239,8 @@ Point3D RayScene::RGetColor(Ray3D ray,int rDepth,Point3D cLimit){
 			//1 = inShadow, 0 = no shadow
 			int secCount = 0;			
 			c2 = lights[i]->getDiffuse(camera->position, *iInfo);
-			c2 = c2 + lights[i]->getSpecular(camera->position, *iInfo);
-			c2 = c2 * lights[i]->transparency(*iInfo, group, cLimit);
+			c2 += lights[i]->getSpecular(camera->position, *iInfo);
+			c2 = c2 * lights[i]->transparency(*iInfo, group, cLimit / iInfo->material->transparent);
 			c = c + c2;
 		}
 		

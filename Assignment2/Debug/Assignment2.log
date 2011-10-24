@@ -1,4 +1,4 @@
-﻿Build started 10/23/2011 2:30:39 PM.
+﻿Build started 10/24/2011 3:42:27 AM.
      1>Project "C:\Users\domenic\Thesis\Assignment2\Assignment2.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Assignment2.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -48,7 +48,7 @@
          Debug\time.obj
          C:\Users\domenic\Thesis\Assignment2\Debug\JPEG.lib
        Manifest:
-         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\Assignment2.exe.embed.manifest" /manifest Debug\Assignment2.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\Assignment2.exe.embed.manifest" /manifest Debug\Assignment2.exe.intermediate.manifest
          All outputs are up-to-date.
        LinkEmbedManifest:
          All outputs are up-to-date.
@@ -60,4 +60,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.84
+Time Elapsed 00:00:00.68

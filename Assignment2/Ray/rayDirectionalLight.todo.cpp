@@ -45,7 +45,7 @@ int RayDirectionalLight::isInShadow(RayIntersectionInfo& iInfo,RayShape* shape,i
 	testRay.position = iInfo.iCoordinate;
 	testRay.direction = direction.unit().negate();
 
-	if(shape->intersect(testRay, iInfo, 1.0) != -1){
+	if(shape->intersect(testRay, iInfo, -1) != -1){
 		return 1;
 	}
 	//1 = inShadow, 0 = no shadow
@@ -60,7 +60,7 @@ Point3D RayDirectionalLight::transparency(RayIntersectionInfo& iInfo,RayShape* s
 
 	Point3D out = Point3D(1,1,1);	
 
-	if(shape->intersect(testRay, iInfo, 1.0) != -1){		
+	if(shape->intersect(testRay, iInfo, -1) != -1){		
 		Point3D trans = iInfo.material->transparent;
 		out = out * trans;
 		out = out * transparency(iInfo, shape, cLimit / trans);

@@ -9,7 +9,7 @@
 double RaySphere::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
 	//return -1;
 	bool mxBound = false;
-	if (mxBound > 0) mxBound = true;
+	if (mx > 0) mxBound = true;
 
 	//printf("Running Sphere Intersect\n");
 
@@ -58,6 +58,13 @@ double RaySphere::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
 	return t;
 }
 BoundingBox3D RaySphere::setBoundingBox(void){
+	Point3D p1 = center;
+	Point3D p2 = center;
+	for (int i = 0; i < 3; i++){
+		p1[i] -= radius;
+		p2[i] += radius;
+	}
+	bBox = BoundingBox3D(p1,p2);
 	return bBox;
 }
 

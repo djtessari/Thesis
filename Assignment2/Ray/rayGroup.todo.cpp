@@ -5,11 +5,14 @@
 ////////////////////////
 //  Ray-tracing stuff //
 ////////////////////////
+
+//Comparison speed: 10.96
+//Bounding Boxes: 5.89
+//Ordering: 4.99
 double RayGroup::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
 	//printf("This runs\n");
-	bool mxBound = false;
-	if (mx > 0) mxBound = true;
-
+	bool ignoreMX = false;
+	if (mx == -1) ignoreMX = true;
 	Ray3D rayCopy = Ray3D();
 	rayCopy.position = ray.position;
 	rayCopy.direction = ray.direction;
@@ -18,80 +21,112 @@ double RayGroup::intersect(Ray3D ray,RayIntersectionInfo& iInfo,double mx){
 	RayShape* min_shape = NULL;
 	RayIntersectionInfo tempInfo = RayIntersectionInfo();
 
-	Matrix4D matrix = getMatrix();
-	ray.position = getInverseMatrix().multPosition(ray.position);
-	ray.direction = getInverseMatrix().multDirection(ray.direction);
-	double scaler = ray.direction.length();
-	ray.direction = ray.direction.unit();
+	double boxOut = bBox.intersect(ray);
+	if (boxOut < mx || ignoreMX){
+		if(boxOut > -1){
+
+			Matrix4D matrix = getMatrix();
+			ray.position = getInverseMatrix().multPosition(ray.position);
+			ray.direction = getInverseMatrix().multDirection(ray.direction);
+			double scaler = ray.direction.length();
+			ray.direction = ray.direction.unit();
+
+			int count = 0;
+			for (int i = 0; i < sNum; i++)
+			{
+				RayShape* temp = shapes[i];
+				double dist = temp->bBox.intersect(ray);
+				if(dist < mx || ignoreMX)
+				{
+					if (dist > -1)
+					{
+						//Means we have a hit of the inner volume
+						hits[count].shape = temp;
+						hits[count].t = dist;
+						count++;
+					}					 
+				}
+			}
+			qsort(hits,count,sizeof(RayShapeHit),RayShapeHit::Compare);
+		
 	
-
-	for (int i = 0; i < sNum; i++)
-	{
-		//printf("i = %i\n",i);
-		RayShape* temp = shapes[i];
+		//if (bBox.intersect(ray) > -1){
+			for (int i = 0; i < count; i++)
+			{
+				//printf("something got hit!\n");
+				//printf("i = %i\n",i);
+				RayShape* temp = hits[i].shape;
 		
-		double t = -1;
+				double t = -1;		
+		
+				t = temp->intersect(ray, tempInfo, mx);
+				if (t > 0)
+				{
+					t = t / scaler;
+					if (min_t == -1 || t < min_t) 
+					{	
+						min_t = t;
+						min_shape = temp;
+						iInfo.iCoordinate = tempInfo.iCoordinate;
+						iInfo.normal = tempInfo.normal;
+						iInfo.material = tempInfo.material;	
+						break;
+					}
+				}
 				
+																																						//Checks if its a Static Ray Group with its own transform information
 		
-		t = temp->intersect(ray, tempInfo, mx);
-		if (t > 0)
-		{
-			t = t / scaler;
-			if (min_t == -1 || t < min_t) 
-			{	
-				min_t = t;
-				min_shape = temp;
-				iInfo.iCoordinate = tempInfo.iCoordinate;
-				iInfo.normal = tempInfo.normal;
-				iInfo.material = tempInfo.material;				
-			}
-		}
-		//Checks if its a Static Ray Group with its own transform information
-		
-		/*StaticRayGroup* temp2 = dynamic_cast<StaticRayGroup*>(temp);
-		if(temp2 != 0) 
-		{  
-			t = temp->intersect(rayCopy, tempInfo, mx);
-			if (t > 0)
-			{
-				if (min_t == -1 || t < min_t) 
+			/*StaticRayGroup* temp2 = dynamic_cast<StaticRayGroup*>(temp);
+			if(temp2 != 0) 
+			{  
+				t = temp->intersect(rayCopy, tempInfo, mx);
+				if (t > 0)
 				{
-					iInfo.iCoordinate = tempInfo.iCoordinate;
-					iInfo.normal = tempInfo.normal;
-					iInfo.material = tempInfo.material;
-					min_t = t;
-					min_shape = temp;
-				}			
+					if (min_t == -1 || t < min_t) 
+					{
+						iInfo.iCoordinate = tempInfo.iCoordinate;
+						iInfo.normal = tempInfo.normal;
+						iInfo.material = tempInfo.material;
+						min_t = t;
+						min_shape = temp;
+					}			
+				}
 			}
-		}
-		else 
-		{
-			ray.position = getInverseMatrix().multPosition(rayCopy.position);
-			ray.direction = getInverseMatrix().multDirection(rayCopy.direction).unit();
-			t = temp->intersect(ray, tempInfo, mx);
+			else 
+			{
+				ray.position = getInverseMatrix().multPosition(rayCopy.position);
+				ray.direction = getInverseMatrix().multDirection(rayCopy.direction).unit();
+				t = temp->intersect(ray, tempInfo, mx);
 
-			if (t > 0)
-			{
-				if (min_t == -1 || t < min_t) 
+				if (t > 0)
 				{
-					iInfo.iCoordinate = matrix.multPosition(tempInfo.iCoordinate);
-					iInfo.normal = getNormalMatrix().multNormal(tempInfo.normal);
-					iInfo.material = tempInfo.material;
-					min_t = t;
-					min_shape = temp;
-				}			
-			}
-		}*/
-		
+					if (min_t == -1 || t < min_t) 
+					{
+						iInfo.iCoordinate = matrix.multPosition(tempInfo.iCoordinate);
+						iInfo.normal = getNormalMatrix().multNormal(tempInfo.normal);
+						iInfo.material = tempInfo.material;
+						min_t = t;
+						min_shape = temp;
+					}			
+				}
+			}*/		
+			}	
+			iInfo.iCoordinate = matrix.multPosition(iInfo.iCoordinate);
+			iInfo.normal = getNormalMatrix().multDirection(iInfo.normal).unit();
+			//iInfo.material = iInfo.material;
+		}
 	}
-	iInfo.iCoordinate = matrix.multPosition(iInfo.iCoordinate);
-	iInfo.normal = getNormalMatrix().multDirection(iInfo.normal).unit();
-	//iInfo.material = iInfo.material;
-
 	return min_t;
+
 }
 
 BoundingBox3D RayGroup::setBoundingBox(void){
+	bBox = shapes[0]->setBoundingBox();
+	for (int i = 1; i < sNum; i++)
+	{
+		bBox = bBox + shapes[i]->setBoundingBox();
+	}
+	bBox = bBox.transform(getMatrix());
 	return bBox;
 }
 
