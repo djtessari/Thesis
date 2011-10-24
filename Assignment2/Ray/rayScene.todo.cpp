@@ -44,6 +44,7 @@
 	~~~~~~~~~~~~~~~~~~~~~~~~~
 
 */
+	bool enterMaterial = true;
 
 Point3D RayScene::Reflect(Point3D v,Point3D n){
 	// I - 2 * dot(N,I) * N
@@ -55,11 +56,15 @@ Point3D RayScene::Reflect(Point3D v,Point3D n){
 }
 
 int RayScene::Refract(Point3D v,Point3D n,double ir,Point3D& refract){
+	if(enterMaterial) {ir = 1 / ir;}
+	//ir = 1 / ir;
 	double c1 = -n.dot(v);
 	Point3D R1 = v - n*(2*n.dot(v));
 	double c2 = sqrt( 1 - pow(ir,2) * (1-pow(c1,2)));
 	Point3D R2 = (v * ir) + (n * ((c1 - c2) * ir));
 	refract = R2;
+
+	enterMaterial = !enterMaterial;
 
 	return 1;
 }
@@ -115,20 +120,23 @@ Ray3D RayScene::GetRay(RayCamera* camera,int i,int j,int width,int height){
 }
 
 Point3D RayScene::GetColor(Ray3D ray,int rDepth,Point3D cLimit){
-	double AA = 4; //For aliasing
+	double AA = 1; //For aliasing
 	Point3D cOut = Point3D(0,0,0);
 	Ray3D backup = ray;
 	srand( time(NULL) );
 	for (int jitter = 0; jitter < AA; jitter++){
+		enterMaterial = true;
 		ray = backup;
 		RayIntersectionInfo* iInfo = new RayIntersectionInfo();
 		float e = 0.01;
 		Ray3D reflect = Ray3D();
 		Ray3D refract = Ray3D();
 
-		for(int r = 0; r < 3; r++)
-		{
-			ray.position[r] += (((rand() % 2) - 0.5) / 100.0);
+		if (AA > 1){
+			for(int r = 0; r < 3; r++)
+			{
+				ray.position[r] += (((rand() % 2) - 0.5) / 100.0);
+			}
 		}
 
 		Point3D c = Point3D(0,0,0);
@@ -142,7 +150,7 @@ Point3D RayScene::GetColor(Ray3D ray,int rDepth,Point3D cLimit){
 
 			//Reflected Rays
 			reflect.direction = Reflect(ray.direction, iInfo->normal);
-			reflect.position = iInfo->iCoordinate + reflect.direction;
+			reflect.position = iInfo->iCoordinate + (reflect.direction * e);
 		
 			if (rDepth > 0 && iInfo->material->specular.length() > cLimit.length()){
 				c2 = (RGetColor(reflect, rDepth - 1, cLimit / iInfo->material->specular));			
@@ -154,7 +162,7 @@ Point3D RayScene::GetColor(Ray3D ray,int rDepth,Point3D cLimit){
 			//Refracted Rays
 			Refract(ray.direction, iInfo->normal, 1 / iInfo->material->refind, refract.direction);
 			//refract.direction = ray.direction;
-			refract.position = iInfo->iCoordinate + refract.direction;
+			refract.position = iInfo->iCoordinate + (refract.direction * e);
 		
 			if (rDepth > 0 && iInfo->material->transparent.length() > cLimit.length()){
 				c2 = (RGetColor(refract, rDepth - 1, cLimit / iInfo->material->transparent));			
@@ -214,7 +222,7 @@ Point3D RayScene::RGetColor(Ray3D ray,int rDepth,Point3D cLimit){
 
 		//Reflected Rays
 		reflect.direction = Reflect(ray.direction, iInfo->normal);
-		reflect.position = iInfo->iCoordinate + reflect.direction;
+		reflect.position = iInfo->iCoordinate + (reflect.direction * e);
 		
 		if (rDepth > 0 && iInfo->material->specular.length() > cLimit.length()){
 			c2 = (RGetColor(reflect, rDepth - 1, cLimit / iInfo->material->specular));			
@@ -226,7 +234,7 @@ Point3D RayScene::RGetColor(Ray3D ray,int rDepth,Point3D cLimit){
 		//Refracted Rays
 		Refract(ray.direction, iInfo->normal, 1 / iInfo->material->refind, refract.direction);
 		//refract.direction = ray.direction;
-		refract.position = iInfo->iCoordinate + refract.direction;
+		refract.position = iInfo->iCoordinate + (refract.direction * e);
 		
 		if (rDepth > 0 && iInfo->material->transparent.length() > cLimit.length()){
 			c2 = (RGetColor(refract, rDepth - 1, cLimit / iInfo->material->transparent));			
@@ -242,6 +250,10 @@ Point3D RayScene::RGetColor(Ray3D ray,int rDepth,Point3D cLimit){
 			c2 += lights[i]->getSpecular(camera->position, *iInfo);
 			c2 = c2 * lights[i]->transparency(*iInfo, group, cLimit / iInfo->material->transparent);
 			c = c + c2;
+		}
+		if (c.length() < cLimit.length())
+		{
+			return Point3D(0,0,0);
 		}
 		
 	}

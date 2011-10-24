@@ -1,10 +1,12 @@
-﻿Build started 10/24/2011 3:42:27 AM.
+﻿Build started 10/24/2011 12:24:52 PM.
      1>Project "C:\Users\domenic\Thesis\Assignment2\Assignment2.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Assignment2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I. /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Ray\rayScene.todo.cpp
-         rayScene.todo.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I. /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Ray\rayPointLight.todo.cpp Ray\raySpotLight.todo.cpp
+         raySpotLight.todo.cpp
+         rayPointLight.todo.cpp
+         Generating Code...
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -48,7 +50,7 @@
          Debug\time.obj
          C:\Users\domenic\Thesis\Assignment2\Debug\JPEG.lib
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\Assignment2.exe.embed.manifest" /manifest Debug\Assignment2.exe.intermediate.manifest
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\Assignment2.exe.embed.manifest" /manifest Debug\Assignment2.exe.intermediate.manifest
          All outputs are up-to-date.
        LinkEmbedManifest:
          All outputs are up-to-date.
@@ -60,4 +62,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.68
+Time Elapsed 00:00:01.15
