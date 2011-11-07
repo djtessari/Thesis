@@ -7,7 +7,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\agentTex.xnb</Output>
+      <Output>C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\agentTex.xnb</Output>
       <Time>2011-05-16T15:48:29.8951338-04:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\Background\background.xnb</Output>
+      <Output>C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\Background\background.xnb</Output>
       <Time>2011-05-16T15:48:29.8961339-04:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\playerTex.xnb</Output>
+      <Output>C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\playerTex.xnb</Output>
       <Time>2011-05-16T15:48:29.897134-04:00</Time>
     </Item>
     <Item>
@@ -34,7 +34,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\farmTex.xnb</Output>
+      <Output>C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\farmTex.xnb</Output>
       <Time>2011-08-17T12:20:50.1104334-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
@@ -43,10 +43,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\ThesisContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\ThesisContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\ThesisContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\ThesisContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

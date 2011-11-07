@@ -76,7 +76,7 @@ namespace Thesis
             //objects.Add(new WObject(playerTexture, new Vector2(300,300)));
             objects.Add(new WObject(playerTexture, new Vector2(400, 500)));
             WObject farm1 = new Farmland(farmTexture, new Vector2(50, 200), 1);
-            WObject farm2 = new Farmland(farmTexture, new Vector2(100, 200), 1);
+            WObject farm2 = new Farmland(farmTexture, new Vector2(150, 200), 1);
             WObject home = new Home(playerTexture, new Vector2(250, 250), 1);
             //a.AddKnowledge(farm);
 

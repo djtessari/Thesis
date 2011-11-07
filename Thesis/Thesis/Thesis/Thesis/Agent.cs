@@ -488,7 +488,7 @@ namespace Thesis
 
         private double distanceTo(WObject o)
         {
-            double f = Math.Sqrt(o.getPos().LengthSquared() + getPos().LengthSquared());
+            double f = Math.Sqrt(Math.Pow(o.getPos().X - getPos().X, 2) + Math.Pow(o.getPos().Y - getPos().Y, 2));
             return f;
         }
 
@@ -528,8 +528,8 @@ namespace Thesis
                     {
                         if (choice.getUtil().hunger < o.getUtil().hunger)
                         {
-                            choice = o;
-                            
+                            if(distanceTo(o) < distanceTo(choice))
+                                choice = o;                            
                         }
                     }
                 }                
@@ -546,6 +546,7 @@ namespace Thesis
                         {
                             if (choice.getUtil().hunger < o.getUtil().hunger)
                             {
+                                if (distanceTo(o) < distanceTo(choice))
                                 choice = o;
                             }
                         }
@@ -589,6 +590,7 @@ namespace Thesis
                         {
                             if (choice.getUtil().energy < o.getUtil().energy)
                             {
+                                if (distanceTo(o) < distanceTo(choice))
                                 choice = o;
                             }
                         }
@@ -606,6 +608,7 @@ namespace Thesis
                             {
                                 if (choice.getUtil().energy < o.getUtil().energy)
                                 {
+                                    if (distanceTo(o) < distanceTo(choice))
                                     choice = o;
                                 }
                             }
@@ -640,8 +643,8 @@ namespace Thesis
                 {
                     if (choice.getUtil().hunger < o.getUtil().hunger)
                     {
-                        choice = o;
-                        
+                        if (distanceTo(o) < distanceTo(choice))
+                        choice = o;                        
                     }
                 }                
             }
@@ -682,7 +685,7 @@ namespace Thesis
                     else
                     {
                         if (distanceTo(choice) > distanceTo(o))
-                        {
+                        {                            
                             choice = o;                            
                         }
                     }

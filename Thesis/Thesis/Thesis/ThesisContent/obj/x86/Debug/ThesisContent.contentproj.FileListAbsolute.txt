@@ -1,1 +1,2 @@
 C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\ThesisContent\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\ThesisContent\obj\x86\Debug\ResolveAssemblyReference.cache

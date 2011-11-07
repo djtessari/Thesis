@@ -8,3 +8,13 @@ C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\obj\x8
 C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\obj\x86\Debug\Thesis.exe
 C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\obj\x86\Debug\Thesis.pdb
 C:\Users\domenic\Documents\Academic\XNA Games\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\farmTex.xnb
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\agentTex.xnb
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\Background\background.xnb
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\playerTex.xnb
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\farmTex.xnb
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Thesis.exe
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Thesis.pdb
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\obj\x86\Debug\Thesis.exe
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\obj\x86\Debug\Thesis.pdb
