@@ -87,9 +87,9 @@ namespace Thesis
                 move();
                 if (position.Y < 0 || position.X < 0)
                 {
-                    Console.WriteLine("Out of bounds!");
-                    Console.WriteLine("X position = " + position.X);
-                    Console.WriteLine("Y Position = " + position.Y);
+                    //Console.WriteLine("Out of bounds!");
+                    //Console.WriteLine("X position = " + position.X);
+                    //Console.WriteLine("Y Position = " + position.Y);
                     stopNow = true;
                 }
                 //util.Decay();
@@ -216,7 +216,7 @@ namespace Thesis
             {
                 position = waypoints.Pop();
                 CDresolved = true;
-                Console.WriteLine("Waypoint reached");
+                //Console.WriteLine("Waypoint reached");
                 return true;
             }
             return false;
@@ -446,19 +446,19 @@ namespace Thesis
                     if (util.foodStores < util.concern)
                     {
                         goal.foodStores = util.stable;
-                        Console.WriteLine("Food stores concern");
+                        //Console.WriteLine("Food stores concern");
                         if(!getFoodSource()){
 
                             if (foodSourceConcern())
                             {
-                                Console.WriteLine("Food source concern");
+                                //Console.WriteLine("Food source concern");
                                 createFoodSource();
                             }
                         }
                     }
                     else if (foodSourceConcern())
                     {
-                        Console.WriteLine("Food source concern");
+                        //Console.WriteLine("Food source concern");
                         createFoodSource();
                     }
                 }
@@ -472,13 +472,13 @@ namespace Thesis
 
             if (atDest() && hasDest())
             {
-                Console.WriteLine(action);
+                //Console.WriteLine(action);
                 Boolean test = Use(goalObject);                
                 if (util.Met(goal) || test)
                 {
-                    Console.WriteLine("stores = " + util.foodStores);
-                    Console.WriteLine("hunger = " + util.hunger);
-                    Console.WriteLine("energy = " + util.energy);
+                    //Console.WriteLine("stores = " + util.foodStores);
+                    //Console.WriteLine("hunger = " + util.hunger);
+                    //Console.WriteLine("energy = " + util.energy);
                     destSet = false;                
                     
                 }
@@ -520,13 +520,12 @@ namespace Thesis
             double range = (util.hunger * speed);
             foreach (WObject o in property)
             {
-
-                if (distanceTo(o) < range)
+                if (distanceTo(o) < range && o.getUtil().foodStores > 0)
                 {
                     if (choice == null) choice = o;
                     else
                     {
-                        if (choice.getUtil().hunger < o.getUtil().hunger)
+                        if (choice.getUtil().hunger < o.getUtil().hunger && o.getUtil().foodStores > 0)
                         {
                             if(distanceTo(o) < distanceTo(choice))
                                 choice = o;                            
@@ -539,12 +538,12 @@ namespace Thesis
             {
                 foreach (WObject o in knowledge)
                 {
-                    if (distanceTo(o) < range)
+                    if (distanceTo(o) < range && o.getUtil().foodStores > 0)
                     {
                         if (choice == null) choice = o;
                         else
                         {
-                            if (choice.getUtil().hunger < o.getUtil().hunger)
+                            if (choice.getUtil().hunger < o.getUtil().hunger && o.getUtil().foodStores > 0)
                             {
                                 if (distanceTo(o) < distanceTo(choice))
                                 choice = o;
@@ -637,11 +636,11 @@ namespace Thesis
             //Only searches property to find food.  Distance does not matter.            
             
             foreach (WObject o in property)
-            {                
-                if (choice == null) choice = o;
-                else
+            {
+                if (choice == null && o.getUtil().foodStores > 0) choice = o;
+                else if (choice != null)
                 {
-                    if (choice.getUtil().hunger < o.getUtil().hunger)
+                    if (choice.getUtil().hunger < o.getUtil().hunger && o.getUtil().foodStores > 0)
                     {
                         if (distanceTo(o) < distanceTo(choice))
                         choice = o;                        
@@ -671,20 +670,20 @@ namespace Thesis
 
         private Boolean getFoodSource()
         {
-            Console.WriteLine("getFoodSourceCalled");
+            //Console.WriteLine("getFoodSourceCalled");
             WObject choice = null;   
             int i = 1;
             
             foreach (WObject o in property)
             {
-                Console.WriteLine("Iteration " + i);
+                //Console.WriteLine("Iteration " + i);
                 i++;
                 if (o.getUtil().foodStores > 0)
                 {
                     if (choice == null) choice = o;
                     else
                     {
-                        if (distanceTo(choice) > distanceTo(o))
+                        if (o.getUtil().foodStores > choice.getUtil().foodStores)
                         {                            
                             choice = o;                            
                         }
@@ -783,9 +782,9 @@ namespace Thesis
 
         public Boolean Use(WObject o)
         {
-            Console.WriteLine("Goal stores = " + goalObject.util.foodStores);
-            Console.WriteLine("Goal hunger = " + goalObject.util.hunger);
-            Console.WriteLine("Goal energy = " + goalObject.util.energy);
+            //Console.WriteLine("Goal stores = " + goalObject.util.foodStores);
+            //Console.WriteLine("Goal hunger = " + goalObject.util.hunger);
+            //Console.WriteLine("Goal energy = " + goalObject.util.energy);
 
             
             if (action.CompareTo(EAT) == 0)

@@ -41,7 +41,7 @@ namespace Thesis
 
         public override Utility Eat() 
         {
-            Console.WriteLine("Foodstores Home = " + util.foodStores);
+            //Console.WriteLine("Foodstores Home = " + util.foodStores);
             if (util.foodStores > hungerRate)
             {
                 util.foodStores -= hungerRate;

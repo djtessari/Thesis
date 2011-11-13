@@ -272,6 +272,8 @@ Point3D RayScene::RGetColor(Ray3D ray,int rDepth,Point3D cLimit){
 // OpenGL stuff //
 //////////////////
 void RayMaterial::drawOpenGL(void){
+	//glClear(GL_COLOR_BUFFER_BIT);
+	//glColor3f(1.0, 1.0, 1.0);
 }
 void RayTexture::setUpOpenGL(void){
 }

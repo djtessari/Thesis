@@ -1,26 +1,14 @@
-﻿Build started 11/4/2011 11:00:58 AM.
-     1>Project "C:\Users\domenic\Thesis\Assignment2\Assignment2.vcxproj" on node 3 (build target(s)).
+﻿Build started 11/11/2011 9:13:03 PM.
+     1>Project "C:\Users\domenic\Thesis\Assignment3\Assignment2.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "Debug\Assignment3.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "Debug\Assignment3.unsuccessfulbuild".
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I. /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Ray\rayBox.todo.cpp Ray\rayCone.todo.cpp Ray\rayCylinder.todo.cpp Ray\rayDirectionalLight.todo.cpp Ray\rayGroup.todo.cpp Ray\rayScene.todo.cpp Ray\raySphere.todo.cpp Ray\raySpotLight.todo.cpp Ray\rayTriangle.todo.cpp Ray\rayWindow.cpp main.cpp
-         main.cpp
-         rayWindow.cpp
-         rayTriangle.todo.cpp
-         raySpotLight.todo.cpp
-         raySphere.todo.cpp
-         rayGroup.todo.cpp
-         rayCylinder.todo.cpp
-         rayCone.todo.cpp
-         rayBox.todo.cpp
-         Generating Code...
-         Skipping... (no relevant changes detected)
-         rayScene.todo.cpp
-         rayDirectionalLight.todo.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I. /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Ray\rayCamera.todo.cpp
+         rayCamera.todo.cpp
        ManifestResourceCompile:
-         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\Assignment3.exe.embed.manifest.res" Debug\Assignment3_manifest.rc 
+         All outputs are up-to-date.
        Link:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\domenic\Thesis\Assignment2\Debug\Assignment3.exe" /INCREMENTAL /NOLOGO /LIBPATH:. kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Assignment3.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\domenic\Thesis\Assignment2\Debug\Assignment3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /IMPLIB:"C:\Users\domenic\Thesis\Assignment2\Debug\Assignment3.lib" /MACHINE:X86 Debug\Assignment3.exe.embed.manifest.res
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\domenic\Thesis\Assignment3\Debug\Assignment3.exe" /INCREMENTAL /NOLOGO /LIBPATH:. kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Assignment3.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\domenic\Thesis\Assignment3\Debug\Assignment3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /IMPLIB:"C:\Users\domenic\Thesis\Assignment3\Debug\Assignment3.lib" /MACHINE:X86 Debug\Assignment3.exe.embed.manifest.res
          Debug\bmp.obj
          Debug\cmdLineParser.obj
          Debug\geometry.obj
@@ -58,56 +46,18 @@
          Debug\rayTriangle.todo.obj
          Debug\rayWindow.obj
          Debug\time.obj
-         C:\Users\domenic\Thesis\Assignment2\Debug\JPEG.lib
+         C:\Users\domenic\Thesis\Assignment3\Debug\JPEG.lib
        Manifest:
-         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\Assignment3.exe.embed.manifest" /manifest Debug\Assignment3.exe.intermediate.manifest
-         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\Assignment3.exe.embed.manifest.res" Debug\Assignment3_manifest.rc 
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\Assignment3.exe.embed.manifest" /manifest Debug\Assignment3.exe.intermediate.manifest
+         All outputs are up-to-date.
        LinkEmbedManifest:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\domenic\Thesis\Assignment2\Debug\Assignment3.exe" /INCREMENTAL /NOLOGO /LIBPATH:. kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Assignment3.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\domenic\Thesis\Assignment2\Debug\Assignment3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /IMPLIB:"C:\Users\domenic\Thesis\Assignment2\Debug\Assignment3.lib" /MACHINE:X86 Debug\Assignment3.exe.embed.manifest.res
-         Debug\bmp.obj
-         Debug\cmdLineParser.obj
-         Debug\geometry.obj
-         Debug\geometry.todo.obj
-         Debug\image.obj
-         Debug\image.todo.obj
-         Debug\jpeg.obj
-         Debug\lineSegments.obj
-         Debug\lineSegments.todo.obj
-         Debug\main.obj
-         Debug\mouse.obj
-         Debug\rayBox.obj
-         Debug\rayBox.todo.obj
-         Debug\rayCamera.obj
-         Debug\rayCamera.todo.obj
-         Debug\rayCone.obj
-         Debug\rayCone.todo.obj
-         Debug\rayCylinder.obj
-         Debug\rayCylinder.todo.obj
-         Debug\rayDirectionalLight.obj
-         Debug\rayDirectionalLight.todo.obj
-         Debug\rayFileInstance.obj
-         Debug\rayGroup.obj
-         Debug\rayGroup.todo.obj
-         Debug\rayKey.obj
-         Debug\rayPointLight.obj
-         Debug\rayPointLight.todo.obj
-         Debug\rayScene.obj
-         Debug\rayScene.todo.obj
-         Debug\raySphere.obj
-         Debug\raySphere.todo.obj
-         Debug\raySpotLight.obj
-         Debug\raySpotLight.todo.obj
-         Debug\rayTriangle.obj
-         Debug\rayTriangle.todo.obj
-         Debug\rayWindow.obj
-         Debug\time.obj
-         C:\Users\domenic\Thesis\Assignment2\Debug\JPEG.lib
-         Assignment2.vcxproj -> C:\Users\domenic\Thesis\Assignment2\Debug\Assignment3.exe
+         All outputs are up-to-date.
+         Assignment2.vcxproj -> C:\Users\domenic\Thesis\Assignment3\Debug\Assignment3.exe
        FinalizeBuildStatus:
          Deleting file "Debug\Assignment3.unsuccessfulbuild".
          Touching "Debug\Assignment3.lastbuildstate".
-     1>Done Building Project "C:\Users\domenic\Thesis\Assignment2\Assignment2.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\domenic\Thesis\Assignment3\Assignment2.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.62
+Time Elapsed 00:00:00.56

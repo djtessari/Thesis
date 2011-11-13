@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agent.cs" />
+    <Compile Include="EmptyProperty.cs" />
     <Compile Include="Home.cs" />
     <Compile Include="CollisionDetection2D.cs">
       <SubType>Code</SubType>
