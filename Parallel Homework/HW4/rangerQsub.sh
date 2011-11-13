@@ -22,4 +22,4 @@ set -x 				# Echo commands, use "set echo" with cshdd
 
 module list
 
-ibrun myMPIbinary		# Run the MPI executable
+ibrun halo 1 100 1		# Run the MPI executable
