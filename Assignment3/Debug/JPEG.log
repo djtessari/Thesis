@@ -1,63 +1,17 @@
-﻿Build started 11/4/2011 11:00:57 AM.
-     1>Project "C:\Users\domenic\Thesis\Assignment2\JPEG.vcxproj" on node 2 (build target(s)).
+﻿Build started 11/11/2011 9:13:03 PM.
+     1>Project "C:\Users\domenic\Thesis\Assignment3\JPEG.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\JPEG.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        Lib:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\Users\domenic\Thesis\Assignment2\Debug\JPEG.lib" /NOLOGO Debug\ckconfig.obj
-         Debug\jcapimin.obj
-         Debug\jcapistd.obj
-         Debug\jccoefct.obj
-         Debug\jccolor.obj
-         Debug\jcdctmgr.obj
-         Debug\jchuff.obj
-         Debug\jcinit.obj
-         Debug\jcmainct.obj
-         Debug\jcmarker.obj
-         Debug\jcmaster.obj
-         Debug\jcomapi.obj
-         Debug\jcparam.obj
-         Debug\jcphuff.obj
-         Debug\jcprepct.obj
-         Debug\jcsample.obj
-         Debug\jctrans.obj
-         Debug\jdapimin.obj
-         Debug\jdapistd.obj
-         Debug\jdatadst.obj
-         Debug\jdatasrc.obj
-         Debug\jdcoefct.obj
-         Debug\jdcolor.obj
-         Debug\jddctmgr.obj
-         Debug\jdhuff.obj
-         Debug\jdinput.obj
-         Debug\jdmainct.obj
-         Debug\jdmarker.obj
-         Debug\jdmaster.obj
-         Debug\jdmerge.obj
-         Debug\jdphuff.obj
-         Debug\jdpostct.obj
-         Debug\jdsample.obj
-         Debug\jdtrans.obj
-         Debug\jerror.obj
-         Debug\jfdctflt.obj
-         Debug\jfdctfst.obj
-         Debug\jfdctint.obj
-         Debug\jidctflt.obj
-         Debug\jidctfst.obj
-         Debug\jidctint.obj
-         Debug\jidctred.obj
-         Debug\jmemmgr.obj
-         Debug\jmemnobs.obj
-         Debug\jquant1.obj
-         Debug\jquant2.obj
-         Debug\jutils.obj
-         JPEG.vcxproj -> C:\Users\domenic\Thesis\Assignment2\Debug\JPEG.lib
+         All outputs are up-to-date.
+         JPEG.vcxproj -> C:\Users\domenic\Thesis\Assignment3\Debug\JPEG.lib
        FinalizeBuildStatus:
          Deleting file "Debug\JPEG.unsuccessfulbuild".
          Touching "Debug\JPEG.lastbuildstate".
-     1>Done Building Project "C:\Users\domenic\Thesis\Assignment2\JPEG.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\domenic\Thesis\Assignment3\JPEG.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.20
+Time Elapsed 00:00:00.06

@@ -168,6 +168,10 @@ int RayGroup::getOpenGLCallList(void){
 }
 
 int RayGroup::drawOpenGL(int materialIndex){
+	for (int i = 0; i < sNum; i++)
+	{
+		shapes[i]->drawOpenGL(materialIndex);
+	}
 	return -1;
 }
 

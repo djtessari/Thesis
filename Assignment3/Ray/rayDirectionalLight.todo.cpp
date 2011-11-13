@@ -74,5 +74,15 @@ Point3D RayDirectionalLight::transparency(RayIntersectionInfo& iInfo,RayShape* s
 //////////////////
 // OpenGL stuff //
 //////////////////
-void RayDirectionalLight::drawOpenGL(int index){
-}
+void RayDirectionalLight::drawOpenGL(int index)
+	{
+	GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
+
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	}

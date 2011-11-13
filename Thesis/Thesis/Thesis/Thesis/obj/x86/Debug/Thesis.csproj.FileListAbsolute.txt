@@ -18,3 +18,6 @@ C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\obj\x86\Debug\ResolveAssembl
 C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\obj\x86\Debug\Thesis.exe
 C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\obj\x86\Debug\Thesis.pdb
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\emptyTexture.xnb
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\EntityTex\homeTex.xnb
+C:\Users\domenic\Thesis\Thesis\Thesis\Thesis\Thesis\bin\x86\Debug\Content\Font.xnb

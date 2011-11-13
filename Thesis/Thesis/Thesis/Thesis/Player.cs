@@ -14,8 +14,14 @@ namespace Thesis
 {
     class Player: Entity
     {
-
+        private const int COOLDOWN = 1500;
+        public float speed = 5.0f;
+        public int facing = 0;
         private bool CDresolved = true;
+        private bool attackReady = true;
+        private bool helpReady = true;
+        private int attackCD = 0;
+        private int helpCD = 0;
 
 
         public Player(Texture2D spriteSheet, Vector2 startPos): base(spriteSheet, startPos)
@@ -25,7 +31,62 @@ namespace Thesis
         new public void Update(GameTime gameTime)
         {
             //Get input
+            KeyboardState keyState = Keyboard.GetState();
+            
+            //Move Commands
+            if (keyState.IsKeyDown(Keys.Down))
+            {
+                newPos(position.X, position.Y + speed);
+                facing = 0;
+            }
+            if (keyState.IsKeyDown(Keys.Up))
+            {
+                newPos(position.X, position.Y - speed);
+                facing = 1;
+            }
+            if (keyState.IsKeyDown(Keys.Right))
+            {
+                newPos(position.X + speed, position.Y);
+                facing = 2;
+            }
+            if (keyState.IsKeyDown(Keys.Left))
+            {
+                newPos(position.X - speed, position.Y);
+                facing = 3;
+            }
 
+            if (attackCD <= 0)
+            {
+                attackCD = 0;
+                attackReady = true;
+            }
+            else
+            {
+                attackCD -= gameTime.ElapsedGameTime.Milliseconds;
+            }
+
+            if (helpCD <= 0)
+            {
+                helpCD = 0;
+                helpReady = true;
+            }
+            else
+            {
+                helpCD -= gameTime.ElapsedGameTime.Milliseconds;
+            }
+
+            //Attack Commands
+            if (attackReady && keyState.IsKeyDown(Keys.A))
+            {
+                attack();
+                attackReady = false;
+            }
+            //Help Commands
+            if (helpReady && keyState.IsKeyDown(Keys.D))
+            {
+                help();
+                helpReady = false;
+            }
         }
 
         public void resolveLR(WObject wobject)
@@ -51,6 +112,15 @@ namespace Thesis
             {
                 newPos(wobject.getPos().X - sprite.Width, position.Y);
             }            
+        }
+
+        public void attack()
+        {
+
+        }
+        public void help()
+        {
+
         }
 
         private void newPos(int x, int y)

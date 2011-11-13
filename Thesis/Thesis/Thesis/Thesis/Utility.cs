@@ -17,9 +17,9 @@ namespace Thesis
 
         //Level 3 - Social.  Interacting with people
 
-        public int stable = 1000; //Not used for comparison, but to keep agents from constantly going in and out of concern state
-        public int concern = 500;
-        public int critical = 150;
+        public int stable = 1500; //Not used for comparison, but to keep agents from constantly going in and out of concern state
+        public int concern = 700;
+        public int critical = 300;
 
         //Decay Rates
         private int d_Hunger = 0;

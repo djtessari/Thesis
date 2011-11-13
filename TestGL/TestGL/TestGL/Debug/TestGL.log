@@ -1,0 +1,18 @@
+﻿Build started 11/11/2011 8:58:47 PM.
+     1>Project "C:\Users\domenic\Thesis\TestGL\TestGL\TestGL\TestGL.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\TestGL.unsuccessfulbuild".
+       ClCompile:
+         All outputs are up-to-date.
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\TestGL.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt hello.cpp
+         hello.cpp
+     1>c:\users\domenic\thesis\testgl\testgl\testgl\hello.cpp(1): warning C4627: '#include <GL/gl.h>': skipped when looking for precompiled header use
+                 Add directive to 'StdAfx.h' or rebuild precompiled header
+     1>c:\users\domenic\thesis\testgl\testgl\testgl\hello.cpp(2): warning C4627: '#include <GL/glut.h>': skipped when looking for precompiled header use
+                 Add directive to 'StdAfx.h' or rebuild precompiled header
+     1>c:\users\domenic\thesis\testgl\testgl\testgl\hello.cpp(56): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "StdAfx.h"' to your source?
+     1>Done Building Project "C:\Users\domenic\Thesis\TestGL\TestGL\TestGL\TestGL.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.17

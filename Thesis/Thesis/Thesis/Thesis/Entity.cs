@@ -18,6 +18,8 @@ namespace Thesis
         public Vector2 position { get; set; }
         private bool _canCollide;
         private bool _isStatic;
+        public bool isActive;
+        public Vector2 center { get; set;} 
 
 
         public Entity(Texture2D spriteSheet, Vector2 startPos)
@@ -26,15 +28,23 @@ namespace Thesis
             _isStatic = false;
             sprite = spriteSheet;
             position = startPos;
+            center = new Vector2(position.X + (0.5f * (float)sprite.Width), position.Y + (0.5f * (float)sprite.Height));
+            isActive = true;
         }
 
         public Vector2 getPos()
         {
             return position;
         }
+        public Vector2 getCenter()
+        {
+            center = new Vector2(position.X + (0.5f * (float)sprite.Width), position.Y + (0.5f * (float)sprite.Height));
+            return center;
+        }
 
         public void Update(GameTime gameTime)
         {
+
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -1,0 +1,186 @@
+<html>
+<body>
+<h1>Domenic Tessari<br/>
+djt2a<br/>
+Assignment #2 - Write Up<br/></h1>
+
+<p>Coded and compiled in Visual Studio 2010 Express running Windows 7 64-bit</br>
+Late Days Used: 0<br/><br/><p>
+
+<h1>Implemented Features</h1>
+
+<h2>Ray Files Used</h2>
+<p>
+<a href="djt2a_HTML/test.ray">test.ray</a>, the provided ray file, using a Directional Light<br/>
+<a href="djt2a_HTML/test2.ray">test2.ray</a>, using a Point light<br/>
+<a href="djt2a_HTML/test3.ray">test3.ray</a>, using a Spot light<br/>
+<a href="djt2a_HTML/sphere.ray">sphere.ray</a>, the provided ray file for a sphere<br/>
+<a href="djt2a_HTML/square.ray">square.ray</a>, the provided ray file for a square of two triangles<br/>
+
+All images were generated with --width 500 --height 500 --rLimit 5 --cLimit 0.001<br/>
+</p>
+
+<h2>Casting Rays and Intersections</h2>
+<h3>Includes RayScene::GetRay, RayGroup::intersect, RaySphere::intersect, RayTriangle::intersect</h3>
+<p>Because these functions are all largely dependent on one another, I have grouped them together.
+<br/>RayScene::GetRay - Generates rays to be casted from the camera's position toward the scene, each ray representing a pixel in the view plane.
+<br/>RayGroup::intersect - Checks to see if its leaf node(s) intersect with the given ray.  If there are multiple intersections detected, 
+it will use the closest intersection found.  If no intersection is found OR mx > 0 and the distance to the intersection is greater than mx, return -1.  Else, return the distance to intersection.
+The function will also write the intersection data to the iInfo reference parameter if an intersection is valid.
+<br/>RaySphere::intersect - determines if the given ray intersects the surface of the sphere.  Sphere intersections follow the same return restrictions as RayGroup, and if there is an intersection 
+will write the intersection information to iInfo.  For sphere intersections, I used the geometric method given in the slides to determine the point of intersection.
+<br/>RayTriangle::intersect - determines if the given ray intersects the surface of the triangle.  Triangle intersections follow the same return restrictions as RayGroup, and if there is an intersection 
+will write the intersection information to iInfo.  For triangle intersections, I used the algebraic method given in the slides to determine the point of intersection.
+<p><br/>
+<img src="djt2a_HTML/intersect.bmp"/><br/>
+
+<h2>RayScene::GetColor - Emissive and Ambient</h2>
+<p>Called for each cast ray.  This function intersects the given ray with the root node of the scene
+graph, and if an intersection is found, performs the necessary lighting and shading calculations
+to determine the returned color.  If no intersection is found, it will return the background color of the scene.
+rDepth determines the maximum recursion depth allowed, and cLimit acts as a cut-off for how small a contribution
+for a recursive call is allowed before its terminated.
+<br/>At this point, only the emissive and ambient lighting components are considered.  As more features are added,
+this method will take more lighting factors into consideration.
+<p><br/>
+<img src="djt2a_HTML/amb.bmp"/><br/>
+
+<h2>RayLight::getDiffuse</h2>
+<p>Uses the camera position and intersection information to determine the diffuse component of the light
+for the given point.
+<br/>RayPointLight and RaySpotLight both have their intensity affected by their attenuation factors and the distance 
+from the point of interest, with light becoming less intense the farther away the light source is.  
+<br/>RaySpotLight is also affected by a drop-off factor, reducing the amount of light the greater the angle
+between the direction vector and the vector towards the surface point.  If the angle exceeds the cut-off range,
+then the light does not contribute at all to the value of the point.
+<br/>RayDirectionalLight is not affected by distance, and is assumed to be a point infitely far away casting light
+ equally along its direction vector.
+<p><br/>
+<img src="djt2a_HTML/diffDir.bmp"/><img src="djt2a_HTML/diffSpot.bmp"/><img src="djt2a_HTML/diffPoint.bmp"/><br/>
+<p>Directional, Spot, and Point Light specular.<p><br/>
+
+<h2>RayLight::getSpecular</h2>
+<p>Uses the camera position and intersection information given to determine the specular contribution
+of the light to the given coordinate.  The intensity of the light at the point is scaled by the specular 
+and 'shinyness' components of the surface material, as well as the angle between the reflected 
+light ray and the view direction.
+<br/>The unique intensity calculations of all three lights follow the same method described above.
+<p><br/>
+<img src="djt2a_HTML/specDir.bmp"/><img src="djt2a_HTML/specSpot.bmp"/><img src="djt2a_HTML/specPoint.bmp"/><br/>
+<p>Directional, Spot, and Point Light specular.<p><br/>
+
+<h2>RayLight::isInShadow</h2>
+<p>Casts rays from the point of intersection toward the location (or for RayDirectionalLight,
+the negative of the direction of light) of the light source, and performs an intersection test
+with the ray against all other objects in the scene.  If any intersection is detected, the program returns 1.
+Otherwise, it returns 0, signifying that there is no shadow;
+<br/>Spot and Point lights can speed up this process by supplying an mx value to the intersection calculation 
+that is equal to the distance between the light and the iCoordinate.
+<p><br/>
+<img src="djt2a_HTML/shadowDir.bmp"/><img src="djt2a_HTML/shadowSpot.bmp"/><img src="djt2a_HTML/shadowPoint.bmp"/><br/>
+<p>Directional, Spot, and Point Light shadows.<p><br/>
+
+<h2>RayGroup::intersect & RayGroup::getMatrix</h2>
+<p>RayGroup's intersect method is modified to account for local transformations of shapes
+that were previously ignored.  Instead of transforming the models, we instead transform the ray
+into local coordinates, determine if it detects a hit, and the reverse the transformations to 
+get the global coordinate data for the intersection.
+<br/>To transfrom the ray from global to local, its position is multiplied by the inverse projective
+transformation and its direction multiplied by the inverse linear transformation.  To get the global
+coordinate information from the local intersection, the iCoordinate is multiplied by the projective transform matrix
+and the normal multiplied by the inversed transpose of the linear transform.
+<p><br/>
+<img src="djt2a_HTML/matrix.bmp"/><br/>
+
+<h2>RayScene::Reflect</h2>
+<p>The reflect function returns the direction of a ray reflected around a given normal n.
+RayScene::GetColor is then modified to account for the contributions of reflections to the color
+of a point on the surface.  The casted ray is reflected about the normal of the intersection, then makes a
+recursive call to RGetColor()*.  The value of the returned color is multiplied by the specularity of the surface, 
+then added to the total color.  Each recursive call to RGetColor decrements
+the passed rLimit by one and divides cLimit by the specular component of the material.
+<br/>*:RGetColor() is a copy of the GetColor() method that instead of returning the background color
+on a missed intersection, will return a zeroed Point3D.  This method ensures that the background component 
+does not interfere with lighting calculations.  It required a modification of the RayScene.h file to allow its declaration.
+<p><br/>
+<img src="djt2a_HTML/reflect.bmp"/><br/>
+
+<h2>RayLight::transparency</h2>
+<p>A modified version of the isInShadow function, instead of returning 1 or 0, 
+it will instead call itself if it detects an intersection and return the product of the 
+transparency values of all intersections made along the path.  GetColor is modified to multiply 
+the color component by the output of this function, scaling the colors depending on transparency of intersected objects.
+<p><br/>
+<img src="djt2a_HTML/trans.bmp"/><br/>
+
+<h2>RayScene::Refract</h2>
+<p>The Refract function writes a directional vector for a refracted ray passing through a material.
+GetColor is then modified to call RGetColor (described above) on the refracted ray, then multiplying the
+result by the material's transparency and adding it to the total color component.  Each recursive call to RGetColor decrements
+the passed rLimit by one and divides cLimit by the transparency component of the material.
+<p><br/>
+<img src="djt2a_HTML/refract.bmp"/><br/>
+
+<h2>Accelerated Ray-Tracing</h2>
+<p>RayShape::setBoundingBox - Generates bounding boxes for rayTriangle and raySphere.  rayTriangle's
+box is generated by passing the position of its verticies into the BoundingBox3D constructor.  raySphere's 
+box is created by submitting two points equal to its center +/- radius for X,Y,Z.
+<br/>RayGroup::setBoundingBox - Simply adds together the bounding boxes of all child nodes, then returns the result.
+<br/>BoundingBox3D::intersect - determines if a given ray intersects the bounding box.
+First it checks if the ray originates in the box, returning zero is so.  Then it will determine
+if the ray is parallel to any of the sides of the box, forcing it to miss.  Checks for intersection by
+intersecting the ray with the 6 planes that make up the box, 2 each responding to X,Y,and Z axis.  For each pair of planes, 
+it determines the t values to hit the far and near planes and keeps a running total of the 
+smallest tFar and the largest tNear encountered.  If tNear > tFar or 0 > tFar, the box is missed and -1 is returned.
+Otherwise, returns tNear.
+<br/>RayGroup::intersect - Modified so that it will first call an intersect on its bounding box
+to determine if it should continue checking its child nodes.  If a miss occurs, will return -1 and
+not continue intersecting.
+<br/><b>Together, the above resulted in roughly a 2x speedup for test.ray.  One case: 10.96s to 5.89s</b>
+<br/>RayGroup::intersect - if the ray intersects the bounding box, it will then run a bounding box
+test on each of its child nodes, storing the results in the hits array.  qsort is then called
+on this array to order the boxes by closest first.  This array is then used to determine 
+the order that child nodes are tested for intersections.  Once the first intersect is detected, 
+intersection testing stops.
+<br/><b>Minor speed increase to 4.99s.  Would likely see much more drastic improvement with more 
+objects in the scene, as the extra bounding box calculations are offsetting some of the shape intersection tests</b>
+<p><br/>
+
+<h2>Jittered Supersampling</h2>
+<p>A new variable 'AA' is defined and GetColor is enclosed within a for loop.  For AA
+iterations, intersection and color calculations are performed using a ray with a slightly
+randomized starting position.  The results of these calculations are added together, then divided
+by AA to get the average values of all colors. 
+<p><br/>
+<img src="djt2a_HTML/AA.bmp"/><br/>
+<p>AA = 8, jitter range [-0.01,0.01]<br/>
+
+
+<h2>Demonstration Scene<h2>
+<img src="djt2a_HTML/AA.bmp"/><br/>
+<p><a href="djt2a_HTML/myScene.ray">myScene.ray</a><br/>
+
+<h1>Unimplemented Features</h1>
+<p>Texture Mapping<br/>
+Soft Shadows<br/>
+RayBox<br/>
+RayCylinder<br/>
+RayCone<br/>
+Perlin noise<br/>
+Bump mapping<br/>
+Cameral Lens behavior<br/>
+Additional accelerations<br/>
+</p>
+
+<h1>Movie</h1>
+<p>Movie file created by using increasing contrast values.  The script below was put into a batch file and then executed:</br></br>
+@echo off
+for /L %%X in (0,1,9) do ( for /L %%Y in (0,1,9) do ( Image --contrast 1.%%X%%Y --in shrek.bmp --out avi.%%X%%Y.bmp) )</br></br>
+
+The movie can be downloaded <a href="djt2a_HTML/movie.avi">here</a>.  I'm not sure why the colors are different, but it does show increasing contrast values.</p>
+
+
+
+
+</body>
+</html>

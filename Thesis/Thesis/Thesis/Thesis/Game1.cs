@@ -30,10 +30,23 @@ namespace Thesis
         private Texture2D background;
         private int massLogic = 1; //0 = basic, 1 = maslow
 
+
+
+        //Stuff used for creating the game grid and resizing all objects
+        private int gridUnitSize = 20; //Determines length and width of a 'space' on the grid.
+        private int rows;  //num rows and cols in grid
+        private int cols;
+        private WObject[,] grid; //the actual grid.  Stores information of location of obejcts
+        private int numAgents = 20;
+
+        //Determine the framerate
+        private SpriteFont font;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+           
         }
 
         /// <summary>
@@ -49,6 +62,17 @@ namespace Thesis
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
             graphics.ApplyChanges();
 
+            rows = SCREEN_HEIGHT / gridUnitSize;
+            cols = SCREEN_WIDTH / gridUnitSize;
+            grid = new WObject[rows, cols];
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    grid[r, c] = null;
+                }
+            }
+
             base.Initialize();
         }
 
@@ -62,17 +86,20 @@ namespace Thesis
             spriteBatch = new SpriteBatch(GraphicsDevice);
             agents = new List<Agent>();
             objects = new List<WObject>();
+            font = Content.Load<SpriteFont>("Font");
 
             Texture2D agentTexture = Content.Load<Texture2D>("EntityTex/agentTex");
             Texture2D playerTexture = Content.Load<Texture2D>("EntityTex/playerTex");
             Texture2D farmTexture = Content.Load<Texture2D>("EntityTex/farmTex");
+            Texture2D emptyTexture = Content.Load<Texture2D>("EntityTex/emptyTexture");
+            Texture2D homeTexture = Content.Load<Texture2D>("EntityTex/homeTex");
 
             background = Content.Load<Texture2D>("Background/background");
             player = new Player(playerTexture, new Vector2(400, 200));
 
             
 
-
+            /*
             //objects.Add(new WObject(playerTexture, new Vector2(300,300)));
             objects.Add(new WObject(playerTexture, new Vector2(400, 500)));
             WObject farm1 = new Farmland(farmTexture, new Vector2(50, 200), 1);
@@ -93,9 +120,57 @@ namespace Thesis
 
             objects.Add(farm1);
             objects.Add(farm2);
-            objects.Add(home);
-            
-                
+            objects.Add(home);*/
+
+            //Generates all of the agents, gives them a home, and assigns them property
+            for (int i = 0; i < numAgents; i++)
+            {
+                Agent a = new Agent(agentTexture, new Vector2(0, 0), massLogic, i);
+
+                Boolean done = false;
+                while (!done)
+                {
+                    Random rnd = new Random();
+                    int r = rnd.Next(2, rows-4);
+                    int c = rnd.Next(2, cols-4);
+                    if (grid[r, c] == null)
+                    {
+                        WObject aHome = new Home(homeTexture, new Vector2(r*gridUnitSize, c*gridUnitSize), i);
+                        a.home = aHome;
+                        objects.Add(aHome);
+                        a.AddProperty(aHome);
+                        grid[r, c] = aHome;
+                        //int wealth = rnd.Next(0, 3);
+                        //Assign ownership
+                        for (int x = -1; x < 2; x++)
+                            for (int y = -1; y < 2; y++)
+                            {
+                                if (x != 0 || y != 0)
+                                {
+                                    int farmChance = rnd.Next(0,101);
+                                    if (farmChance < 70)
+                                    {
+                                        WObject farm = new Farmland(farmTexture, new Vector2((r+y)*gridUnitSize, (c+x)*gridUnitSize), i);
+                                        a.AddProperty(farm);
+                                        objects.Add(farm);
+                                        grid[r + y, c + x] = farm;
+                                    }
+                                    else
+                                    {
+                                        WObject emptyProperty = new EmptyProperty(emptyTexture, new Vector2((r + y) * gridUnitSize, (c + x) * gridUnitSize), i);
+                                        a.AddProperty(emptyProperty);
+                                        objects.Add(emptyProperty);
+                                        grid[r + y, c + x] = emptyProperty;
+                                    }
+                                }
+                            }                        
+                        done = true;
+                        a.position = new Vector2(r * gridUnitSize, c * gridUnitSize);
+                        agents.Add(a);
+                    }
+                }
+
+            }
             
 
 
@@ -118,6 +193,9 @@ namespace Thesis
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            
+
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -171,7 +249,6 @@ namespace Thesis
                     {
                         if (o.canCollide())
                         {
-
                             if (collide == 1)
                             {
                                 Console.WriteLine("LR Collision");
@@ -199,9 +276,11 @@ namespace Thesis
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            float frameRate = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Rectangle(0, 0, 800, 600), Color.White);
+            spriteBatch.DrawString(font, "FPS: " + frameRate, new Vector2(20, 20), Color.Black);
             
             for (int i = 0; i < objects.Count; i++)
             {
@@ -218,6 +297,12 @@ namespace Thesis
 
             base.Draw(gameTime);
         }
+
+        public static void playerAttack( )
+        {
+
+        }
+
 
         private void resolveCollision(Entity e1, Entity e2)
         {
