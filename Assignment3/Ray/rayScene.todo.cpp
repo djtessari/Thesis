@@ -10,37 +10,16 @@
 ///////////////////////
 
 /*
-	Point Tracker - Possible total so far: 29 (including unimplemented lights)
+	Point Tracker - Possible total so far: 12
 	~~~~~~~~~~~~~~~~~~~~~~~~~
-	(1) RayScene::GetRay
-	(2) RayGroup::intersect
-	(2) RaySphere::intersect
-	(2) RayTriangle::intersect
-	(1) RayScene::GetColor
-	(2) getDiffuse 
-	(2) getSpecular 
-	(2) isInShadow 
-	(1) RayScene::GetColor (Diff/Spec/Shadow)
-	~15~
-	(2) RayGroup::intersect (Transformations)
-	(1) RayScene::GetColor (Reflections)
-	(1) RayScene::GetColor (Refractions)
-	(2) transparency
-	~21~
-		(2) RayScene::Refract (Maybe?)
+	(1) RayCamera::drawOpenGL
+	(1) RayGroup::drawOpenGL
+	(1) RaySphere::drawOpenGL
+	(2) RayTriangle::drawOpenGL (problem with normals)
+	(2) RayMaterial::drawOpenGL
+	(3) RayLight::drawOpenGL (Not really but I'll get help)
+	(2) RayGroup::drawOpenGL - Transforms
 
-	Acceleration
-		(3) Bounding Boxes
-			- RayShape::setBoundingBox : done
-			- RayGroup::setBoundingBox : done
-			- BoundingBox3D::intersect : done
-			- RayGroup::intersect : done
-			- Double Speedup!
-		(2) Ordering
-			-RayGroup::intersect
-	~28~
-
-	(1) Jittered supersampling/AA
 	~~~~~~~~~~~~~~~~~~~~~~~~~
 
 */
@@ -274,6 +253,19 @@ Point3D RayScene::RGetColor(Ray3D ray,int rDepth,Point3D cLimit){
 void RayMaterial::drawOpenGL(void){
 	//glClear(GL_COLOR_BUFFER_BIT);
 	//glColor3f(1.0, 1.0, 1.0);
+	//glColor3f(diffuse[0], diffuse[1], diffuse[2]);
+
+	GLfloat mat_specular[] = {specular[0], specular[1], specular[2], 1.0};
+	GLfloat mat_shininess[] = { specularFallOff };
+	GLfloat mat_ambient[] = {ambient[0], ambient[1], ambient[2], 1.0};
+	GLfloat mat_diffuse[] = {diffuse[0], diffuse[1], diffuse[2], 1.0};
+	GLfloat mat_emissive[] = {emissive[0], emissive[1], emissive[2], 1.0};
+
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emissive);
 }
 void RayTexture::setUpOpenGL(void){
 }
