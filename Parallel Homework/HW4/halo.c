@@ -58,9 +58,9 @@ int main(int argc, char **argv) {
 	
 	// Extract the input parameters from the command line arguments
 	// Number of columns in the grid (default = 1,000)
-	int num_cols = 1000;
+	int num_cols = 160;
 	// Number of rows in the grid (default = 1,000)
-	int total_num_rows = 1000;
+	int total_num_rows = 160;
 	// Number of iterations to simulate (default = 100)
 	//int iterations = 100;
 	int num_rows = (total_num_rows / p);
@@ -175,13 +175,79 @@ int main(int argc, char **argv) {
 	
 	// Output a snapshot of the final state of the plate
 	int final_cells = (iterations % 2 == 0) ? 0 : 1;
-	create_snapshot(cells[final_cells], num_cols, num_rows, iterations);
+	//create_snapshot(cells[final_cells], num_cols, num_rows, iterations);
 
 	// Compute and output the execution time
 	time_t end_time = time(NULL);
 	printf("\nExecution time: %d seconds\n", (int) difftime(end_time, start_time));
+
+	//End process prints out the full array
+	if (rank == 0)
+	{
+		printf("\nRank 0 Gathering Cells\n");
+		float **allCells;
+		allCells = allocate_cells(num_cols + 2, total_num_rows + 2);
+		int i,j = 0;
+		for (i = 0; i < (total_num_rows + 2); i++)
+		{
+			if (i < (num_rows - added_boundary + 2))
+			{
+				for (j = 0; j < (num_cols + 2); j++)
+				{
+					allCells[i][j] = cells[final_cells][i][j];
+				}
+			}
+			else
+			{
+				int target;
+				target = (i / (num_rows - added_boundary));
+				float **tempCells;
+				int count = ((num_rows - boundary_thickness+2) * num_cols);
+				printf("\nCount = %i", count);
+				printf("\nRank 0 Wait On Rank %i\n", target);
+				MPI_Recv(&tempCells, count, MPI_FLOAT, target, 0, MPI_COMM_WORLD, &status);		
+				int k;
+				for (k = 0; k < count; k++)
+				{
+					for (j = 0; j < num_cols; j++)
+					{
+						allCells[i][j] = tempCells[k][j];
+					}
+				}			
+			}
+		}
+		create_snapshot(allCells, num_cols, total_num_rows, iterations);
+	}
+	else
+	{
+		float **returnCells;
+		returnCells = allocate_cells(num_cols, (num_rows - added_boundary));
+		int i,j = 0;
+		
+		for (i = 0; i < (num_rows - added_boundary); i++)
+		{
+			for (j = 0; j < num_cols; j++)
+			{
+				returnCells[i][j] = cells[final_cells][i+added_boundary][j];
+			}
+		}
+		
+		int count = ((num_rows - added_boundary) * num_cols);
+		printf("\nCount = %i", count);
+		printf("\nRank %i Send To Rank 0\n", rank);
+		MPI_Send(&returnCells, count, MPI_FLOAT, 0, 0, MPI_COMM_WORLD);
+	}
+
+	MPI_Barrier(MPI_COMM_WORLD);
 	elapsedTime+=MPI_Wtime();
+	if (rank==0)
+	{
+		printf("\nElapsed time: %d seconds\n", (int) elapsedTime);
+	}
+
+	
 	MPI_Finalize();
+	
 	return 0;
 }
 
