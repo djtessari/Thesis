@@ -164,6 +164,34 @@ int StaticRayGroup::set(void){
 // OpenGL stuff //
 //////////////////
 int RayGroup::getOpenGLCallList(void){
+	//This method generates an OpenGL call list and returns the handle.
+
+	//Implement RayGroup::getOpenGLCallList (in Ray/rayGroup.todo.cpp) to 
+	//generate a single call list for all of the children of the RayGroup.
+
+	openGLCallListID = glGenLists(1);
+	glNewList(openGLCallListID, GL_COMPILE);
+		glMatrixMode(GL_MODELVIEW);
+		Matrix4D m = getMatrix();
+		GLfloat transform[] = 
+		{ 
+			m.index(0,0), m.index(0,1), m.index(0,2), m.index(0,3), 
+			m.index(1,0), m.index(1,1), m.index(1,2), m.index(1,3),
+			m.index(2,0), m.index(2,1), m.index(2,2), m.index(2,3),
+			m.index(3,0), m.index(3,1), m.index(3,2), m.index(3,3),
+		};
+
+		glPushMatrix();
+			//glLoadIdentity();
+			glMultMatrixf(transform);
+				for (int i = 0; i < sNum; i++)
+				{
+					shapes[i]->drawOpenGL(0);
+				}
+		glPopMatrix();	
+	glEndList();
+
+
 	return 0;
 }
 
@@ -173,30 +201,30 @@ int RayGroup::drawOpenGL(int materialIndex){
 	//Point3D translateMatrix = getInverseMatrix().multPosition(ray.position);
 	//Point3D rotateMatrix = getInverseMatrix().multDirection(ray.direction);
 	//Point3D scaleMatrix;
-	glMatrixMode(GL_MODELVIEW);
-	Matrix4D m = getMatrix();
-	GLfloat transform[] = 
-	{ 
-		m.index(0,0), m.index(0,1), m.index(0,2), m.index(0,3), 
-		m.index(1,0), m.index(1,1), m.index(1,2), m.index(1,3),
-		m.index(2,0), m.index(2,1), m.index(2,2), m.index(2,3),
-		m.index(3,0), m.index(3,1), m.index(3,2), m.index(3,3),
-	};
+	if (openGLCallListID == 0){
+		glMatrixMode(GL_MODELVIEW);
+		Matrix4D m = getMatrix();
+		GLfloat transform[] = 
+		{ 
+			m.index(0,0), m.index(0,1), m.index(0,2), m.index(0,3), 
+			m.index(1,0), m.index(1,1), m.index(1,2), m.index(1,3),
+			m.index(2,0), m.index(2,1), m.index(2,2), m.index(2,3),
+			m.index(3,0), m.index(3,1), m.index(3,2), m.index(3,3),
+		};
 
-	glPushMatrix();
+		glPushMatrix();
 		//glLoadIdentity();
-		glMultMatrixf(transform);
-		if (openGLCallListID == 0){
+		glMultMatrixf(transform);		
 			for (int i = 0; i < sNum; i++)
 			{
 				shapes[i]->drawOpenGL(materialIndex);
-			}
-		}
-		else
-		{
-
-		}
-	glPopMatrix();	
+			}			
+		glPopMatrix();	
+	}
+	else
+	{
+		glCallList(openGLCallListID);
+	}
 	return -1;
 	
 }

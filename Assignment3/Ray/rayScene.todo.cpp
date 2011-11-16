@@ -10,7 +10,7 @@
 ///////////////////////
 
 /*
-	Point Tracker - Possible total so far: 12
+	Point Tracker - Possible total so far: 15
 	~~~~~~~~~~~~~~~~~~~~~~~~~
 	(1) RayCamera::drawOpenGL
 	(1) RayGroup::drawOpenGL
@@ -18,8 +18,26 @@
 	(2) RayTriangle::drawOpenGL (problem with normals)
 	(2) RayMaterial::drawOpenGL
 	(3) RayLight::drawOpenGL (Not really but I'll get help)
+	~10~
 	(2) RayGroup::drawOpenGL - Transforms
+	(2) RayGroup::getOpenGLCallList
+	
+	(1) RayBox::drawOpenGL
 
+	--Not Yet Done : 29!!--
+	Likely (19):
+	(3) RayTexture::drawOpenGL - skipped for now
+	(1) RayCylinder::drawOpenGL
+	(1) RayCone::drawOpenGL
+	(2) RayCamera::rotateUp/Right
+	(2) Full scene AA
+	(1) Material index
+	(2) Submissions for art contest
+	(7) just for drawing the scene
+
+
+	(2) Allow user to raytrace	
+	(8) for adding features to the room with special items
 	~~~~~~~~~~~~~~~~~~~~~~~~~
 
 */
