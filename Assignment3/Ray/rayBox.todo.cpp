@@ -33,7 +33,7 @@ int RayBox::drawOpenGL(int materialIndex){
 	v[0][2] = v[3][2] = v[4][2] = v[7][2] = (center[2] - (length[2]*0.5));
 	v[1][2] = v[2][2] = v[5][2] = v[6][2] = (center[2] + (length[2]*0.5));
 
-	material->drawOpenGL();
+	if(materialIndex != material->index) material->drawOpenGL();
 	int i;
 	for (i = 0; i < 6; i++) {
 		glBegin(GL_QUADS);
@@ -45,5 +45,5 @@ int RayBox::drawOpenGL(int materialIndex){
 		glEnd();
 	}
 
-	return -1;
+	return material->index;
 }
