@@ -69,8 +69,8 @@ BoundingBox3D RaySphere::setBoundingBox(void){
 int RaySphere::drawOpenGL(int materialIndex){
 	//glColor3f(1.0, 1.0, 1.0);
 	//printf("Drawing sphere\n");
-	material->drawOpenGL();
+	if(materialIndex != material->index) material->drawOpenGL();
 	gluSphere(gluNewQuadric(), radius, openGLComplexity, openGLComplexity);
 	glFlush();/**/
-	return -1;
+	return material->index;
 }

@@ -89,30 +89,19 @@ int RayTriangle::drawOpenGL(int materialIndex){
 	Point3D normal = (v[1]->position - v[0]->position).crossProduct(v[2]->position - v[0]->position).unit();
 	Point3D iNormal = normal.negate();
 
-	material->drawOpenGL();
+	if(materialIndex != material->index) material->drawOpenGL();
+
 	glBegin(GL_TRIANGLES);
 		/*glVertex3f(1.0, 0.0, 0.0);
         glVertex3f (0.0, 1.0, 0.0);
         glVertex3f (0.0, 0.0, 0.0);/**/
-		glVertex3f(v[0]->position[0], v[0]->position[1], v[0]->position[2]);
-		glNormal3f(-v[0]->normal[0], -v[0]->normal[1], -v[0]->normal[2]);
-		glNormal3f(v[0]->normal[0], v[0]->normal[1], v[0]->normal[2]);
-		
-
+		glNormal3f(normal[0], normal[1], normal[2]);
+		glVertex3f(v[0]->position[0], v[0]->position[1], v[0]->position[2]);				
 		glVertex3f(v[1]->position[0], v[1]->position[1], v[1]->position[2]);
-		glNormal3f(-v[1]->normal[0], -v[1]->normal[1], -v[1]->normal[2]);
-		glNormal3f(v[1]->normal[0], v[1]->normal[1], v[1]->normal[2]);
-		
-
-		glVertex3f(v[2]->position[0], v[2]->position[1], v[2]->position[2]);
-		glNormal3f(-v[2]->normal[0], -v[2]->normal[1], -v[2]->normal[2]);
-		glNormal3f(v[2]->normal[0], v[2]->normal[1], v[2]->normal[2]);
-		
-
-		
+		glVertex3f(v[2]->position[0], v[2]->position[1], v[2]->position[2]);	
 		/**/
 	glEnd();
 	glFlush();
 
-	return -1;
+	return material->index;
 }
