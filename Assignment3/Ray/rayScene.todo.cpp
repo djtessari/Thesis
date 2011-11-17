@@ -297,7 +297,7 @@ void RayMaterial::drawOpenGL(void){
 	{
 		glEnable(GL_TEXTURE_2D);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-		glBindTexture(GL_TEXTURE_2D, tex->openGLHandle());
+		glBindTexture(GL_TEXTURE_2D, tex->openGLHandle);
 
 	}
 
@@ -377,7 +377,7 @@ not all functions work as expected
 gllsList / tesselation on apple platforms
 
 Debugging tips
-Mkae use of debugger
+Make use of debugger
 set launching parameters in Project properties
 specialized OpenGL debuggers
 
