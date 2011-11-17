@@ -15,7 +15,7 @@
 	(1) RayCamera::drawOpenGL
 	(1) RayGroup::drawOpenGL
 	(1) RaySphere::drawOpenGL
-	(2) RayTriangle::drawOpenGL (problem with normals)
+	(2) RayTriangle::drawOpenGL
 	(2) RayMaterial::drawOpenGL
 	(3) RayLight::drawOpenGL (Not really but I'll get help)
 	~10~
@@ -47,7 +47,7 @@
 
 	Plan: (13)
 	(1) 4 walls, floor, ceiling
-	(3) RayTexture::drawOpenGL		
+	(3) RayTexture::drawOpenGL
 	(2) RayCamera::rotateUp/Right
 	(2) Submissions for art contest
 	(3) Table, Chairs, or other furnishings
@@ -288,6 +288,20 @@ void RayMaterial::drawOpenGL(void){
 	//glColor3f(1.0, 1.0, 1.0);
 	//glColor3f(diffuse[0], diffuse[1], diffuse[2]);
 
+	/*if (tex->img != NULL){
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, tex->openGLHandle);
+
+	}*/
+	if (tex->index != 0)
+	{
+		glEnable(GL_TEXTURE_2D);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+		glBindTexture(GL_TEXTURE_2D, tex->openGLHandle());
+
+	}
+
+
 	GLfloat mat_specular[] = {specular[0], specular[1], specular[2], 1.0};
 	GLfloat mat_shininess[] = { specularFallOff };
 	GLfloat mat_ambient[] = {ambient[0], ambient[1], ambient[2], 1.0};
@@ -300,5 +314,75 @@ void RayMaterial::drawOpenGL(void){
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emissive);
 }
-void RayTexture::setUpOpenGL(void){
+void RayTexture::setUpOpenGL(void)
+{
+
 }
+
+
+/*
+OpenGL Review
+
+Most functions operate on current matrix.
+Changes made are persistent.  What if we want something temporary?
+glpushMatrix/glPopMatrix : Load / Restore
+Rule of thumb: YOU are responsible for maintaining the states
+GLU : high level "helpers" for openGl functions.  Ex. gluSphere, gluSolidCube
+GLUT: manage windows, keyboard/mouse events
+
+Viewing Transformation
+Obj Coords -> modeling transformation -> camera transformation 
+	-> Projection Transformation -> 2D screen
+Doesn't have built in Camera functions
+treat as a transformation
+-calculate transformation matrix
+-gluLookAt
+
+Drawing Primitives
+glBegin/glEnd
+-specify verticies (tex coords, normals)
+Use glu functions for sphere/cube/cone.
+
+Lighting
+Enable/Disable with GL_LIGHTING
+Fixed number of lights
+each individual light needs to be enabled
+specify location, direction, intensity ect. with glLight
+
+Material
+order of material/drawing commands is very important
+glMaterial
+
+Texture
+glPixelStore - specify how OpenGL packs/unpacks pixels (1 byte is safe)
+glBindTexture - beind a texture to a name to use it later
+glTexParameter - specify how to wrap / sample textures
+glTexImage1d/2d/3d - specify image data
+glTexCoord - specify coordinates of texture of verticies
+turn on/off with glEnable/Disable
+
+HW 3
+
+Lighting
+Recall Camera is simulated using transformation matrix in GL_MODELVIEW
+This matrix also applies to lights
+Direcitonal light: GL_POSITION specify a direction
+
+Matrix Representation
+Column major order
+our arrays are purposefully stored in column major order
+
+Non-standard behavior
+not all functions work as expected
+gllsList / tesselation on apple platforms
+
+Debugging tips
+Mkae use of debugger
+set launching parameters in Project properties
+specialized OpenGL debuggers
+
+Rotating Camera
+calling camera init every iteration is unnecessary
+go ahead and remove repeat iterations
+be careful if you reset cameras in RayCamera::drawOpenGL
+*/

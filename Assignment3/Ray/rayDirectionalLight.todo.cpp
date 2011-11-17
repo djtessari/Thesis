@@ -76,20 +76,24 @@ Point3D RayDirectionalLight::transparency(RayIntersectionInfo& iInfo,RayShape* s
 //////////////////
 void RayDirectionalLight::drawOpenGL(int index)
 	{
-		GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
-		GLfloat light_diffuse[] = { color[0], color[1], color[2], 1.0 };
-		GLfloat light_specular[] = { color[0], color[1], color[2], 1.0 };
-		GLfloat light_position[] = { -direction[0], -direction[1], -direction[2], 0.0 };
-		/*GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
-		GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-		GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-		GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };/**/
 
-		glLightfv(GL_LIGHT0+index, GL_POSITION, light_position);
-		glLightfv(GL_LIGHT0+index, GL_AMBIENT, light_ambient);
-		glLightfv(GL_LIGHT0+index, GL_DIFFUSE, light_diffuse);
-		glLightfv(GL_LIGHT0+index, GL_SPECULAR, light_specular);
-		/**/
+		glPushMatrix();
+			glLoadIdentity();
+			GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+			GLfloat light_diffuse[] = { color[0], color[1], color[2], 1.0 };
+			GLfloat light_specular[] = { color[0], color[1], color[2], 1.0 };
+			GLfloat light_position[] = { -direction[0], -direction[1], -direction[2], 0.0 };
+			/*GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+			GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+			GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+			GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };/**/
+
+			glLightfv(GL_LIGHT0+index, GL_POSITION, light_position);
+			glLightfv(GL_LIGHT0+index, GL_AMBIENT, light_ambient);
+			glLightfv(GL_LIGHT0+index, GL_DIFFUSE, light_diffuse);
+			glLightfv(GL_LIGHT0+index, GL_SPECULAR, light_specular);
+			/**/
+		glPopMatrix();
 
 		glEnable(GL_LIGHT0+index);
 	}

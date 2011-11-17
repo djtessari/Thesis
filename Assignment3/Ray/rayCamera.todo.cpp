@@ -12,7 +12,6 @@ void RayCamera::drawOpenGL(void){
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(position[0], position[1], position[2], direction[0], direction[1], direction[2], up[0], up[1], up[2]);
-
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 	glEnable (GL_LINE_SMOOTH);
@@ -23,23 +22,15 @@ void RayCamera::drawOpenGL(void){
 
 }
 void RayCamera::rotateUp(Point3D center,float angle){
-	/*
-	glMatrixMode(GL_PROJECTION);
-	glTranslatef(-center[0], -center[1], -center[2]);
-	glRotatef(angle, 0.0, 1.0, 0.0);
-	glTranslatef(center[0], center[1], center[2]);
-	glMatrixMode(GL_MODELVIEW);
-	glFlush();*/
+	
 }
 void RayCamera::rotateRight(Point3D center,float angle){
 	//printf("Rotate up: %f\n", angle);
 	/*glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 	gluLookAt(position[0], position[1], position[2],
 				center[0], center[1], center[2],
 				up[0], up[1], up[2]);
-	glRotatef(angle, 0.0f, 1.0f, 0.0f);
-	glFlush();*/
+	glRotatef(angle, 0.0f, 1.0f, 0.0f);*/
 }
 void RayCamera::moveForward(float dist){
 }

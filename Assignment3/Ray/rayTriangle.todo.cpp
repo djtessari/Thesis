@@ -92,16 +92,26 @@ int RayTriangle::drawOpenGL(int materialIndex){
 	if(materialIndex != material->index) material->drawOpenGL();
 
 	glBegin(GL_TRIANGLES);
-		/*glVertex3f(1.0, 0.0, 0.0);
-        glVertex3f (0.0, 1.0, 0.0);
-        glVertex3f (0.0, 0.0, 0.0);/**/
+		glNormal3f(normal[0], normal[1], normal[2]);
+		glTexCoord2f(v[0]->texCoordinate[0], v[0]->texCoordinate[1]);
+		glVertex3f(v[0]->position[0], v[0]->position[1], v[0]->position[2]);		
+		glTexCoord2f(v[1]->texCoordinate[0], v[1]->texCoordinate[1]);
+		glVertex3f(v[1]->position[0], v[1]->position[1], v[1]->position[2]);
+		glTexCoord2f(v[2]->texCoordinate[0], v[2]->texCoordinate[1]);
+		glVertex3f(v[2]->position[0], v[2]->position[1], v[2]->position[2]);	
+	glEnd();
+	glFlush();
+	glDisable(GL_TEXTURE_2D);
+
+
+	/*glBegin(GL_TRIANGLES);
 		glNormal3f(normal[0], normal[1], normal[2]);
 		glVertex3f(v[0]->position[0], v[0]->position[1], v[0]->position[2]);				
 		glVertex3f(v[1]->position[0], v[1]->position[1], v[1]->position[2]);
 		glVertex3f(v[2]->position[0], v[2]->position[1], v[2]->position[2]);	
-		/**/
 	glEnd();
-	glFlush();
+	glFlush();*/
+
 
 	return material->index;
 }
