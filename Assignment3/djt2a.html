@@ -1,0 +1,100 @@
+<html>
+<body>
+<h1>Domenic Tessari<br/>
+djt2a<br/>
+Assignment #3 - Write Up<br/></h1>
+
+<p>Coded and compiled in Visual Studio 2010 running Windows 7 64-bit</br>
+Late Days Used: 0<br/><br/><p>
+
+<h1>Implemented Features</h1>
+
+<h2>Ray Files Used</h2>
+<p>
+<a href="djt2a_HTML/test.ray">test.ray</a>, the provided ray file, using a Directional Light<br/>
+<a href="djt2a_HTML/test2.ray">test2.ray</a>, using a Point light<br/>
+<a href="djt2a_HTML/test3.ray">test3.ray</a>, using a Spot light<br/>
+<a href="djt2a_HTML/sphere.ray">sphere.ray</a>, the provided ray file for a sphere<br/>
+<a href="djt2a_HTML/square.ray">square.ray</a>, the provided ray file for a square of two triangles<br/>
+
+All images were generated with --width 500 --height 500 --cplx 32<br/>
+</p>
+
+<h2>Camera Initialization and Model Drawing</h2>
+<h3>Includes RayCamera::drawOpenGL, RayGroup::drawOpenGL, RaySphere::drawOpenGL, RayTriangle::drawOpenGL</h3>
+<p>Because these functions are all largely dependent on one another, I have grouped them together.
+<br/>RayCamera::drawOpenGL - Uses gluLookAt to properly position and aim the camera view at the scene.  This function also enables a few openGL drawing parameters, such as GL_LIGHTING.
+<br/>RayGroup::drawOpenGL - iterates through each element in the shapes array and calls drawOpenGL on it, passing the materialIndex parameter to it.
+<br/>RaySphere::drawOpenGL - Uses the gluSphere function to render a sphere of the specified radius and location.  The amount of tesselation is based on the cplx parameter.
+<br/>RayTriangle::drawOpenGL - Uses glBegin(GL_TRIANGLES) to render the triangle by providing the vertix coordinates using glVertex3f.  The surface normal is calculated and set with glNormal3f.
+<p><br/>
+<img src="djt2a_HTML/init.bmp"/><br/>
+
+<h2>RayMaterial::drawOpenGL</h2>
+<p>Uses the glMaterialfv function to set the object's material properties, including diffuse, specular, ambient, diffuse, and emissive components of the material.
+RaySphere and RayTriangle's drawOpenGL functions are also edited to call this function before drawing the objects.
+<p><br/>
+<img src="djt2a_HTML/mat.bmp"/><br/>
+
+<h2>RayLight::drawOpenGL - Directional, Spot, Point</h2>
+<p>Pushes a new matrix onto the matrix stack and loads the identity matrix to ensure lights are not transformed.  
+Then assigns the ambient, diffuse, and specular components of the light using glLightfv
+<br/>RayPointLight and RaySpotLight set their position and attentuation factors as well.  Directional uses the position parameter to choose its light direction.
+<br/>RaySpotLight also provides its direction, cutoff, and falloff values.
+<p><br/>
+<img src="djt2a_HTML/dir.bmp"/><img src="djt2a_HTML/spot.bmp"/><img src="djt2a_HTML/point.bmp"/><br/>
+<p>Directional, Spot, and Point lighting in openGL.<p><br/>
+
+<h2>RayGroup::drawOpenGl - Transformations</h2>
+<p>Apply transformations to the models in the scene.  Converts the transformation matrix of RayGroup into a GLfloat array, then pushes a matrix transform onto the matrix stack before calling the draw loop.  When the loop is finished, the matrix is popped from the stack.
+<p><br/>
+<img src="djt2a_HTML/transform.bmp"/>
+
+<h2>RayGroup::openGLCallList</h2>
+<p>To accelerate rendering, we can use a call list to store model information we've already computed.  getOpenGLCallList is implemented, which generates a new call list.  The integer handle of the call list is stored in openGLCallListID.  The current drawOpenGL functions, including loading the transformation matrix and calling drawOpenGL on each item in the shapes array, is then added to the function before ending the list.
+drawOpenGL is then modified to check the value of openGLCallListID.  If it is nonzero, the function simply calls glCallList with the listID as the paramter.  Otherwise, it performs the proper transformation and rendering functions.
+</p><br/>
+
+<h2>RayBox::drawOpenGL</h2>
+<p>
+<p><br/>
+<img src="djt2a_HTML/box.bmp"/><br/>
+
+<h2>RayCylinder::drawOpenGL</h2>
+<p>
+</p><br/>
+<img src="djt2a_HTML/cylinder.bmp"/><br/>
+
+<h2>Cone::drawOpenGL</h2>
+<p><p><br/>
+<img src="djt2a_HTML/cone.bmp"/><br/>
+
+<h2>Rotation  - RayCamera::rotateUp and rotateRight</h2>
+<p>Implementation of rotation proved difficult at first, because the RayCamera drawOpenGL function is called on every frame, 
+which would erase the rotation done.  Instead of attempting to derive the rotated vectors and store them, I instead wrapped the initialization in 
+a conditional statement based on a boolean so that the function only performs its statements once.  This eased the rotation function as well as saved time on unnecessary function calls.
+<p><br/>Both rotation functions work by first translate to the given center (i.e., subtracting its coordinates), then performing the rotation before reversing the translation.
+rotateUp performs the rotation around the Y axis, while rotateRight rotates around the X axis.
+<img src="djt2a_HTML/rotate.bmp"/><br/>
+
+<h2>Texturing</h2>
+<p>Raymaterial::drawOpenGL - Changed to include an if statement based on if there exists a texture for the material.  If so, it will then enable texturing and bind the material's texture.
+<br/>RayTexture::seUpOpenGL - Calls glGenTextures to generate a new texture handle that is stored in openGLHandle.  The texture is then binded, parameterized, and loaded using glTexImage2D.
+<br/>RayTriangle::drawOpenGL - Modified to assign texture coordinates for each vertex during the triangle definition between glBegin and glEnd.  After calling glFlush, the triangle then disables GL_TEXTURE_2D.
+<br/>
+<img src="djt2a_HTML/texture.bmp"/><br/>
+
+
+<h2>Demonstration Scene<h2>
+<img src="djt2a_HTML/myScene.bmp"/><br/>
+<h3>Contains 3 light sources and multiple spheres/triangles
+<br/>Created using the sphere.ray, square.ray, and the following files:</h3>
+<a href="djt2a_HTML/myScene.ray">myScene.ray</a><br/>
+<a href="djt2a_HTML/sphereGlow.ray">sphereGlow.ray</a><br/>
+
+<h1>Unimplemented Features</h1>
+<p>
+</p>
+
+</body>
+</html>

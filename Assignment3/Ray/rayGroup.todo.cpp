@@ -214,10 +214,10 @@ int RayGroup::drawOpenGL(int materialIndex){
 
 		glPushMatrix();
 		//glLoadIdentity();
-		glMultMatrixf(transform);		
+		glMultMatrixf(transform);	
 			for (int i = 0; i < sNum; i++)
 			{
-				shapes[i]->drawOpenGL(materialIndex);
+				materialIndex = shapes[i]->drawOpenGL(materialIndex);
 			}			
 		glPopMatrix();	
 	}
@@ -225,7 +225,7 @@ int RayGroup::drawOpenGL(int materialIndex){
 	{
 		glCallList(openGLCallListID);
 	}
-	return -1;
+	return materialIndex;
 	
 }
 

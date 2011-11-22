@@ -10,48 +10,45 @@
 ///////////////////////
 
 /*
-	Point Tracker - Possible total so far: 18
+	Point Tracker - Possible total so far: 23
 	~~~~~~~~~~~~~~~~~~~~~~~~~
-	(1) RayCamera::drawOpenGL
-	(1) RayGroup::drawOpenGL
-	(1) RaySphere::drawOpenGL
-	(2) RayTriangle::drawOpenGL
-	(2) RayMaterial::drawOpenGL
-	(3) RayLight::drawOpenGL (Not really but I'll get help)
+	x(1) RayCamera::drawOpenGL
+	x(1) RayGroup::drawOpenGL
+	x(1) RaySphere::drawOpenGL
+	x(2) RayTriangle::drawOpenGL
+	x(2) RayMaterial::drawOpenGL
+	x(3) RayLight::drawOpenGL (Not really but I'll get help)
+	Spot still iffy
 	~10~
-	(2) RayGroup::drawOpenGL - Transforms
-	(2) RayGroup::getOpenGLCallList	
+	x(2) RayGroup::drawOpenGL - Transforms
+	x(2) RayGroup::getOpenGLCallList	
 	(1) RayBox::drawOpenGL
 	(1) Material index
 	(1) RayCylinder::drawOpenGL
 	(1) RayCone::drawOpenGL
+	x(2) RayCamera::rotateUp/Right
+	x(3) RayTexture::drawOpenGL (likely only 2 points)
 	
 
-	--Not Yet Done: 26--
-	(3) RayTexture::drawOpenGL		
-	(2) RayCamera::rotateUp/Right	
+	--Not Yet Done: 21--	
 	(2) Full scene AA	
 	(2) Allow user to raytrace
 	(2) Submissions for art contest	
-
 	(1) 4 walls, floor, ceiling
 	(3) Table, Chairs, or other furnishings
 	(1) A transparent surface
-	(1) Three Texture Mapped Surfaces
-	(1) Three point or spot light sources
-	
+	(1) Three point or spot light sources	
 	(2) Lamp with keyboard/mouse controls
 	(2) A mirror
 	(2) Shadows on at least one surface
 	(2) An object that responds to mouse clicks
 
-	Plan: (13)
+	Plan: (8)
 	(1) 4 walls, floor, ceiling
-	(3) RayTexture::drawOpenGL
-	(2) RayCamera::rotateUp/Right
 	(2) Submissions for art contest
 	(3) Table, Chairs, or other furnishings
 	(1) A transparent surface
+	(1) Three Texture Mapped Surfaces
 	(1) Three point or spot light sources
 	~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -287,36 +284,60 @@ void RayMaterial::drawOpenGL(void){
 	//glClear(GL_COLOR_BUFFER_BIT);
 	//glColor3f(1.0, 1.0, 1.0);
 	//glColor3f(diffuse[0], diffuse[1], diffuse[2]);
-
-	/*if (tex->img != NULL){
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, tex->openGLHandle);
-
-	}*/
-	if (tex->index != 0)
-	{
+	//printf("Tex if\n");
+	/*if (tex){
 		glEnable(GL_TEXTURE_2D);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 		glBindTexture(GL_TEXTURE_2D, tex->openGLHandle);
+	}*/
+	//else{
+		GLfloat mat_specular[] = {specular[0], specular[1], specular[2], 1.0};
+		GLfloat mat_shininess[] = { specularFallOff };
+		GLfloat mat_ambient[] = {ambient[0], ambient[1], ambient[2], 1.0};
+		GLfloat mat_diffuse[] = {diffuse[0], diffuse[1], diffuse[2], 1.0};
+		GLfloat mat_emissive[] = {emissive[0], emissive[1], emissive[2], 1.0};
 
-	}
-
-
-	GLfloat mat_specular[] = {specular[0], specular[1], specular[2], 1.0};
-	GLfloat mat_shininess[] = { specularFallOff };
-	GLfloat mat_ambient[] = {ambient[0], ambient[1], ambient[2], 1.0};
-	GLfloat mat_diffuse[] = {diffuse[0], diffuse[1], diffuse[2], 1.0};
-	GLfloat mat_emissive[] = {emissive[0], emissive[1], emissive[2], 1.0};
-
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emissive);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emissive);
+	//}
 }
 void RayTexture::setUpOpenGL(void)
 {
+	printf("Setting up texture\n");
+	printf("OpenGLHandle = %i\n", openGLHandle);
 
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &openGLHandle);
+
+	int i, j, c, h, w;
+	h = img->height();
+	w = img->width();
+    GLubyte checkImage[255][255][3];
+	for (i = 0; i < h; i++) {
+		for (j = 0; j < w; j++) {
+			checkImage[i][j][0] = (GLubyte) img->pixel(i,j).r;
+			checkImage[i][j][1] = (GLubyte) img->pixel(i,j).g;
+			checkImage[i][j][2] = (GLubyte) img->pixel(i,j).b;
+			//checkImage[i][j][3] = (GLubyte) img->pixel(i,j).a;
+		}
+	}
+
+	printf("OpenGLHandle = %i\n", openGLHandle);
+	glBindTexture(GL_TEXTURE_2D, openGLHandle);
+	printf("OpenGLHandle = %i\n", openGLHandle);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 
+                   GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 
+                   GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img->width(), 
+                 img->height(), 0, GL_RGB, GL_UNSIGNED_BYTE, 
+				 checkImage);
+              
 }
 
 

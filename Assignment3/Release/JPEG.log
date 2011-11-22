@@ -1,16 +1,16 @@
-﻿Build started 10/23/2011 12:56:20 PM.
-     1>Project "C:\Users\domenic\Thesis\Assignment2\JPEG.vcxproj" on node 2 (build target(s)).
+﻿Build started 11/21/2011 10:00:34 PM.
+     1>Project "C:\Users\domenic\Thesis\Assignment3\JPEG.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\JPEG.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        Lib:
          All outputs are up-to-date.
-         JPEG.vcxproj -> C:\Users\domenic\Thesis\Assignment2\Release\JPEG.lib
+         JPEG.vcxproj -> C:\Users\domenic\Thesis\Assignment3\Release\JPEG.lib
        FinalizeBuildStatus:
          Deleting file "Release\JPEG.unsuccessfulbuild".
          Touching "Release\JPEG.lastbuildstate".
-     1>Done Building Project "C:\Users\domenic\Thesis\Assignment2\JPEG.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\domenic\Thesis\Assignment3\JPEG.vcxproj" (build target(s)).
 
 Build succeeded.
 

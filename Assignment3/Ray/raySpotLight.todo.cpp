@@ -116,7 +116,7 @@ void RaySpotLight::drawOpenGL(int index){
 		GLfloat light_diffuse[] = { color[0], color[1], color[2], 1.0 };
 		GLfloat light_specular[] = { color[0], color[1], color[2], 1.0 };
 		GLfloat light_position[] = { location[0], location[1], location[2], 1.0 };
-		GLfloat spot_direction[] = { direction[0], direction[1], direction[2] };
+		GLfloat spot_direction[] = { -direction[0],-direction[1],-direction[2] };
 
 		glLightfv(GL_LIGHT0+index, GL_AMBIENT, light_ambient);
 		glLightfv(GL_LIGHT0+index, GL_DIFFUSE, light_diffuse);

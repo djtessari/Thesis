@@ -89,7 +89,8 @@ int RayTriangle::drawOpenGL(int materialIndex){
 	Point3D normal = (v[1]->position - v[0]->position).crossProduct(v[2]->position - v[0]->position).unit();
 	Point3D iNormal = normal.negate();
 
-	if(materialIndex != material->index) material->drawOpenGL();
+	//if(materialIndex != material->index) 
+		material->drawOpenGL();
 
 	glBegin(GL_TRIANGLES);
 		glNormal3f(normal[0], normal[1], normal[2]);

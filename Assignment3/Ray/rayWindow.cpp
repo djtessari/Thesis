@@ -178,7 +178,7 @@ void RayWindow::PassiveMotionFunction( int x, int y ){
 void RayWindow::KeyboardFunction( unsigned char c, int x, int y ){
 	char temp[500];
 	Image32 img;
-
+	int z;
 	switch( c ){
 		case KEY_ESCAPE:
 			exit( 0 );
@@ -187,8 +187,8 @@ void RayWindow::KeyboardFunction( unsigned char c, int x, int y ){
 			printf("Image Name: ");
 			fgets(temp,500,stdin);     // gets(temp);
 			TakeSnapshot(img);
-			img.WriteImage(temp);
-			printf("Wrote to file: %s\n",temp);
+			z = img.WriteImage(temp);
+			printf("Wrote to file: %s\n, %i",temp, z);
 			break;
 		case 'p':
 			fprintf(stderr,"\nPos: (%g,%g,%g)\n Dir: (%g,%g,%g)\n Up: (%g,%g,%g)\n",

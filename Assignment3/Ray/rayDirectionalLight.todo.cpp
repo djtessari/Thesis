@@ -92,8 +92,9 @@ void RayDirectionalLight::drawOpenGL(int index)
 			glLightfv(GL_LIGHT0+index, GL_AMBIENT, light_ambient);
 			glLightfv(GL_LIGHT0+index, GL_DIFFUSE, light_diffuse);
 			glLightfv(GL_LIGHT0+index, GL_SPECULAR, light_specular);
+			glEnable(GL_LIGHT0+index);
 			/**/
 		glPopMatrix();
 
-		glEnable(GL_LIGHT0+index);
+		
 	}
