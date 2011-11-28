@@ -11,11 +11,12 @@ Late Days Used: 0<br/><br/><p>
 
 <h2>Ray Files Used</h2>
 <p>
-<a href="djt2a_HTML/test.ray">test.ray</a>, the provided ray file, using a Directional Light<br/>
-<a href="djt2a_HTML/test2.ray">test2.ray</a>, using a Point light<br/>
-<a href="djt2a_HTML/test3.ray">test3.ray</a>, using a Spot light<br/>
+<a href="djt2a_HTML/test.ray">test.ray</a>, 
 <a href="djt2a_HTML/sphere.ray">sphere.ray</a>, the provided ray file for a sphere<br/>
 <a href="djt2a_HTML/square.ray">square.ray</a>, the provided ray file for a square of two triangles<br/>
+<a href="djt2a_HTML/sphere.ray">box.ray</a>, custom ray file defining a box<br/>
+<a href="djt2a_HTML/sphere.ray">cylinder.ray</a>, custom ray file defining a cylinder<br/>
+<a href="djt2a_HTML/sphere.ray">cone.ray</a>, custom ray file defining a cone<br/>
 
 All images were generated with --width 500 --height 500 --cplx 32<br/>
 </p>
@@ -41,6 +42,7 @@ RaySphere and RayTriangle's drawOpenGL functions are also edited to call this fu
 Then assigns the ambient, diffuse, and specular components of the light using glLightfv
 <br/>RayPointLight and RaySpotLight set their position and attentuation factors as well.  Directional uses the position parameter to choose its light direction.
 <br/>RaySpotLight also provides its direction, cutoff, and falloff values.
+<br/> RaySpotLight did not seem to be working correctly and I unfortunately cannot determine why.
 <p><br/>
 <img src="djt2a_HTML/dir.bmp"/><img src="djt2a_HTML/spot.bmp"/><img src="djt2a_HTML/point.bmp"/><br/>
 <p>Directional, Spot, and Point lighting in openGL.<p><br/>
@@ -75,7 +77,7 @@ which would erase the rotation done.  Instead of attempting to derive the rotate
 a conditional statement based on a boolean so that the function only performs its statements once.  This eased the rotation function as well as saved time on unnecessary function calls.
 <p><br/>Both rotation functions work by first translate to the given center (i.e., subtracting its coordinates), then performing the rotation before reversing the translation.
 rotateUp performs the rotation around the Y axis, while rotateRight rotates around the X axis.
-<img src="djt2a_HTML/rotate.bmp"/><br/>
+<br/><img src="djt2a_HTML/rotate.bmp"/><br/>
 
 <h2>Texturing</h2>
 <p>Raymaterial::drawOpenGL - Changed to include an if statement based on if there exists a texture for the material.  If so, it will then enable texturing and bind the material's texture.
@@ -84,16 +86,21 @@ rotateUp performs the rotation around the Y axis, while rotateRight rotates arou
 <br/>
 <img src="djt2a_HTML/texture.bmp"/><br/>
 
+<h2>
 
-<h2>Demonstration Scene<h2>
-<img src="djt2a_HTML/myScene.bmp"/><br/>
-<h3>Contains 3 light sources and multiple spheres/triangles
-<br/>Created using the sphere.ray, square.ray, and the following files:</h3>
-<a href="djt2a_HTML/myScene.ray">myScene.ray</a><br/>
-<a href="djt2a_HTML/sphereGlow.ray">sphereGlow.ray</a><br/>
+
+<h1>Partially Implemented<h1>
+<h2>Material Index</h2>
+<p>Attempted to implement but could not get it work properly without taking on the material properties of a recently rendered object.
+The same material indexes are applied to multiple files, causing the if statement to fail.
+</p>
 
 <h1>Unimplemented Features</h1>
 <p>
+<br/>Full Scene AA
+<br/>Allowing User to Ray Trace
+<br/>full camera movement: left, right, back, forward.
+<br/>Room scene
 </p>
 
 </body>

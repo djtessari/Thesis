@@ -3,12 +3,12 @@
 #ambient 0.5 0.5 0.5 
 #ray_file_num 2
 #ray_file sphere.ray
-#ray_file square.ray
+#ray_file cone.ray
 #light_num 1
-#light_point
+#light_dir
 	 1.0  1.0  1.0
-	 1.0 3.0  1.0
-	 0.8 0.1 0.0
+	-1.0 -1.0  0.0
+     
 #group_begin
 	0.5 0.0 0.0 0.0
 	0.0 1.0 0.0 2.5
@@ -23,5 +23,7 @@
 	 0.0 0.0 0.0 1.0
 	#ray_file_instance 1
 #group_end
+
+
 
 

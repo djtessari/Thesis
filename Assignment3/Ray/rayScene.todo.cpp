@@ -285,11 +285,11 @@ void RayMaterial::drawOpenGL(void){
 	//glColor3f(1.0, 1.0, 1.0);
 	//glColor3f(diffuse[0], diffuse[1], diffuse[2]);
 	//printf("Tex if\n");
-	/*if (tex){
+	if (tex){
 		glEnable(GL_TEXTURE_2D);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 		glBindTexture(GL_TEXTURE_2D, tex->openGLHandle);
-	}*/
+	}
 	//else{
 		GLfloat mat_specular[] = {specular[0], specular[1], specular[2], 1.0};
 		GLfloat mat_shininess[] = { specularFallOff };
