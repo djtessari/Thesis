@@ -1,0 +1,20 @@
+#!/bin/sh
+#PBS -l walltime=10:00              
+#PBS -j oe
+#PBS -q generals
+#PBS -l cuda_gpu=1
+hostname=cray2
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
+set echo
+echo Running on host 'hostname'
+
+cd $PBS_O_WORKDIR
+
+#copy executable to $SCRATCH
+cp $HOME/HW5/plate_cuda .
+
+ja 
+#run my executable
+plate_cuda 100 100 100
+
+ja -chlst

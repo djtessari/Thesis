@@ -8,7 +8,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
+#include <cuda.h>
+#include <sys/time.h>
 
 
 // Define the immutable boundary conditions and the inital cell value
@@ -25,7 +26,45 @@ void initialize_cells(float **cells, int n_x, int n_y);
 void create_snapshot(float **cells, int n_x, int n_y, int id);
 float **allocate_cells(int n_x, int n_y);
 void die(const char *error);
+long long start_timer();
+long long stop_timer(long long start_time, char *name);
+void check_error(cudaError e);
+float **allocate_blank_cells(int num_cols, int num_rows);
 
+const int threads_per_block = 256;
+
+
+//GPU Kernal
+__global__ void kernel(float *cells_0, float *cells_1, int num_cols, int num_rows, int index, size_t pitch)
+{
+	int index_x = (blockDim.x * blockIdx.x) + threadIdx.x;
+	int index_y = (blockDim.y * blockIdx.y) + threadIdx.y;
+	int i = ((num_cols+2)*index_y) + index_x;
+	// Make sure we do not go off the end of the array
+	if (index == 0) {
+		if (index_x <= num_cols && index_x >=1){
+			if (index_y <=num_rows && index_y >=1){
+				cells_1[i] = 
+				(cells_0[i+1] +
+					cells_0[i-1] +
+					cells_0[i+(num_cols+2)] + 
+					cells_0[i-(num_cols+2)]) * 0.25;
+			}
+		}	
+	}
+	if (index == 1) {
+		if (index_x <= num_cols && index_x >=1){
+			if (index_y <=num_rows && index_y >=1){			
+				cells_0[i] = 
+				(cells_1[i+1] +
+					cells_1[i-1] +
+					cells_1[i+(num_cols+2)] + 
+					cells_1[i-(num_cols+2)]) * 0.25;
+			}
+		}	
+	}
+	//cells_1[100] = 222;
+}
 
 int main(int argc, char **argv) {
 	// Record the start time of the program
@@ -49,6 +88,8 @@ int main(int argc, char **argv) {
 	float **cells[2];
 	cells[0] = allocate_cells(num_cols + 2, num_rows + 2);
 	cells[1] = allocate_cells(num_cols + 2, num_rows + 2);
+	float **out_cells;
+	out_cells = allocate_blank_cells(num_cols+2, num_rows+2);
 	int cur_cells_index = 0, next_cells_index = 1;
 	
 	int N = ((num_rows + 2) * (num_cols + 2));
@@ -66,46 +107,71 @@ int main(int argc, char **argv) {
 	for (y = 1; y <= num_rows; y++) cells[0][y][0] = cells[1][y][0] = LEFT_BOUNDARY_VALUE;
 	for (y = 1; y <= num_rows; y++) cells[0][y][num_cols + 1] = cells[1][y][num_cols + 1] = RIGHT_BOUNDARY_VALUE;
 	
+	printf("memory Assignment\n");
+	
 	//Start new GPU calls
-	float **GPU_cells[2];
-	int vector_size = N * 2 * sizeof(float);
-	check_error(cudaMalloc((void **) &GPU_cells, vector_size));
-	
+	float **GPU_cells_0;
+	float **GPU_cells_1;
+	size_t pitch;
+	int vector_size = N * sizeof(float*);
+	check_error(cudaMalloc((void **) &GPU_cells_0, vector_size));
+	check_error(cudaMalloc((void **) &GPU_cells_1, vector_size));
+	printf("Malloc worked\n");
+	printf("VectorSize = %i, N = %i\n", vector_size, N);
 	// Transfer the input vectors to GPU memory
-	check_error(cudaMemcpy(GPU_cells, cells, vector_size, cudaMemcpyHostToDevice));
+	check_error(cudaMemcpy(GPU_cells_0, cells[0], vector_size, cudaMemcpyHostToDevice));
+	printf("One worked...\n");
+	check_error(cudaMemcpy(GPU_cells_1, cells[1], vector_size, cudaMemcpyHostToDevice));
+	printf("Two worked...\n");
 	
+	
+	printf("MemCpy worked\n");
 	// Determine the number of thread blocks in the x- and y-dimension
 	// Note: we use a two-dimensional grid of thread blocks here because each dimension
 	//  of the grid can only have up to 64K thread blocks; if we want to use more than
 	//  64K thread blocks, we need to use a two-dimensional grid. This is slightly
 	//  awkward, however, since the underlying problem is inherently one-dimensional
+	
+	
 	int num_blocks = (N + threads_per_block - 1) / threads_per_block;
 	int max_blocks_per_dimension = 65535;
 	int num_blocks_y = (int) ((float) (num_blocks + max_blocks_per_dimension - 1) / (float) max_blocks_per_dimension);
 	int num_blocks_x = (int) ((float) (num_blocks + num_blocks_y - 1) / (float) num_blocks_y);
-	dim3 grid_size(num_blocks_x, num_blocks_y, 1);
+	dim3 grid_size(1, 1, 1);
 	
+	printf("num_blocks : %i x %i\n", num_blocks_x, num_blocks_y);
+	create_snapshot(cells[0], num_cols, num_rows, 20);
+	create_snapshot(cells[1], num_cols, num_rows, 21);
+	//create_snapshot(out_cells, num_cols, num_rows, 22);
+	//create_snapshot(GPU_cells_0, num_cols, num_rows, 30);
+	//create_snapshot(GPU_cells_1, num_cols, num_rows, 31);
 	
+	printf("Begin kernal calls\n");
 	// Execute the kernel to compute the vector sum on the GPU
 	long long kernel_start_time = start_timer();	
-	for (int i = 0; i < iterations; i++)
+	for (i = 0; i < iterations; i++)
 	{	
-		kernel <<< grid_size , threads_per_block >>> (GPU_cells, num_cols, num_rows, cur_cells_index);
+		
+			if (i % 2 == 0) check_error(cudaMemcpy(out_cells, GPU_cells_0, vector_size, cudaMemcpyDeviceToHost));
+			else check_error(cudaMemcpy(out_cells, GPU_cells_1, vector_size, cudaMemcpyDeviceToHost));
+			create_snapshot(out_cells, num_cols, num_rows, i);
+		
+		printf("cur_cells_index = %i\n", cur_cells_index);
+		kernel <<< grid_size , threads_per_block >>> (*GPU_cells_0, *GPU_cells_1, num_cols, num_rows, cur_cells_index, pitch);
 		cur_cells_index = next_cells_index;
 		next_cells_index = !cur_cells_index;
+
 	}	
 	cudaThreadSynchronize();  // This is only needed for timing and error-checking purposes	
 	stop_timer(kernel_start_time, "\t Kernel execution");	
 	// Check for kernel errors
 	check_error(cudaGetLastError());
 	
-	
+
 	// Transfer the result from the GPU to the CPU
-	check_error(cudaMemcpy(cells, GPU_cells, vector_size, cudaMemcpyDeviceToHost));
-	
-	// Free the GPU memory
-	check_error(cudaFree(GPU_cells));
-	
+	check_error(cudaMemcpy(cells[0], GPU_cells_0, vector_size, cudaMemcpyDeviceToHost));
+	check_error(cudaMemcpy(cells[1], GPU_cells_1, vector_size, cudaMemcpyDeviceToHost));
+
 	// Output a snapshot of the final state of the plate
 	int final_cells = (iterations % 2 == 0) ? 0 : 1;
 	create_snapshot(cells[final_cells], num_cols, num_rows, iterations);
@@ -113,27 +179,12 @@ int main(int argc, char **argv) {
 	// Compute and output the execution time
 	time_t end_time = time(NULL);
 	printf("\nExecution time: %d seconds\n", (int) difftime(end_time, start_time));
-	
+		// Free the GPU memory
+	check_error(cudaFree(GPU_cells_0));
+	check_error(cudaFree(GPU_cells_1));
 	return 0;
 }
 
-
-//GPU Kernal
-__global__ void kernal(float **cells[2], int num_cols, int num_rows, int index)
-{
-	int index_x = (blockDim.x * blockIdx.x) + threadIdx.x;
-	int index_y = (blockDim.y * blockIdx.y) + threadIdx.y;
-	int oldIndex = 0;
-	if (index == 0) oldIndex = 1;
-	// Make sure we do not go off the end of the array
-	if (index_x <= num_cols && index_x >= 1) {
-		if (index_y <= num_rows && index_y >= 1) {
-		cells[index][index_y][index_x] = (cells[oldIndex][index_y][index_x + 1] +
-											cells[oldIndex][index_y][index_x - 1] +
-											cells[oldIndex][index_y + 1][index_x] +
-											cells[oldIndex][index_y - 1][index_x]) * 0.25
-	}
-}
 
 // Allocates and returns a pointer to a 2D array of floats
 float **allocate_cells(int num_cols, int num_rows) {
@@ -147,6 +198,15 @@ float **allocate_cells(int num_cols, int num_rows) {
 	for (i = 1; i < num_rows; i++) {
 		array[i] = array[0] + (i * num_cols);
 	}
+
+	return array;
+}
+float **allocate_blank_cells(int num_cols, int num_rows) {
+	float **array = (float **) malloc(num_rows * sizeof(float *));
+	if (array == NULL) die("Error allocating array!\n");
+	
+	array[0] = (float *) malloc(num_rows * num_cols * sizeof(float));
+	if (array[0] == NULL) die("Error allocating array!\n");
 
 	return array;
 }
@@ -234,3 +294,51 @@ void die(const char *error) {
 	printf("%s", error);
 	exit(1);
 }
+
+// Returns the current time in microseconds
+long long start_timer() {
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	return tv.tv_sec * 1000000 + tv.tv_usec;
+}
+
+
+// Prints the time elapsed since the specified time
+long long stop_timer(long long start_time, char *label) {
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	long long end_time = tv.tv_sec * 1000000 + tv.tv_usec;
+	printf("%s: %.5f sec\n", label, ((float) (end_time - start_time)) / (1000 * 1000));
+	return end_time - start_time;
+}
+
+// If the specified error code refers to a real error, report it and quit the program
+void check_error(cudaError e) {
+	if (e != cudaSuccess) {
+		printf("\nCUDA error: %s\n", cudaGetErrorString(e));
+		exit(1);
+	}
+}
+
+/*
+//GPU Kernal
+__global__ void kernel(float *cells_0, float *cells_1, int num_cols, int num_rows, int index)
+{
+	int index_x = (blockDim.x * blockIdx.x) + threadIdx.x;
+	int index_y = (blockDim.y * blockIdx.y) + threadIdx.y;
+	int i = ((num_cols+2)*index_y) + index_x;
+	// Make sure we do not go off the end of the array
+	if (index == 0)
+		if (index_x <= num_cols && index_x >=1){
+			if (index_y <=num_rows && index_y >=1){
+				cells[newIndex][index_y][index_x] = 
+				(cells[index][index_y][index_x + 1] +
+													cells[index][index_y][index_x - 1] +
+													cells[index][index_y + 1][index_x] +
+													cells[index][index_y - 1][index_x]) * 0.25;
+			}
+		}
+	
+	
+	
+}*/
