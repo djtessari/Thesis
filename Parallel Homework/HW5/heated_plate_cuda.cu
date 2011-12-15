@@ -35,35 +35,47 @@ const int threads_per_block = 256;
 
 
 //GPU Kernal
-__global__ void kernel(float *cells_0, float *cells_1, int num_cols, int num_rows, int index, size_t pitch)
+__global__ void kernel(float *cells_0, float *cells_1, int num_cols, int num_rows, int index)
 {
-	int index_x = (blockDim.x * blockIdx.x) + threadIdx.x;
-	int index_y = (blockDim.y * blockIdx.y) + threadIdx.y;
-	int i = ((num_cols+2)*index_y) + index_x;
-	// Make sure we do not go off the end of the array
-	if (index == 0) {
-		if (index_x <= num_cols && index_x >=1){
-			if (index_y <=num_rows && index_y >=1){
+	int index_x, index_y, i,  minI, maxI;
+	
+	//Determine the cll in the array to operate on based on thread location
+	index_x = (blockDim.x * blockIdx.x) + threadIdx.x;
+	index_y = (blockDim.y * blockIdx.y) + threadIdx.y;
+	
+	//Determine if the thread would operate on a boundary cell, and cancel further ops if so.
+	i = ((blockDim.x+2)*index_y) + index_x;
+	int max_x = num_cols;
+	int min_x = 1;
+	int remainder = (i % (num_cols+2));
+	
+	if (max_x >= remainder && min_x <=remainder){	
+		
+		//Make sure we don't go off the end of the array
+		minI = (num_cols+2)+1;
+		maxI = (num_cols+3)*(num_rows);	
+		
+		//Change ops depending on what array to operate on
+		if (index == 0) {
+			if (i >= minI && i <=maxI){
 				cells_1[i] = 
 				(cells_0[i+1] +
 					cells_0[i-1] +
 					cells_0[i+(num_cols+2)] + 
 					cells_0[i-(num_cols+2)]) * 0.25;
-			}
-		}	
-	}
-	if (index == 1) {
-		if (index_x <= num_cols && index_x >=1){
-			if (index_y <=num_rows && index_y >=1){			
+			}	
+		}
+		if (index == 1) {
+			if (i >= minI && i <=maxI) {		
 				cells_0[i] = 
 				(cells_1[i+1] +
 					cells_1[i-1] +
 					cells_1[i+(num_cols+2)] + 
 					cells_1[i-(num_cols+2)]) * 0.25;
-			}
-		}	
+			}	
+		}
 	}
-	//cells_1[100] = 222;
+	
 }
 
 int main(int argc, char **argv) {
@@ -88,8 +100,6 @@ int main(int argc, char **argv) {
 	float **cells[2];
 	cells[0] = allocate_cells(num_cols + 2, num_rows + 2);
 	cells[1] = allocate_cells(num_cols + 2, num_rows + 2);
-	float **out_cells;
-	out_cells = allocate_blank_cells(num_cols+2, num_rows+2);
 	int cur_cells_index = 0, next_cells_index = 1;
 	
 	int N = ((num_rows + 2) * (num_cols + 2));
@@ -109,79 +119,92 @@ int main(int argc, char **argv) {
 	
 	printf("memory Assignment\n");
 	
+	
 	//Start new GPU calls
-	float **GPU_cells_0;
-	float **GPU_cells_1;
-	size_t pitch;
-	int vector_size = N * sizeof(float*);
+	float *GPU_cells_0;
+	float *GPU_cells_1;
+	
+	int vector_size = N * sizeof(float);
+	
+	//Allocating 1D arrays in the CPU to make the transfer to 1D GPU arrays easier
+	float *cells_1D_0 = (float *) malloc(vector_size);
+	if (cells_1D_0 == NULL) die("Error allocating array!\n");
+	float *cells_1D_1 = (float *) malloc(vector_size);
+	if (cells_1D_1 == NULL) die("Error allocating array!\n");	
+	
+	//Copy to the cells
+	int z;
+	for (y = 0; y <= num_rows+1; y++){
+		for (x = 0; x <= num_cols+1; x++){
+			z = (y*(num_cols+2)) + x;
+			cells_1D_0[z] = cells[0][y][x];
+			cells_1D_1[z] = cells[1][y][x];
+		}
+	}
+	
+	//Allocate GPU Memory
 	check_error(cudaMalloc((void **) &GPU_cells_0, vector_size));
 	check_error(cudaMalloc((void **) &GPU_cells_1, vector_size));
-	printf("Malloc worked\n");
-	printf("VectorSize = %i, N = %i\n", vector_size, N);
+	
 	// Transfer the input vectors to GPU memory
-	check_error(cudaMemcpy(GPU_cells_0, cells[0], vector_size, cudaMemcpyHostToDevice));
-	printf("One worked...\n");
-	check_error(cudaMemcpy(GPU_cells_1, cells[1], vector_size, cudaMemcpyHostToDevice));
-	printf("Two worked...\n");
+	check_error(cudaMemcpy(GPU_cells_0, cells_1D_0, vector_size, cudaMemcpyHostToDevice));
+	check_error(cudaMemcpy(GPU_cells_1, cells_1D_1, vector_size, cudaMemcpyHostToDevice));
 	
-	
-	printf("MemCpy worked\n");
-	// Determine the number of thread blocks in the x- and y-dimension
-	// Note: we use a two-dimensional grid of thread blocks here because each dimension
-	//  of the grid can only have up to 64K thread blocks; if we want to use more than
-	//  64K thread blocks, we need to use a two-dimensional grid. This is slightly
-	//  awkward, however, since the underlying problem is inherently one-dimensional
-	
-	
+	//Determine the number of thread blocks needed	
 	int num_blocks = (N + threads_per_block - 1) / threads_per_block;
 	int max_blocks_per_dimension = 65535;
 	int num_blocks_y = (int) ((float) (num_blocks + max_blocks_per_dimension - 1) / (float) max_blocks_per_dimension);
 	int num_blocks_x = (int) ((float) (num_blocks + num_blocks_y - 1) / (float) num_blocks_y);
-	dim3 grid_size(1, 1, 1);
+
+	dim3 grid_size(num_blocks_x, num_blocks_y, 1);
 	
 	printf("num_blocks : %i x %i\n", num_blocks_x, num_blocks_y);
-	create_snapshot(cells[0], num_cols, num_rows, 20);
-	create_snapshot(cells[1], num_cols, num_rows, 21);
-	//create_snapshot(out_cells, num_cols, num_rows, 22);
-	//create_snapshot(GPU_cells_0, num_cols, num_rows, 30);
-	//create_snapshot(GPU_cells_1, num_cols, num_rows, 31);
 	
 	printf("Begin kernal calls\n");
-	// Execute the kernel to compute the vector sum on the GPU
+	// Execute the kernel and keep track of kernal execution time
 	long long kernel_start_time = start_timer();	
 	for (i = 0; i < iterations; i++)
 	{	
-		
-			if (i % 2 == 0) check_error(cudaMemcpy(out_cells, GPU_cells_0, vector_size, cudaMemcpyDeviceToHost));
-			else check_error(cudaMemcpy(out_cells, GPU_cells_1, vector_size, cudaMemcpyDeviceToHost));
-			create_snapshot(out_cells, num_cols, num_rows, i);
-		
-		printf("cur_cells_index = %i\n", cur_cells_index);
-		kernel <<< grid_size , threads_per_block >>> (*GPU_cells_0, *GPU_cells_1, num_cols, num_rows, cur_cells_index, pitch);
+		kernel <<< grid_size , threads_per_block >>> (GPU_cells_0, GPU_cells_1, num_cols, num_rows, cur_cells_index);
+		cudaThreadSynchronize();  // This is only needed for timing and error-checking purposes	
 		cur_cells_index = next_cells_index;
 		next_cells_index = !cur_cells_index;
 
 	}	
-	cudaThreadSynchronize();  // This is only needed for timing and error-checking purposes	
+		
 	stop_timer(kernel_start_time, "\t Kernel execution");	
 	// Check for kernel errors
 	check_error(cudaGetLastError());
 	
 
 	// Transfer the result from the GPU to the CPU
-	check_error(cudaMemcpy(cells[0], GPU_cells_0, vector_size, cudaMemcpyDeviceToHost));
-	check_error(cudaMemcpy(cells[1], GPU_cells_1, vector_size, cudaMemcpyDeviceToHost));
-
+	check_error(cudaMemcpy(cells_1D_0, GPU_cells_0, vector_size, cudaMemcpyDeviceToHost));
+	check_error(cudaMemcpy(cells_1D_1, GPU_cells_1, vector_size, cudaMemcpyDeviceToHost));
+	
+	//Copy 1D CPU array into 2D CPU array for the snapshot
+	for (y = 0; y <= num_rows+1; y++){
+		for (x = 0; x <= num_cols+1; x++){
+			z = (y*(num_cols+2)) + x;
+			//cells_1D_0[z] = z;
+			//cells_1D_1[z] = z;
+			cells[0][y][x] = cells_1D_0[z];
+			cells[1][y][x] = cells_1D_1[z];
+		}
+	}
+	
+	
 	// Output a snapshot of the final state of the plate
 	int final_cells = (iterations % 2 == 0) ? 0 : 1;
 	create_snapshot(cells[final_cells], num_cols, num_rows, iterations);
+	
+	// Free the GPU memory
+	check_error(cudaFree(GPU_cells_0));
+	check_error(cudaFree(GPU_cells_1));
 
 	// Compute and output the execution time
 	time_t end_time = time(NULL);
 	printf("\nExecution time: %d seconds\n", (int) difftime(end_time, start_time));
-		// Free the GPU memory
-	check_error(cudaFree(GPU_cells_0));
-	check_error(cudaFree(GPU_cells_1));
+
 	return 0;
 }
 
