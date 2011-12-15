@@ -37,7 +37,7 @@ namespace Thesis
         private int rows;  //num rows and cols in grid
         private int cols;
         private WObject[,] grid; //the actual grid.  Stores information of location of obejcts
-        private int numAgents = 20;
+        private int numAgents = 0;
 
         //Determine the framerate
         private SpriteFont font;
@@ -96,32 +96,8 @@ namespace Thesis
 
             background = Content.Load<Texture2D>("Background/background");
             player = new Player(playerTexture, new Vector2(400, 200));
-
             
-
-            /*
-            //objects.Add(new WObject(playerTexture, new Vector2(300,300)));
-            objects.Add(new WObject(playerTexture, new Vector2(400, 500)));
-            WObject farm1 = new Farmland(farmTexture, new Vector2(50, 200), 1);
-            WObject farm2 = new Farmland(farmTexture, new Vector2(150, 200), 1);
-            WObject home = new Home(playerTexture, new Vector2(250, 250), 1);
-            //a.AddKnowledge(farm);
-
-            Agent a = new Agent(agentTexture, new Vector2(200, 200), massLogic, 1);
-
-            a.AddProperty(farm1);
-            a.AddProperty(farm2);
-            a.AddProperty(home);
-
-            a.home = home;
-            Console.WriteLine("Foodstores Farm1 = " + farm1.util.foodStores);
-            Console.WriteLine("Foodstores Farm2 = " + farm2.util.foodStores);
-            agents.Add(a);
-
-            objects.Add(farm1);
-            objects.Add(farm2);
-            objects.Add(home);*/
-
+          
             //Generates all of the agents, gives them a home, and assigns them property
             for (int i = 0; i < numAgents; i++)
             {
@@ -171,7 +147,46 @@ namespace Thesis
                 }
 
             }
+
+            int homeless = 45;
+            int openField = 0;
+            WObject emptySpace = new EmptyProperty(emptyTexture, new Vector2(0, 0), 0);
+
+            for (int i = 0; i < homeless; i++)
+            {
+                Agent a = new Agent(agentTexture, new Vector2(0, 0), massLogic, i+numAgents);
+                Boolean done = false;
+                while (!done)
+                {
+                    Random rnd = new Random(i);
+                    int r = rnd.Next(1, rows);
+                    int c = rnd.Next(1, cols);
+                    if (grid[r, c] == null)
+                    {
+                        a.position = new Vector2(c * gridUnitSize, r * gridUnitSize);
+                        agents.Add(a);
+                        done = true;
+                    }
+                }
+
+            }
+
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {                    
+                    WObject farm = new Farmland(farmTexture, new Vector2(c * gridUnitSize, r * gridUnitSize), 50);
+                    objects.Add(farm);
+                    grid[r, c] = farm;
+                    foreach (Agent a in agents)
+                    {
+                        a.AddKnowledge(farm);
+                    }
+                }
+            }
+                
             
+
 
 
             // TODO: use this.Content to load your game content here
@@ -280,7 +295,6 @@ namespace Thesis
 
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Rectangle(0, 0, 800, 600), Color.White);
-            spriteBatch.DrawString(font, "FPS: " + frameRate, new Vector2(20, 20), Color.Black);
             
             for (int i = 0; i < objects.Count; i++)
             {
@@ -292,6 +306,7 @@ namespace Thesis
             }
             player.Draw(spriteBatch);
 
+            spriteBatch.DrawString(font, "FPS: " + frameRate, new Vector2(20, 20), Color.Black);
             spriteBatch.End();
             // TODO: Add your drawing code here
 
